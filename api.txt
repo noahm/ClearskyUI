@@ -1,0 +1,48 @@
+Implemented:
+
+    User_data:
+        Ready to test:
+            /api/v1/blocklist/<handle/did>
+            /api/v1/blocklist/<handle/did>/<int:page>
+
+            /api/v1/single-blocklist/<handle/did>
+            /api/v1/single-blocklist/<handle/did>/<int:page>
+
+            /api/v1/total-users
+
+            /api/v1/get-did/<handle/did>
+
+            /api/v1/get-handle/<handle/did>
+
+            /api/v1/get-handle-history/<handle/did>
+
+            /api/v1/lists/fun-facts
+
+            /api/v1/lists/funer-facts
+
+            /api/v1/lists/block-stats
+
+            /api/v1/get-list/<handle/did>
+
+            /api/v1/in-common-blocklist/<handle/did>
+
+            /api/v1/blocklist-search-blocking/<handle1>/<handle2> (is handle 1 blocking handle 2)
+
+            /api/v1/blocklist-search-blocked/<handle1>/<handle2> (is handle 1 blocked by handle 2)
+
+    component:
+        /api/v1/base/autocomplete/<handle(partial/complete)>
+
+    system_data:
+        /api/v1/base/internal/status/process-status
+
+not implemented:
+    /api/v1/in-common-blocked-by/<handle/did>
+
+
+API key header: {X-API-Key: "CLEARSKYtest90asdfghjklqwerr2345"}
+
+"Unauthorized", 401
+"deleted", 410
+"Doesn't exist", 404
+"Bad Request", 400
