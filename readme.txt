@@ -1,7 +1,7 @@
 to run web server:
 
 configure IP address in config.ini
-configure port in config.ini
+configure port in config.ini (8080 for codespaces)
 
 pip install -r requirements.txt
 
