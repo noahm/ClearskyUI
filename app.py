@@ -130,9 +130,13 @@ def ratelimit_error(e):
 # ================================================== HTML Pages ========================================================
 @app.route('/')
 async def index():
+    session_ip = await get_ip()
+
     # Generate a new session number and store it in the session
     if 'session_number' not in session:
         session['session_number'] = generate_session_number()
+
+    logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
 
     return await render_template('index.html')
 
@@ -155,7 +159,11 @@ async def get_internal_status():
     api_key = request.headers.get('X-API-Key')
     session_ip = await get_ip()
 
-    logger.info(f"<< System status requested: {session_ip} - {api_key}")
+    # Generate a new session number and store it in the session
+    if 'session_number' not in session:
+        session['session_number'] = generate_session_number()
+
+    logger.info(f"<< System status requested: {session_ip} - {api_key} - {str(*session.values())}")
 
     now = datetime.now()
     uptime = now - runtime
