@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TennisSky Feed</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div id="base-container">
+        <h1>Clearsky UI</h1>
+    </div>
+    {% block content %}
+    {% endblock %}
+    <div class="atp-label">Powered by ATP</div>
+</body>
+</html>
