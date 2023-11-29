@@ -161,7 +161,7 @@ async def redirect_to_index(dummy):
 
     logger.info(f"<< {session_ip} {str(*session.values())} redirect for {dummy}")
 
-    return redirect('/')
+    return await render_template('index.html')
 
 
 # ======================================================================================================================
