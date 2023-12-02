@@ -1,2 +1,102 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="theme-color" content="white"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="og:title" content="ClearSky"><meta property="og:type" content="article"><meta property="og:description" content="ClearSky"><meta name="twitter:image:alt" content="ClearSky>
-<meta name=" twitter:card"><title>ClearSky</title><link rel="stylesheet" href="index.d1890c68.css"><script>!function(){if(!/file/i.test(location.protocol)){var e=document.createElement("base");e.href="/",e.target="_blank",document.head.appendChild(e)}}();</script></head><body> <style>html{box-sizing:border-box;color:#000;background:#fff;width:100%;min-height:100%;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Arial Unicode;overflow:hidden}*,:before,:after{box-sizing:inherit}body{width:100%;min-height:100%;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Arial Unicode;overflow:hidden}@media (width<=800px){html{overflow:hidden}body{height:100%;position:absolute;overflow:auto}}input,textarea,button{font-family:inherit}</style> <div id="loading-ui"> Loading... </div> <script src="index.b9a7a42a.js" type="module"></script> </body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="white" />
+<meta name="apple-mobile-web-app-status-bar-style" content="white">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="ClearSky">
+<meta property="og:type" content="article" />
+<meta property="og:description" content="ClearSky">
+<meta name="twitter:image:alt" content="ClearSky>
+<meta name="twitter:card" content="summary_large_image">
+
+<title>ClearSky</title>
+
+<script>
+(function() {
+
+var b = document.createElement('base');
+b.href = detectBaseURL();
+b.target = '_blank';
+document.head.appendChild(b);
+
+function detectBaseURL() {
+  if (/file/i.test(location.protocol)) return './';
+
+  if (['localhost', '127.0.0.1'].indexOf(location.hostname.toLowerCase()) >=0) {
+    var staticPos = location.pathname.toLowerCase().indexOf('/static/');
+    if (staticPos>=0) return location.pathname.slice(0, staticPos+'/static/'.length);
+    var indexHTMLPos = location.pathname.toLowerCase().indexOf('/index.html');
+    if (indexHTMLPos>=0) return location.pathname.slice(0, indexHTMLPos + 1);
+    return '/';
+  }
+
+  return '/';
+}
+
+})();
+</script>
+
+</head>
+<body>
+
+<style>
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+
+  background: white;
+  color: black;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Arial Unicode";
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Arial Unicode";
+}
+
+@media (max-width: 800px) {
+  html {
+    overflow: hidden;
+  }
+
+  body {
+    position: absolute;
+    height: 100%;
+    overflow: auto;
+  }
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+}
+</style>
+
+<div id="loading-ui">
+  Loading...
+</div>
+
+<script src="index.js"></script>
+</html>

@@ -3,12 +3,27 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom";
 
 import { Home } from './landing/home';
 import { AccountLayout } from './detail-panels/layout';
 import { createTheme, ThemeProvider } from '@mui/material';
+
+function detectBaseURL() {
+  if (/file/i.test(location.protocol)) return './';
+
+  if (['localhost', '127.0.0.1'].indexOf(location.hostname.toLowerCase()) >= 0) {
+    var staticPos = location.pathname.toLowerCase().indexOf('/static/');
+    if (staticPos >= 0) return location.pathname.slice(0, staticPos + '/static/'.length);
+    var indexHTMLPos = location.pathname.toLowerCase().indexOf('/index.html');
+    if (indexHTMLPos >= 0) return location.pathname.slice(0, indexHTMLPos + 1);
+    return '/';
+  }
+
+  return '/';
+}
 
 function showApp() {
 
@@ -26,13 +41,21 @@ function showApp() {
   `;
   document.body.appendChild(root);
 
-  const router = createBrowserRouter([
-    { path: '/', element: <Home /> },
-    { path: '/index.html', element: <Home /> },
-    { path: '/stable/*', element: <Home /> },
-    { path: '/:handle', element: <AccountLayout /> },
-    { path: '/:handle/:tab', element: <AccountLayout /> }
-  ]);
+  const useRouter = /file/i.test(location.protocol) ?
+    createHashRouter : createBrowserRouter;
+
+  const router = useRouter(
+    [
+      { path: '/', element: <Home /> },
+      { path: '/index.html', element: <Home /> },
+      { path: '/stable/*', element: <Home /> },
+      { path: '/:handle', element: <AccountLayout /> },
+      { path: '/:handle/:tab', element: <AccountLayout /> }
+    ], {
+      basename:
+        /file/i.test(location.protocol) ? undefined :
+        detectBaseURL(),
+  });
 
   const theme = createTheme({
     components: {
@@ -62,4 +85,5 @@ function showApp() {
   );
 }
 
+console.log('loading app...');
 showApp();

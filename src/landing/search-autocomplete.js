@@ -72,7 +72,7 @@ export class SearchAutoComplete extends Component {
     this.setState({
       options: !newValue ? [] : [{
         label: newValue,
-        render: (props) => <Resolving liProps={props} />
+        render: (props) => <Resolving key='resolving' liProps={props} />
       }]
     });
   };
@@ -90,7 +90,7 @@ export class SearchAutoComplete extends Component {
         options: [{
           label: resolvedAccount.handle,
           account: resolvedAccount,
-          render: (props) => <ResolveSuccess liProps={props} accountInfo={resolvedAccount} />
+          render: (props) => <ResolveSuccess key='success' liProps={props} accountInfo={resolvedAccount} />
         }]
       });
     } catch (err) {
@@ -98,7 +98,7 @@ export class SearchAutoComplete extends Component {
       this.setState({
         options: [{
           label: newValue, render:
-            (props) => <ResolveFailure liProps={props} error={err} />
+            (props) => <ResolveFailure key='failure' liProps={props} error={err} />
         }]
       });
     }
