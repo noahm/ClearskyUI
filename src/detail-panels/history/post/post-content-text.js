@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { facetByteLength, overlapFacetsAndHighlights } from './facet-slice';
+import { Fragment } from 'react';
 
 /**
  * @param {{
@@ -54,11 +55,10 @@ export function PostContentText({ className, highlightClassNameBase, text, facet
   if (facets && facets.length > 1) // sort facets by byteStart
     facets = facets.slice().sort((f1, f2) => f1.index?.byteStart - f2.index?.byteStart);
 
-  const blockElements = blocks.map((block, iBlock) => {
-    const entry = blocks[iBlock];
+  const blockElements = blocks.map((entry, iBlock) => {
     if (!entry) return <br key={iBlock} />;
 
-    const lineElements = entry.map(({ charOffset, byteOffset, byteLength, line }) => {
+    const lineElements = entry.map(({ charOffset, byteOffset, byteLength, line }, lineIndex) => {
       const lineHighlights = overlapFacetsAndHighlights(
         line,
         byteOffset,
@@ -73,7 +73,7 @@ export function PostContentText({ className, highlightClassNameBase, text, facet
         else return <RenderHighlight key={iChunk} className={highlightClassNameBase} isHighlight={chunk.isHighlight} isLightHighlight={chunk.isLightHighlight}>{chunk.text}</RenderHighlight>;
       });
 
-      return <>{lineChunks}</>;
+      return <Fragment key={lineIndex}>{lineChunks}</Fragment>;
     });
 
     blockCount++;
