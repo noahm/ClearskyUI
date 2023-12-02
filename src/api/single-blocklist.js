@@ -25,9 +25,13 @@ export async function* singleBlocklist(handleOrDID) {
    *  status: boolean
    * }} SingleBlocklistResponse */
 
+  let handleURL =
+    unwrapClearSkyURL('/api/v1/single-blocklist/') +
+    unwrapShortHandle(resolved.handle);
+
   /** @type {SingleBlocklistResponse} */
   const firstPage = await fetch(
-    '/api/v1/single-blocklist/' + unwrapShortHandle(resolved.handle),
+    handleURL,
     { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
 
 
@@ -39,9 +43,15 @@ export async function* singleBlocklist(handleOrDID) {
 
   for (let i = 2; i < pages; i++) {
     const nextPage = await fetch(
-      '/api/v1/single-blocklist/' + unwrapShortHandle(resolved.handle) + '/' + i,
+      handleURL + '/' + i,
       { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
     
     yield* { ...nextPage, ...nextPage.data, pages, count };
   }
+}
+
+let baseURL = 'https://staging.bsky.theiflord.dev/';
+
+function unwrapClearSkyURL(apiURL) {
+  return baseURL + apiURL.replace(/^\//, '');
 }

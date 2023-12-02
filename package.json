@@ -17,14 +17,12 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
-    "esbuild": "^0.19.8",
     "fuse.js": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0"
   },
-  "alias": {
-    "fs": false,
-    "process": false
+  "devDependencies": {
+    "esbuild": "^0.19.8"
   }
 }
