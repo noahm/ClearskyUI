@@ -1,0 +1,34 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel src/index.html --dist-dir ./node_modules/.parcel-dev-dist --cache-dir ./node_modules/.parcel-dev-cache",
+    "build": "rm ./static/index*.* -f && npm run build:core",
+    "build:windows": "del /q .\\static\\index*.* && npm run build:core",
+    "build:core": "parcel build src/index.html --dist-dir ./static --public-url ./ --cache-dir ./node_modules/.parcel-build-cache",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@atproto/api": "^0.6.23",
+    "@atproto/repo": "^0.3.4",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.16",
+    "fuse.js": "^7.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.18.0"
+  },
+  "alias": {
+    "fs": false,
+    "process": false
+  },
+  "devDependencies": {
+    "parcel": "^2.10.3"
+  }
+}

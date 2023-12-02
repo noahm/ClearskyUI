@@ -1,0 +1,15 @@
+.history-post-entry {
+  padding: 1em 1em;
+  position: relative;
+}
+
+.history-post-entry::after {
+  content: "";
+  display: block;
+  clear: both;
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #eee, #d2d2d2 20%, #eee);
+}
