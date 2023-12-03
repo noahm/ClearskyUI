@@ -50,7 +50,7 @@ export async function* singleBlocklist(handleOrDID) {
   }
 }
 
-let baseURL = 'https://staging.bsky.theiflord.dev/';
+let baseURL = 'https://staging.bsky.thieflord.dev/';
 
 function unwrapClearSkyURL(apiURL) {
   return baseURL + apiURL.replace(/^\//, '');
