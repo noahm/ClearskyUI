@@ -1,0 +1,28 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "esbuild src/app.js --bundle --outfile=static/index.js --loader:.js=jsx --format=iife --watch",
+    "build": "esbuild src/app.js --bundle --outfile=static/index.js --loader:.js=jsx --format=iife",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@atproto/api": "^0.6.24",
+    "@atproto/repo": "^0.3.6",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.16",
+    "fuse.js": "^7.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.18.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.8"
+  }
+}

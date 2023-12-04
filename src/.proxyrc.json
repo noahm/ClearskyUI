@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://staging.bsky.thieflord.dev/api",
+    "secure": false
+  }
+}
