@@ -2,7 +2,7 @@
 
 import sys
 import quart
-from quart import Quart, render_template, request, session, jsonify
+from quart import Quart, render_template, request, session, jsonify, redirect
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -149,6 +149,19 @@ async def favicon():
 @app.route('/status')
 async def always_200():
     return "OK", 200
+
+
+@app.route('/<path:dummy>')
+async def redirect_to_index(dummy):
+    session_ip = await get_ip()
+
+    # Generate a new session number and store it in the session
+    if 'session_number' not in session:
+        session['session_number'] = generate_session_number()
+
+    logger.info(f"<< {session_ip} {str(*session.values())} redirect for {dummy}")
+
+    return await render_template('index.html')
 
 
 # ======================================================================================================================
