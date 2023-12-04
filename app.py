@@ -130,7 +130,6 @@ def ratelimit_error(e):
 # ================================================== HTML Pages ========================================================
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-@app.errorhandler(404)
 async def index(path):
     session_ip = await get_ip()
 
@@ -144,11 +143,6 @@ async def index(path):
         logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
 
     return await render_template('index.html')
-
-
-@app.errorhandler(404)
-async def not_found(error):
-    return "404 - Not Found", 404
 
 
 @app.route('/status')
