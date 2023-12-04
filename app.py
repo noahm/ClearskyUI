@@ -1,8 +1,7 @@
 # app.py
 
 import sys
-import quart
-from quart import Quart, render_template, request, session, jsonify, redirect, send_from_directory
+from quart import Quart, render_template, request, session, jsonify
 from datetime import datetime, timedelta
 import os
 import uuid
