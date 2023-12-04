@@ -145,6 +145,7 @@ async def index(path):
 
 
 @app.route('/status')
+@rate_limit(5, timedelta(seconds=1))
 async def always_200():
     return "OK", 200
 
