@@ -2,7 +2,7 @@
 
 import sys
 import quart
-from quart import Quart, render_template, request, session, jsonify, redirect
+from quart import Quart, render_template, request, session, jsonify, redirect, send_from_directory
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -128,40 +128,32 @@ def ratelimit_error(e):
 
 # ======================================================================================================================
 # ================================================== HTML Pages ========================================================
-@app.route('/')
-async def index():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+@app.errorhandler(404)
+async def index(path):
     session_ip = await get_ip()
 
     # Generate a new session number and store it in the session
     if 'session_number' not in session:
         session['session_number'] = generate_session_number()
 
-    logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
+    if path:
+        logger.info(f"<< Incoming request: {session_ip} {str(*session.values())} | path: {path}")
+    else:
+        logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
 
     return await render_template('index.html')
 
 
-@app.route('/images/favicon.png')
-async def favicon():
-    return await quart.send_from_directory('images', 'favicon.png')
+@app.errorhandler(404)
+async def not_found(error):
+    return "404 - Not Found", 404
 
 
 @app.route('/status')
 async def always_200():
     return "OK", 200
-
-
-@app.route('/<path:dummy>')
-async def redirect_to_index(dummy):
-    session_ip = await get_ip()
-
-    # Generate a new session number and store it in the session
-    if 'session_number' not in session:
-        session['session_number'] = generate_session_number()
-
-    logger.info(f"<< {session_ip} {str(*session.values())} redirect for {dummy}")
-
-    return await render_template('index.html')
 
 
 # ======================================================================================================================

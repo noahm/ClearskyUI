@@ -9,7 +9,7 @@
 <meta property="og:title" content="ClearSky">
 <meta property="og:type" content="article" />
 <meta property="og:description" content="ClearSky">
-<meta name="twitter:image:alt" content="ClearSky>
+<meta name="twitter:image:alt" content="ClearSky">
 <meta name="twitter:card" content="summary_large_image">
 
 <title>ClearSky</title>
@@ -39,8 +39,8 @@ function detectBaseURL() {
 })();
 </script>
 
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.png') }}">
 
 <style>
 html {
@@ -93,7 +93,7 @@ button {
   font-family: inherit;
 }
 </style>
-<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 
 <body>
@@ -103,5 +103,6 @@ button {
   Loading...
 </div>
 
-<script src="index.js"></script>
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
 </html>
