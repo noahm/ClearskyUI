@@ -1,7 +1,7 @@
 # app.py
 
 import sys
-from quart import Quart, render_template, request, session, jsonify
+from quart import Quart, render_template, request, session, jsonify, send_from_directory
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -138,10 +138,12 @@ async def index(path):
 
     if path:
         logger.info(f"<< Incoming request: {session_ip} {str(*session.values())} | path: {path}")
+
+        return await send_from_directory(f'{path}', 'index.html')
     else:
         logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
 
-    return await render_template('index.html')
+        return await render_template('index.html')
 
 
 @app.route('/status')
