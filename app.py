@@ -1,7 +1,7 @@
 # app.py
 
 import sys
-from quart import Quart, render_template, request, session, jsonify, send_from_directory
+from quart import Quart, request, session, jsonify, send_from_directory
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -26,7 +26,7 @@ try:
 except OSError:
     username = "Unknown"
 
-app = Quart(__name__)
+app = Quart(__name__, static_folder='static', static_url_path='/static')
 rate_limiter = RateLimiter(app)
 
 # Configure session secret key
@@ -136,14 +136,14 @@ async def index(path):
     if 'session_number' not in session:
         session['session_number'] = generate_session_number()
 
-    if path:
-        logger.info(f"<< Incoming request: {session_ip} {str(*session.values())} | path: {path}")
-
-        return await send_from_directory(f'{path}', 'index.html')
-    else:
+    if not path:
         logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
 
-        return await render_template('index.html')
+        return await send_from_directory(app.static_folder, 'index.html')
+    else:
+        logger.info(f"<< Incoming request: {session_ip} {str(*session.values())} | path: {path}")
+
+        return await send_from_directory(app.static_folder, path)
 
 
 @app.route('/status')
