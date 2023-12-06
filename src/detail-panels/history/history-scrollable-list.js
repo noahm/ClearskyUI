@@ -1,13 +1,11 @@
 // @ts-check
 /// <reference path="../../types.d.ts" />
 
-import React, { Component, useState } from 'react';
-
-import { RenderPost } from './post/render-post';
+import React from 'react';
 
 import './history-scrollable-list.css';
 import { Visible } from '../../common-components/visible';
-import { CachedSearch, WithSearchContext, applySearchGetResults } from './search/cached-search';
+import { applySearchGetResults } from './search/cached-search';
 import { RenderSearchResults } from './search/render-search-results';
 
 const BLOCK_ADD_INFINITE_SCROLLING = 7;
