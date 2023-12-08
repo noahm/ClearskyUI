@@ -12,7 +12,7 @@ const EMPTY_ARRAY = [];
  *  renderAsync?: React.ReactNode | Function,
  *  renderError?: React.ReactNode | Function,
  *  dependencies?: any[],
- *  children?: React.ReactNode
+ *  children?: React.ReactNode | React.ReactNode
  * }} _
  */
 export function AsyncLoad({ loadAsync, renderAsync, renderError, dependencies, children, ...rest }) {

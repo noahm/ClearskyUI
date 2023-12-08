@@ -65,7 +65,7 @@ function showApp() {
             backgroundColor: 'white',
             color: 'black',
             border: 'solid 1px #e8e8e8',
-            boxShadow: 'box-shadow: 3px 3px 8px rgba(0, 0, 0, 6%)',
+            boxShadow: '3px 3px 8px rgba(0, 0, 0, 12%)',
             fontSize: '90%',
             // maxWidth: '40em',
             padding: '0.7em',

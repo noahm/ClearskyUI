@@ -6,11 +6,17 @@ import { Tooltip } from '@mui/material';
 
 /**
  * @param {{
+ *  className?: string,
  *  timestamp: number | string | Date,
  *  Component?: React.ElementType,
+ *  noTooltip?: boolean
  * }} _ 
  */
-export function FormatTimestamp({ timestamp, Component = 'span', ...props }) {
+export function FormatTimestamp({
+  timestamp,
+  Component = 'span',
+  noTooltip,
+  ...props }) {
   const date = new Date(timestamp);
   const now = Date.now();
 
@@ -53,9 +59,15 @@ export function FormatTimestamp({ timestamp, Component = 'span', ...props }) {
     });
   }
 
+  const core =
+    <Component {...props}>{dateStr}</Component>;
+
+  if (noTooltip)
+    return core;
+
   return (
     <Tooltip title={date.toString()}>
-      <Component {...props}>{dateStr}</Component>
+      {core}
     </Tooltip>
   );
 }

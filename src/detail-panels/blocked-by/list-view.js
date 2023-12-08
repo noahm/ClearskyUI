@@ -3,13 +3,15 @@
 
 import React from 'react';
 
-import { isPromise, resolveHandleOrDID } from '../../api';
+import { resolveHandleOrDID } from '../../api';
 import { AsyncLoad } from '../../common-components/async-load';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
+import { withStyles } from '@mui/styles';
+import { MiniAccountInfo } from '../../common-components/mini-account-info';
 
 const INITIAL_SIZE = 20;
 const GROW_BLOCK_SIZE = 29;
@@ -32,6 +34,7 @@ export function ListView({ account, blocklist }) {
               key={index}
               account={account}
               {...block} />;
+
           return (
             index < showSize - 1 ?
               entry :
@@ -57,6 +60,13 @@ export function ListView({ account, blocklist }) {
   }
 }
 
+const FlushBackgroundTooltip = withStyles({
+  tooltip: {
+    padding: '0',
+    overflow: 'hidden'
+  }
+})(Tooltip);
+
 /**
  * @param {{
  *  account: AccountInfo;
@@ -74,26 +84,31 @@ function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
         <AsyncLoad
           loadAsync={accountOrPromise}
           renderAsync={blockingAccount => (
-              <Tooltip title={<AccountInfoPanel account={blockingAccount} />} placement='right'>
+            <FlushBackgroundTooltip
+              title={
+                <AccountInfoPanel
+                  account={blockingAccount}
+                  blocked_date={blocked_date} />}>
+              <div>
                 <span className='blocking-account-avatar' style={
                   !blockingAccount.avatarUrl ? undefined :
                     { backgroundImage: `url(${blockingAccount.avatarUrl})` }
                 }>@</span>
 
-              <span className='blocking-account-handle'>{handle}</span>
-              {' '}
-              <FormatTimestamp
-                timestamp={blocked_date}
-                Component='span'
-                className='blocking-date' />
-
-              </Tooltip>
+                <span className='blocking-account-handle'>{handle}</span>
+                {' '}
+                <FormatTimestamp
+                  timestamp={blocked_date}
+                  noTooltip
+                  className='blocking-date' />
+              </div>
+            </FlushBackgroundTooltip>
           )}>
           @<span className='blocking-account-handle'>{handle}</span>
           {' '}
           <FormatTimestamp
             timestamp={blocked_date}
-            Component='span'
+            noTooltip
             className='blocking-date' />
 
         </AsyncLoad>
@@ -106,26 +121,25 @@ function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
 
 /**
  * @param {{
- *  account: AccountInfo;
+ *  account: AccountInfo,
+ *  blocked_date: string | number | null | undefined
  * }} _
  */
-function AccountInfoPanel({ account }) {
+function AccountInfoPanel({ account, blocked_date }) {
   return (
-    <div className='account-info-panel'>
-      <div>
-        <span className='account-info-panel-avatar' style={
-          !account.avatarUrl ? undefined :
-            { backgroundImage: `url(${account.avatarUrl})` }
+    <div className='blocking-account-info-panel'
+      onClick={e => e.preventDefault()}>
+      <MiniAccountInfo
+        account={account}
+        banner={
+          !blocked_date ? undefined :
+            <div className='account-info-panel-blocked-timestamp'>
+              blocked
+              <div className='account-info-panel-blocked-timestamp-full'>
+                {new Date(blocked_date).toString()}
+              </div>
+            </div>
         } />
-        {' '}
-        <span className='account-info-panel-handle'>{account.displayName}</span>
-      </div>
-      <div>
-        <span className='account-info-panel-handle'>@{account.handle}</span>
-      </div>
-      <div className='account-info-panel-bio'>
-        {account.description}
-      </div>
     </div>
   );
 }

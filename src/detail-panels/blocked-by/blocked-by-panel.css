@@ -1,3 +1,21 @@
+.account-info-panel-blocked-timestamp {
+  font-size: 80%;
+  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
+  padding: 0.5em;
+  padding-left: 1em;
+}
+
+.account-info-panel-blocked-timestamp-full {
+  zoom: 80%;
+  transform: scaleY(1.1);
+}
+
+.blocking-account-info-panel .account-info-panel-description {
+  padding: 1em;
+}
+
+
+
 .blocking-panel-header {
   padding-left: 0.6em;
 }
@@ -34,4 +52,7 @@
 
 .blocking-list-entry .blocking-date {
   opacity: 0.6;
+  font-weight: 200;
+  font-size: 80%;
+  padding-left: 0.1em;
 }

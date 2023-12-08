@@ -212,15 +212,15 @@ export class AccountLayoutCore extends Component {
             {
               accountTabs.map(tab => {
                 if (tab === selectedTab && !this.materializedTabs[tab])
-                  this.materializedTabs[tab] = renderTabContent(tab, this.props.account);
+                  this.materializedTabs[tab] = () => renderTabContent(tab, this.props.account);
 
-                const tabContent = this.materializedTabs[tab];
-                if (!tabContent) return undefined;
+                const tabContentRender = this.materializedTabs[tab];
+                if (!tabContentRender) return undefined;
 
                 return (
                   <div key={tab} className={
                     'account-tab ' + (tab === selectedTab ? 'account-tab-selected' : '')}>
-                    {tabContent}
+                    {tabContentRender()}
                   </div>
                 );
               })
