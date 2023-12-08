@@ -1,8 +1,15 @@
 // @ts-check
 
-import { Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
+import { Tooltip } from '@mui/material';
+
+/**
+ * @param {{
+ *  timestamp: number | string | Date,
+ *  Component?: React.ElementType,
+ * }} _ 
+ */
 export function FormatTimestamp({ timestamp, Component = 'span', ...props }) {
   const date = new Date(timestamp);
   const now = Date.now();

@@ -2,12 +2,12 @@
 import { Tab, Tabs } from '@mui/material';
 import React, { Component, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AccountHeader } from './account-header';
-import { TabSelector } from './tab-selector';
 import { isPromise, resolveHandleOrDID } from '../api';
-import { BlockedByPanel } from './blocked-by-panel';
+import { AccountHeader } from './account-header';
+import { BlockedByPanel } from './blocked-by';
+import { BlockingPanel } from './blocking';
 import { HistoryPanel } from './history/history-panel';
-import { BlockingPanel } from './blocking-panel';
+import { TabSelector } from './tab-selector';
 
 export const accountTabs = /** @type {const} */(['blocked-by', 'blocking', 'followers', 'history']);
 

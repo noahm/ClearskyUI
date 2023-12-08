@@ -1,3 +1,54 @@
+/* src/detail-panels/blocked-by/blocked-by-panel.css */
+.blocking-panel-header {
+  padding-left: 0.6em;
+}
+.block-list {
+  padding-left: 0.6em;
+}
+.blocking-list-entry {
+  list-style-type: none;
+  height: 2em;
+}
+.blocking-list-entry .blocking-account-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+.blocking-list-entry .blocking-account-link:hover {
+  text-decoration: underline;
+}
+.blocking-list-entry .blocking-account-avatar {
+  background: no-repeat center center;
+  background-size: cover;
+  color: transparent;
+  border-radius: 200%;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.25em;
+}
+.blocking-list-entry .blocking-date {
+  opacity: 0.6;
+}
+
+/* src/detail-panels/blocking/blocking-panel.css */
+
+/* src/detail-panels/history/history-scrollable-list.css */
+.history-post-entry {
+  padding: 1em 1em;
+  position: relative;
+}
+.history-post-entry::after {
+  content: "";
+  display: block;
+  clear: both;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #eee, #d2d2d2 20%, #eee);
+}
+
 /* src/detail-panels/history/post/render-post.css */
 .post-with-content {
 }
@@ -130,23 +181,6 @@
   font-size: 80%;
 }
 
-/* src/detail-panels/history/history-scrollable-list.css */
-.history-post-entry {
-  padding: 1em 1em;
-  position: relative;
-}
-.history-post-entry::after {
-  content: "";
-  display: block;
-  clear: both;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(to right, #eee, #d2d2d2 20%, #eee);
-}
-
 /* src/detail-panels/history/search-header.css */
 .history-header {
   position: sticky;
@@ -184,3 +218,4 @@
 .history-search-text-field input {
   padding-left: 0.5em;
 }
+/*# sourceMappingURL=index.css.map */

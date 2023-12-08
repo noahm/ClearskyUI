@@ -6,7 +6,7 @@ import { resolveHandleOrDID } from './resolve-handle-or-did';
  * @param {string} handleOrDID
  * @returns {AsyncGenerator<{
  *    pages: number, count: number,
- *    block_list: { blocked_date: string, handle: string, status: boolean }[]
+ *    blocklist: BlockedByRecord[]
  * }>}
  */
 export async function* singleBlocklist(handleOrDID) {
@@ -38,15 +38,16 @@ export async function* singleBlocklist(handleOrDID) {
   const pages = Number(firstPage.data.pages) || 1;
   const count = Number(firstPage.data.count) || 0;
   if (pages <= 1) return;
+  pages.toString();
 
-  yield* { ...firstPage, ...firstPage.data, pages, count };
+  yield { ...firstPage, ...firstPage.data, pages, count };
 
   for (let i = 2; i < pages; i++) {
     const nextPage = await fetch(
       handleURL + '/' + i,
       { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
     
-    yield* { ...nextPage, ...nextPage.data, pages, count };
+    yield { ...nextPage, ...nextPage.data, pages, count };
   }
 }
 
