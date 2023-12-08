@@ -41,10 +41,6 @@ export class BlockedByPanel extends Component {
         backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
         minHeight: '100%'
       }}>
-        mini-account
-        {this.props.account &&
-          <MiniAccountInfo account={this.props.account} />}
-        /mini-account
         {this.state?.count ?
           <h3 className='blocking-panel-header'>{this.state.count} blocking:</h3> :
           ''
