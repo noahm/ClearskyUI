@@ -2,8 +2,9 @@
 
 import React, { Component } from 'react';
 import { isPromise, postHistory, singleBlocklist } from '../../api';
-import { TableView } from './table-view';
+import { MiniAccountInfo } from '../../common-components/mini-account-info';
 import { ListView } from './list-view';
+import { TableView } from './table-view';
 
 import './blocked-by-panel.css';
 
@@ -66,7 +67,10 @@ export class BlockedByPanel extends Component {
     if (!account) return;
 
     for await (const block of singleBlocklist(account.handle)) {
-      if (account !== this.props.account) return;
+      const accountChanged =
+        account.did ? account?.did !== this.props.account?.did :
+          account.handle !== this.props.account?.handle;
+      if (accountChanged) return;
 
       this.setState({
         count: block.count,
