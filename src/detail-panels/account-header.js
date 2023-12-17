@@ -5,6 +5,7 @@ import React from 'react';
 import { shortenDID, shortenHandle } from '../api';
 
 import './account-header.css';
+import { FullDID, FullHandle } from '../common-components/full-short';
 
 /**
  * @param {{
@@ -38,32 +39,20 @@ export function AccountHeader({ className, account, onCloseClick }) {
           <span className='account-displayName'>
             {
               account.displayName ||
-              <span style={{ opacity: '0.5' }}>{account.handle}</span>
+              <span style={{ opacity: '0.5' }}><FullHandle shortHandle={account.shortHandle} /></span>
             }
           </span>
           {
             !account.displayName ? undefined :
               <span className='account-handle'>
                 <span className='account-handle-at'>@</span>
-                {
-                  shortenHandle(account.handle) === account.handle ? account.handle :
-                    <>
-                      {shortenHandle(account.handle)}
-                      <span className='account-handle-suffix'>.bsky.social</span>
-                    </>
-                }
+                <FullHandle shortHandle={account.shortHandle} />
               </span>
           }
           {
-            !account.did ? undefined :
+            !account.shortDID ? undefined :
               <span className='account-did'>
-                {
-                  shortenDID(account.did) === account.did ? account.did :
-                    <>
-                      <span className='account-did-prefix'>did:plc:</span>
-                      {shortenDID(account.did)}
-                    </>
-                }
+                <FullDID shortDID={account.shortDID} />
               </span>
           }
         </span>

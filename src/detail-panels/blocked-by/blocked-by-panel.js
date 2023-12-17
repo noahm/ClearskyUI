@@ -1,7 +1,7 @@
 // @ts-check
 
 import React, { Component } from 'react';
-import { isPromise, postHistory, singleBlocklist } from '../../api';
+import { singleBlocklist, unwrapShortHandle } from '../../api';
 import { MiniAccountInfo } from '../../common-components/mini-account-info';
 import { ListView } from './list-view';
 import { TableView } from './table-view';
@@ -24,7 +24,7 @@ export class BlockedByPanel extends Component {
 
   render() {
 
-    if (!this.fetchingAccount || this.fetchingAccount?.account?.handle !== this.props.account?.handle) {
+    if (!this.fetchingAccount || this.fetchingAccount?.account?.shortHandle !== this.props.account?.shortHandle) {
       if (!this.props.account) {
         this.fetchingAccount = undefined;
       } else {
@@ -66,10 +66,10 @@ export class BlockedByPanel extends Component {
     const account = this.props.account;
     if (!account) return;
 
-    for await (const block of singleBlocklist(account.handle)) {
+    for await (const block of singleBlocklist(unwrapShortHandle(account.shortHandle))) {
       const accountChanged =
-        account.did ? account?.did !== this.props.account?.did :
-          account.handle !== this.props.account?.handle;
+        account.shortDID ? account?.shortDID !== this.props.account?.shortDID :
+          account.shortHandle !== this.props.account?.shortHandle;
       if (accountChanged) return;
 
       this.setState({

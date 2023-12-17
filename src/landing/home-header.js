@@ -1,5 +1,6 @@
 // @ts-check
 /// <refererence path="./types.d.ts" />
+
 import React from 'react';
 
 import { SearchAutoComplete } from './search-autocomplete';

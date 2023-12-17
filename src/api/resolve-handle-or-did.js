@@ -1,24 +1,27 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import { getProfileBlobUrl, isPromise, likelyDID, shortenHandle, unwrapShortDID, unwrapShortHandle } from '.';
+import { getProfileBlobUrl, isPromise, likelyDID, shortenDID, shortenHandle, unwrapShortDID, unwrapShortHandle } from '.';
 import { atClient } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
 
 const resolveHandleCache = throttledAsyncCache(async (handle) => {
   const resolved = await atClient.com.atproto.identity.resolveHandle({ handle: unwrapShortHandle(handle) });
   if (!resolved.data.did) throw new Error('Handle did not resolve: ' + handle);
-  return resolved.data.did;
+  return shortenDID(resolved.data.did);
 });
 
 const resolveDIDCache = throttledAsyncCache(async (did) => {
+  const fullDID = unwrapShortDID(did);
+  const shortDID = shortenDID(did);
+
   const describePromise = atClient.com.atproto.repo.describeRepo({
-    repo: unwrapShortDID(did)
+    repo: fullDID
   });
 
   const profilePromise = atClient.com.atproto.repo.listRecords({
     collection: 'app.bsky.actor.profile',
-    repo: unwrapShortDID(did)
+    repo: fullDID
   });
 
   const [describe, profile] = await Promise.all([describePromise, profilePromise]);
@@ -29,13 +32,13 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
 
   /** @type {*} */
   const profileRec = profile.data.records?.filter(rec => rec.value)[0]?.value;
-  const avatarUrl = getProfileBlobUrl(did, profileRec?.avatar?.ref?.toString());
-  const bannerUrl = getProfileBlobUrl(did, profileRec?.banner?.ref?.toString());
+  const avatarUrl = getProfileBlobUrl(fullDID, profileRec?.avatar?.ref?.toString());
+  const bannerUrl = getProfileBlobUrl(fullDID, profileRec?.banner?.ref?.toString());
   const displayName = profileRec?.displayName;
   const description = profileRec?.description;
 
   const profileDetails = {
-    did: unwrapShortDID(did),
+    shortDID,
     shortHandle,
     avatarUrl,
     bannerUrl,
@@ -43,6 +46,7 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
     description
   };
 
+  resolveHandleCache.prepopulate(shortDID, shortHandle);
   return profileDetails;
 });
 
