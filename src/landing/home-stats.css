@@ -1,0 +1,17 @@
+.stats-section {
+  s-text-align: center;
+}
+
+.stats-section-inner {
+  display: inline-block;
+  min-width: 50%;
+  text-align: left;
+}
+
+table.stats-table {
+  width: 100%;
+}
+
+table.stats-table th {
+  text-align: right;
+}

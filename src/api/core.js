@@ -15,3 +15,9 @@ function patchBskyAgent(atClient) {
     return true;
   };
 }
+
+let baseURL = 'https://staging.bsky.thieflord.dev/';
+
+export function unwrapClearSkyURL(apiURL) {
+  return baseURL + apiURL.replace(/^\//, '');
+}

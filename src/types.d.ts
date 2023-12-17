@@ -36,3 +36,13 @@ type SearchMatch = {
   displayName?: string;
   displayNameMatches?: string;
 }
+
+type DashboardStats = {
+  asof: string;
+  /** 2,186,543 */
+  active_count?: string;
+  /** 19,205 */
+  deleted_count?: string;
+  /** 2,205,748 */
+  total_count?: string;
+}

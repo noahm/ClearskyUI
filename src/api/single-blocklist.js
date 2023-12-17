@@ -1,4 +1,7 @@
+// @ts-check
+
 import { unwrapShortHandle, xAPIKey } from '.';
+import { unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 
 /**
@@ -25,7 +28,7 @@ export async function* singleBlocklist(handleOrDID) {
    *  status: boolean
    * }} SingleBlocklistResponse */
 
-  let handleURL =
+  const handleURL =
     unwrapClearSkyURL('/api/v1/single-blocklist/') +
     unwrapShortHandle(resolved.shortHandle);
 
@@ -49,10 +52,4 @@ export async function* singleBlocklist(handleOrDID) {
     
     yield { ...nextPage, ...nextPage.data, pages, count };
   }
-}
-
-let baseURL = 'https://staging.bsky.thieflord.dev/';
-
-function unwrapClearSkyURL(apiURL) {
-  return baseURL + apiURL.replace(/^\//, '');
 }
