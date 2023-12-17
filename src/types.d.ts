@@ -1,8 +1,8 @@
 /// <reference types="@atproto/api" />
 
 type AccountInfo = {
-  did: string;
-  handle: string;
+  shortDID: string;
+  shortHandle: string;
   displayName?: string;
   description?: string;
   avatarUrl?: string;
@@ -18,4 +18,21 @@ type BlockedByRecord = {
   blocked_date: string;
   handle: string;
   status: boolean;
+}
+
+type CompactHandleOrHandleDisplayName =
+  string |
+  [shortHandle: string, displayName: string];
+
+type SearchMatch = {
+  rank: number;
+
+  shortDID: string;
+  shortDIDMatches?: string;
+
+  shortHandle: string;
+  handleMatches?: string;
+
+  displayName?: string;
+  displayNameMatches?: string;
 }

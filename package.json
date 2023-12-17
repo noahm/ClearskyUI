@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "esbuild src/app.js --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --format=iife --watch",
-    "build": "esbuild src/app.js --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --format=iife",
+    "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --format=iife --watch --serve --servedir=./static",
+    "build": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --format=iife",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@atproto/api": "^0.6.24",
+    "@atproto/api": "^0.7.4",
     "@atproto/repo": "^0.3.6",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",

@@ -2,7 +2,7 @@
 import { Tab, Tabs } from '@mui/material';
 import React, { Component, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { isPromise, resolveHandleOrDID } from '../api';
+import { isPromise, resolveHandleOrDID, shortenHandle } from '../api';
 import { AccountHeader } from './account-header';
 import { BlockedByPanel } from './blocked-by';
 import { BlockingPanel } from './blocking';
@@ -16,10 +16,10 @@ export function AccountLayout() {
   if (!tab) tab = accountTabs[0];
 
   let accountResolution = resolveHandleOrDID(handle || '');
-  if (!isPromise(accountResolution)) handle = accountResolution.handle;
+  if (!isPromise(accountResolution)) handle = accountResolution.shortHandle;
 
   const [account, setAccount] = useState(
-    isPromise(accountResolution) ? { handle, loading: true } : accountResolution
+    isPromise(accountResolution) ? { shortHandle: shortenHandle(handle), loading: true } : accountResolution
   );
 
   if (isPromise(accountResolution)) {

@@ -2,13 +2,32 @@
 
 import { isPromise } from '.';
 
-export function throttledAsyncCache(call, { maxConcurrency = 3 } = {}) {
+/**
+ * @template TFunction
+ * @param {TFunction as Function} call
+ * @param {{ maxConcurrency?: number, interval?: number }} _
+ * @returns TFunction & { prepopulate: (value: any, ...args: any[]) => void, evict: (...args: any[]) => void }
+ */
+export function throttledAsyncCache(call, { maxConcurrency = 3, interval = 100 } = {}) {
   const cache = multikeyMap();
 
   const outstandingRequests = new Set();
   const waitingRequests = new Set();
 
+  var scheduleMoreLaterTimeout;
+
+  throttledCall.prepopulate = prepopulate;
+  throttledCall.evict = evict;
+
   return throttledCall;
+
+  function prepopulate(value, ...args) {
+    cache.set(...args, { value });
+  }
+
+  function evict(...args) {
+    cache.delete(...args);
+  }
 
   function throttledCall(...args) {
     let result = cache.get(...args);
@@ -48,16 +67,27 @@ export function throttledAsyncCache(call, { maxConcurrency = 3 } = {}) {
     }
   }
 
-  function scheduleAsAppropriate() {
+  async function scheduleAsAppropriate() {
     if (outstandingRequests.size >= maxConcurrency) return;
+
+    if (interval) {
+      await new Promise(resolve => setTimeout(resolve, interval));
+      if (outstandingRequests.size >= maxConcurrency) return;
+    }
 
     const nextRequest = [...waitingRequests].sort((a, b) => b.priority - a.priority)[0];
     if (!nextRequest) return;
     nextRequest.scheduleNow();
+
+    if (outstandingRequests.size < maxConcurrency) {
+      clearTimeout(scheduleMoreLaterTimeout);
+      scheduleMoreLaterTimeout = setTimeout(scheduleAsAppropriate, (interval || 100));
+    }
   }
 }
 
 function multikeyMap() {
+  /** @type {Map & { _value?: any }} */
   const storeMap = new Map();
 
   const resultMap = {
@@ -81,7 +111,7 @@ function multikeyMap() {
 
   function set(...keys) {
     let entry = storeMap;
-    for (let i = 0; i < keys.length - 1; i++)  {
+    for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
       entry = entry.get(key) || entry.set(key, new Map()).get(key);
     }

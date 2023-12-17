@@ -1,5 +1,6 @@
 // @ts-check
 /// <refererence path="./types.d.ts" />
+
 import React from 'react';
 
 import { SearchAutoComplete } from './search-autocomplete';
@@ -9,7 +10,7 @@ import { SearchAutoComplete } from './search-autocomplete';
  *  className?: string,
  *  searchText?: string,
  *  onSearchTextChanged?: (text: string) => void,
- *  onAccountSelected?: (account: AccountInfo) => void
+ *  onAccountSelected?: (account: AccountInfo | SearchMatch) => void
  * }} _
  */
 export function HomeHeader({ className, searchText, onSearchTextChanged, onAccountSelected }) {

@@ -6,28 +6,31 @@ import { atClient } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 import { throttledAsyncCache } from './throttled-async-cache';
 
-/** @type {{ [did: string]: { did: string, handle: string, posts: PostDetails[], hasMore?: boolean, fetchMore: () => Promise<void> | undefined } }} */
+/** @type {{ [shortDID: string]: { shortDID: string, shortHandle: string, posts: PostDetails[], hasMore?: boolean, fetchMore: () => Promise<void> | undefined } }} */
 const historyCache = {};
 
 /** @type {{ [uri: string]: PostDetails | Promise<PostDetails> }} */
 const historyPostByUri = {};
 
-export function postHistory(handleOrDid) {
-  const accountInfoOrPromise = resolveHandleOrDID(handleOrDid);
-  if (!isPromise(accountInfoOrPromise) && historyCache[accountInfoOrPromise.did]) return historyCache[accountInfoOrPromise.did];
+/**
+ * @param {string} shortHandleOrShortDid
+ */
+export function postHistory(shortHandleOrShortDid) {
+  const accountInfoOrPromise = resolveHandleOrDID(shortHandleOrShortDid);
+  if (!isPromise(accountInfoOrPromise) && historyCache[accountInfoOrPromise.shortDID]) return historyCache[accountInfoOrPromise.shortDID];
 
   return (async () => {
     const accountInfo = await accountInfoOrPromise;
-    if (!isPromise(accountInfo) && historyCache[accountInfo.did]) return historyCache[accountInfo.did];
+    if (!isPromise(accountInfo) && historyCache[accountInfo.shortDID]) return historyCache[accountInfo.shortDID];
 
     let fetchingMore;
     let cursor;
     let reachedEndRepeatAt;
 
     /** @type {typeof historyCache['a']} */
-    const fetcher = historyCache[accountInfo.did] = {
-      did: accountInfo.did,
-      handle: accountInfo.handle,
+    const fetcher = historyCache[accountInfo.shortDID] = {
+      shortDID: accountInfo.shortDID,
+      shortHandle: accountInfo.shortHandle,
       posts: [],
       hasMore: true,
       fetchMore
@@ -43,7 +46,7 @@ export function postHistory(handleOrDid) {
 
         const history = await atClient.com.atproto.repo.listRecords({
           collection: 'app.bsky.feed.post',
-          repo: accountInfo.did,
+          repo: unwrapShortDID(accountInfo.shortDID),
           cursor,
         });
 

@@ -1,0 +1,33 @@
+.search-entry {
+  height: 2.3em;
+  display: flex;
+  align-items: center;
+  white-space: nowrap !important;
+  overflow-x: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.search-entry .at-sign {
+  display: inline-block;
+  text-align: center;
+  width: 2em;
+  border-radius: 200%;
+  margin-right: 0.5em;
+
+  color: cornflowerblue;
+  transform: scale(1.5);
+}
+
+.search-entry .search-entry-avatar {
+  width: 2em;
+  height: 2em;
+  border-radius: 200%;
+  margin-right: 0.5em;
+}
+
+.search-entry .search-entry-display-name-space {
+  width: 0.4em;
+}
+.search-entry .search-entry-display-name {
+  color: gray;
+}
