@@ -19,3 +19,20 @@ type BlockedByRecord = {
   handle: string;
   status: boolean;
 }
+
+type CompactHandleOrHandleDisplayName =
+  string |
+  [handle: string, displayName: string];
+
+type SearchMatch = {
+  rank: number;
+
+  shortDID: string;
+  shortDIDMatches?: string;
+
+  handle: string;
+  handleMatches?: string;
+
+  displayName?: string;
+  displayNameMatches?: string;
+}
