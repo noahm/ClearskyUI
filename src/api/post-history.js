@@ -6,14 +6,17 @@ import { atClient } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 import { throttledAsyncCache } from './throttled-async-cache';
 
-/** @type {{ [did: string]: { did: string, handle: string, posts: PostDetails[], hasMore?: boolean, fetchMore: () => Promise<void> | undefined } }} */
+/** @type {{ [shortDID: string]: { shortDID: string, shortHandle: string, posts: PostDetails[], hasMore?: boolean, fetchMore: () => Promise<void> | undefined } }} */
 const historyCache = {};
 
 /** @type {{ [uri: string]: PostDetails | Promise<PostDetails> }} */
 const historyPostByUri = {};
 
-export function postHistory(handleOrDid) {
-  const accountInfoOrPromise = resolveHandleOrDID(handleOrDid);
+/**
+ * @param {string} shortHandleOrShortDid
+ */
+export function postHistory(shortHandleOrShortDid) {
+  const accountInfoOrPromise = resolveHandleOrDID(shortHandleOrShortDid);
   if (!isPromise(accountInfoOrPromise) && historyCache[accountInfoOrPromise.shortDID]) return historyCache[accountInfoOrPromise.shortDID];
 
   return (async () => {
@@ -26,8 +29,8 @@ export function postHistory(handleOrDid) {
 
     /** @type {typeof historyCache['a']} */
     const fetcher = historyCache[accountInfo.shortDID] = {
-      did: accountInfo.shortDID,
-      handle: accountInfo.shortHandle,
+      shortDID: accountInfo.shortDID,
+      shortHandle: accountInfo.shortHandle,
       posts: [],
       hasMore: true,
       fetchMore
@@ -43,7 +46,7 @@ export function postHistory(handleOrDid) {
 
         const history = await atClient.com.atproto.repo.listRecords({
           collection: 'app.bsky.feed.post',
-          repo: accountInfo.shortDID,
+          repo: unwrapShortDID(accountInfo.shortDID),
           cursor,
         });
 

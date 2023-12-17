@@ -22,7 +22,7 @@ type BlockedByRecord = {
 
 type CompactHandleOrHandleDisplayName =
   string |
-  [handle: string, displayName: string];
+  [shortHandle: string, displayName: string];
 
 type SearchMatch = {
   rank: number;

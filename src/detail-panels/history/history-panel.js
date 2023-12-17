@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference path="../../types.d.ts" />
 
 import React, { Component } from 'react';
 import { isPromise, postHistory } from '../../api';
@@ -7,10 +8,15 @@ import { HistoryScrollableList } from './history-scrollable-list';
 import { SearchHeader } from './search-header';
 import { useSearchParams } from 'react-router-dom';
 
+/**
+ * @extends {Component<
+ *  { account: AccountInfo },
+ *  { searchText: string, searchTextInstant: string, error: Error | null, loaded?: number }>}
+ */
 export class HistoryPanel extends Component {
 
   /**
-   * @type {ReturnType<typeof postHistory> & { handle?: string, did?: string } | Awaited<ReturnType<typeof postHistory>> | undefined}
+   * @type {ReturnType<typeof postHistory> & { shortHandle?: string, shortDID?: string } | Awaited<ReturnType<typeof postHistory>> | undefined}
    */
   accountPostHistory
 
@@ -22,10 +28,10 @@ export class HistoryPanel extends Component {
     }
 
     if (!this.accountPostHistory) {
-      this.accountPostHistory = postHistory(this.props.account.handle || this.props.account.did);
-      if (!this.accountPostHistory.handle && !this.accountPostHistory.did) {
-        this.accountPostHistory.handle = this.props.account.handle;
-        this.accountPostHistory.did = this.props.account.did;
+      this.accountPostHistory = postHistory(this.props.account.shortHandle || this.props.account.shortDID);
+      if (!this.accountPostHistory.shortHandle && !this.accountPostHistory.shortDID) {
+        this.accountPostHistory.shortHandle = this.props.account.shortHandle;
+        this.accountPostHistory.shortDID = this.props.account.shortDID;
       }
       (async () => {
         try {
@@ -90,10 +96,11 @@ export class HistoryPanel extends Component {
     );
   }
 
+  /** @param {{ shortDID?: string, shortHandle?: string } | undefined} account */
   isRelevant(account) {
     return account && (
-      account.did === this.props.account.did ||
-      account.handle === this.props.account.handle
+      account.shortDID === this.props.account.shortDID ||
+      account.shortHandle === this.props.account.shortHandle
     );
   }
 
