@@ -14,20 +14,20 @@ const historyPostByUri = {};
 
 export function postHistory(handleOrDid) {
   const accountInfoOrPromise = resolveHandleOrDID(handleOrDid);
-  if (!isPromise(accountInfoOrPromise) && historyCache[accountInfoOrPromise.did]) return historyCache[accountInfoOrPromise.did];
+  if (!isPromise(accountInfoOrPromise) && historyCache[accountInfoOrPromise.shortDID]) return historyCache[accountInfoOrPromise.shortDID];
 
   return (async () => {
     const accountInfo = await accountInfoOrPromise;
-    if (!isPromise(accountInfo) && historyCache[accountInfo.did]) return historyCache[accountInfo.did];
+    if (!isPromise(accountInfo) && historyCache[accountInfo.shortDID]) return historyCache[accountInfo.shortDID];
 
     let fetchingMore;
     let cursor;
     let reachedEndRepeatAt;
 
     /** @type {typeof historyCache['a']} */
-    const fetcher = historyCache[accountInfo.did] = {
-      did: accountInfo.did,
-      handle: accountInfo.handle,
+    const fetcher = historyCache[accountInfo.shortDID] = {
+      did: accountInfo.shortDID,
+      handle: accountInfo.shortHandle,
       posts: [],
       hasMore: true,
       fetchMore
@@ -43,7 +43,7 @@ export function postHistory(handleOrDid) {
 
         const history = await atClient.com.atproto.repo.listRecords({
           collection: 'app.bsky.feed.post',
-          repo: accountInfo.did,
+          repo: accountInfo.shortDID,
           cursor,
         });
 

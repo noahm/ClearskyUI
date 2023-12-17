@@ -4,6 +4,7 @@ import React from 'react';
 import { HomeHeader } from './home-header';
 import { HomeStats } from './home-stats';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { unwrapShortHandle } from '../api';
 
 export function Home() {
 
@@ -64,7 +65,7 @@ export function Home() {
           }}
           onAccountSelected={(account) => {
             console.log('Account selected ', account);
-            navigate('/' + account.handle);
+            navigate('/' + unwrapShortHandle(account.shortHandle));
           }}
         />
         <HomeStats className='home-stats' />

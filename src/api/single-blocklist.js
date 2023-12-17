@@ -27,7 +27,7 @@ export async function* singleBlocklist(handleOrDID) {
 
   let handleURL =
     unwrapClearSkyURL('/api/v1/single-blocklist/') +
-    unwrapShortHandle(resolved.handle);
+    unwrapShortHandle(resolved.shortHandle);
 
   /** @type {SingleBlocklistResponse} */
   const firstPage = await fetch(

@@ -1,9 +1,9 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { postHistory } from './post-history';
-
+export { resolveHandleOrDID } from './resolve-handle-or-did';
+export { searchHandle } from './search';
 export { singleBlocklist } from './single-blocklist';
 
 export const xAPIKey = 'CLEARSKYtest90asdfghjklqwerr2345';

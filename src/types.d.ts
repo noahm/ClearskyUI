@@ -1,8 +1,8 @@
 /// <reference types="@atproto/api" />
 
 type AccountInfo = {
-  did: string;
-  handle: string;
+  shortDID: string;
+  shortHandle: string;
   displayName?: string;
   description?: string;
   avatarUrl?: string;
@@ -30,7 +30,7 @@ type SearchMatch = {
   shortDID: string;
   shortDIDMatches?: string;
 
-  handle: string;
+  shortHandle: string;
   handleMatches?: string;
 
   displayName?: string;

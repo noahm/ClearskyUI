@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import { getProfileBlobUrl, isPromise, likelyDID, unwrapShortDID, unwrapShortHandle } from '.';
+import { getProfileBlobUrl, isPromise, likelyDID, shortenHandle, unwrapShortDID, unwrapShortHandle } from '.';
 import { atClient } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
 
@@ -25,7 +25,7 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
 
   if (!describe.data.handle) throw new Error('DID does not have a handle: ' + did);
 
-  const handle = describe.data.handle;
+  const shortHandle = shortenHandle(describe.data.handle);
 
   /** @type {*} */
   const profileRec = profile.data.records?.filter(rec => rec.value)[0]?.value;
@@ -36,7 +36,7 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
 
   const profileDetails = {
     did: unwrapShortDID(did),
-    handle,
+    shortHandle,
     avatarUrl,
     bannerUrl,
     displayName,
