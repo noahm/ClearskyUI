@@ -143,7 +143,7 @@ async def index(path):
     else:
         logger.info(f"<< Incoming request: {session_ip} {session['session_number']} | path: {path}")
 
-        return await send_from_directory(app.static_folder, path)
+        return await send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/status')
