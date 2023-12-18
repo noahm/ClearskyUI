@@ -175,7 +175,7 @@ async def get_internal_status():
         "current time": str(datetime.now()),
     }
 
-    logger.info(f">> System status result returned: {session_ip} - {api_key}")
+    logger.info(f">> System status result returned: {session_ip} - {api_key} - {session['session_number']}")
 
     return jsonify(status)
 
