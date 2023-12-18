@@ -137,11 +137,11 @@ async def index(path):
         session['session_number'] = generate_session_number()
 
     if not path:
-        logger.info(f"<< Incoming request: {session_ip} {str(*session.values())}")
+        logger.info(f"<< Incoming request: {session_ip} {session['session_number']}")
 
         return await send_from_directory(app.static_folder, 'index.html')
     else:
-        logger.info(f"<< Incoming request: {session_ip} {str(*session.values())} | path: {path}")
+        logger.info(f"<< Incoming request: {session_ip} {session['session_number']} | path: {path}")
 
         return await send_from_directory(app.static_folder, path)
 
@@ -164,7 +164,7 @@ async def get_internal_status():
     if 'session_number' not in session:
         session['session_number'] = generate_session_number()
 
-    logger.info(f"<< System status requested: {session_ip} - {api_key} - {str(*session.values())}")
+    logger.info(f"<< System status requested: {session_ip} - {api_key} - {session['session_number']}")
 
     now = datetime.now()
     uptime = now - runtime
