@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "0.0.2d"
+version = "0.0.3d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
