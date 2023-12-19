@@ -146,6 +146,21 @@ async def index(path):
         return await send_from_directory(app.static_folder, 'index.html')
 
 
+@app.route('/index.css')
+async def serve_css():
+    return await send_from_directory(app.static_folder, 'index.css')
+
+
+@app.route('/index.js')
+async def serve_js():
+    return await send_from_directory(app.static_folder, 'index.js')
+
+
+@app.route('/favicon.png')
+async def serve_favicon():
+    return await send_from_directory(app.static_folder, 'favicon.png')
+
+
 @app.route('/status')
 @rate_limit(10, timedelta(seconds=1))
 async def always_200():
