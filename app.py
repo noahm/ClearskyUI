@@ -172,13 +172,28 @@ async def serve_favicon1():
     return await send_from_directory(app.static_folder, 'apple-touch-icon.png')
 
 
+@app.route('/apple-touch-icon-precompressed.png', methods=['GET'])
+async def serve_favicon5():
+    return await send_from_directory(app.static_folder, 'apple-touch-icon.png')
+
+
 @app.route('/apple-touch-icon-120x120.png', methods=['GET'])
+async def serve_favicon5():
+    return await send_from_directory(app.static_folder, 'apple-touch-icon-120x120.png')
+
+
+@app.route('/apple-touch-icon-120x120-precompressed.png', methods=['GET'])
 async def serve_favicon2():
     return await send_from_directory(app.static_folder, 'apple-touch-icon-120x120.png')
 
 
 @app.route('/apple-touch-icon-152x152.png', methods=['GET'])
 async def serve_favicon3():
+    return await send_from_directory(app.static_folder, 'apple-touch-icon-152x152.png')
+
+
+@app.route('/apple-touch-icon-152x152-precompressed.png', methods=['GET'])
+async def serve_favicon4():
     return await send_from_directory(app.static_folder, 'apple-touch-icon-152x152.png')
 
 
