@@ -17,13 +17,15 @@ export function dashboardStats() {
   }
 
   const apiURL =
+    unwrapClearSkyURL('/api/v1/lists/');
+  const apiURL2 =
     unwrapClearSkyURL('/api/v1/');
   const headers = { 'X-API-Key': xAPIKey };
 
   const asof = now.toISOString();
 
   const totalUsersPromise = fetch(
-    apiURL + 'total-users', { headers }).then(x => x.json())
+    apiURL2 + 'total-users', { headers }).then(x => x.json())
     .catch(err => ({ totalUsers: err.message + ' CORS?' }));
 
   const funFactsPromise = fetch(
