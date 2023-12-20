@@ -127,7 +127,6 @@ def ratelimit_error(e):
 
 # ======================================================================================================================
 # ================================================== HTML Pages ========================================================
-@app.route('/', defaults={'path': ''}, methods=['GET'])
 @app.route('/<path:path>', methods=['GET'])
 async def index(path):
     session_ip = await get_ip()
@@ -136,65 +135,30 @@ async def index(path):
     if 'session_number' not in session:
         session['session_number'] = generate_session_number()
 
-    if not path:
-        logger.info(f"<< Incoming request: {session_ip} {session['session_number']}")
+    logger.info(f"<< Incoming request: {session_ip} {session['session_number']} | path: {path}")
 
-        return await send_from_directory(app.static_folder, 'index.html')
-    else:
-        logger.info(f"<< Incoming request: {session_ip} {session['session_number']} | path: {path}")
-
-        return await send_from_directory(app.static_folder, 'index.html')
+    return await send_from_directory(app.static_folder, path)
 
 
-@app.route('/index.css', methods=['GET'])
-async def serve_css():
-    return await send_from_directory(app.static_folder, 'index.css')
+@app.errorhandler(404)
+async def page_not_found():
+    session_ip = await get_ip()
 
+    # Generate a new session number and store it in the session
+    if 'session_number' not in session:
+        session['session_number'] = generate_session_number()
 
-@app.route('/index.js', methods=['GET'])
-async def serve_js():
-    return await send_from_directory(app.static_folder, 'index.js')
+    requested_path = request.path
 
+    logger.info(f"<< Incoming request: {session_ip} {session['session_number']} | path: {requested_path}")
 
-@app.route('/favicon.png', methods=['GET'])
-async def serve_favicon():
-    return await send_from_directory(app.static_folder, 'favicon32.png')
+    return await send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/status', methods=['GET'])
 @rate_limit(10, timedelta(seconds=1))
 async def always_200():
     return "OK", 200
-
-
-@app.route('/apple-touch-icon.png', methods=['GET'])
-async def serve_favicon1():
-    return await send_from_directory(app.static_folder, 'apple-touch-icon.png')
-
-
-@app.route('/apple-touch-icon-precompressed.png', methods=['GET'])
-async def serve_favicon4():
-    return await send_from_directory(app.static_folder, 'apple-touch-icon.png')
-
-
-@app.route('/apple-touch-icon-120x120.png', methods=['GET'])
-async def serve_favicon2():
-    return await send_from_directory(app.static_folder, 'apple-touch-icon-120x120.png')
-
-
-@app.route('/apple-touch-icon-120x120-precompressed.png', methods=['GET'])
-async def serve_favicon5():
-    return await send_from_directory(app.static_folder, 'apple-touch-icon-120x120.png')
-
-
-@app.route('/apple-touch-icon-152x152.png', methods=['GET'])
-async def serve_favicon3():
-    return await send_from_directory(app.static_folder, 'apple-touch-icon-152x152.png')
-
-
-@app.route('/apple-touch-icon-152x152-precompressed.png', methods=['GET'])
-async def serve_favicon6():
-    return await send_from_directory(app.static_folder, 'apple-touch-icon-152x152.png')
 
 
 # ======================================================================================================================
