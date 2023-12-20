@@ -141,7 +141,7 @@ async def index(path):
 
 
 @app.errorhandler(404)
-async def page_not_found():
+async def page_not_found(e):
     session_ip = await get_ip()
 
     # Generate a new session number and store it in the session
