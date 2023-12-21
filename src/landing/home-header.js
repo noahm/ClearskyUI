@@ -1,7 +1,7 @@
 // @ts-check
 /// <refererence path="./types.d.ts" />
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logoDay from '../../static/CleardayLarge.png';
 import logoNight from '../../static/ClearnightLarge.png';
 import { SearchAutoComplete } from './search-autocomplete';
@@ -15,14 +15,24 @@ import { SearchAutoComplete } from './search-autocomplete';
  * }} _
  */
 export function HomeHeader({ className, searchText, onSearchTextChanged, onAccountSelected }) {
-  const currentTime = new Date();
-  const hours = currentTime.getHours();
+  const [logoSrc, setLogoSrc] = useState(getLogo());
 
-  // Determine if it's day or night based on hours
-  const isDay = hours >= 6 && hours < 18;
+  useEffect(() => {
+    // Update the logo every minute
+    const intervalId = setInterval(() => {
+      setLogoSrc(getLogo());
+    }, 60000);
 
-  // Use the appropriate logo image
-  const logoSrc = isDay ? logoDay : logoNight;
+    // Clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []);
+
+  function getLogo() {
+    const currentTime = new Date();
+    const hours = currentTime.getHours();
+
+    return hours >= 6 && hours < 18 ? logoDay : logoNight;
+  }
 
   return (
     <div className={className} style={{ padding: '0 1em' }}>
