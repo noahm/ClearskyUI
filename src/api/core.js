@@ -16,7 +16,7 @@ function patchBskyAgent(atClient) {
   };
 }
 
-let baseURL = 'https://staging.bsky.thieflord.dev/';
+let baseURL = 'https://api.staging.clearsky.services/';
 
 export function unwrapClearSkyURL(apiURL) {
   return baseURL + apiURL.replace(/^\//, '');
