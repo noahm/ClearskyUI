@@ -46,7 +46,15 @@ export function HomeStats({ className }) {
                     {stats.active_count}
                   </th>
                   <td>
-                    accounts processed
+                    Active Accounts
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    {stats.total_count}
+                  </th>
+                  <td>
+                    Total Accounts
                   </td>
                 </tr>
                 <tr>
@@ -54,7 +62,7 @@ export function HomeStats({ className }) {
                     {stats.deleted_count}
                   </th>
                   <td>
-                    deleted
+                    Deleted Accounts
                   </td>
                 </tr>
               </table>
