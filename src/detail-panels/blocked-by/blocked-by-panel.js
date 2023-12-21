@@ -42,7 +42,7 @@ export class BlockedByPanel extends Component {
         minHeight: '100%'
       }}>
         {this.state?.count ?
-          <h3 className='blocking-panel-header'>{this.state.count} blocking:</h3> :
+          <h3 className='blocking-panel-header'>Blocked by {this.state.count}:</h3> :
           ''
         }
         {
