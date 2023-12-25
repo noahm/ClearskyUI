@@ -30,6 +30,8 @@
   grid-column: 2 / 3;
   grid-row: 1 / 4;
   align-self: center;
+  overflow: auto;
+  max-height: 100%;
 }
 
 @media (max-width: 800px) {
