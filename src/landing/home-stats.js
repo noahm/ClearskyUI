@@ -31,11 +31,31 @@ export function HomeStats({ className }) {
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
+  let activeAccounts = undefined;
+  let deletedAccounts = undefined;
+  let percentNumberBlocked1 = undefined;
+  let percentNumberBlocking1 = undefined;
+  let loading = true;
+  if (!isPromise(stats)) {
+    activeAccounts = convertToNumber(stats.active_count);
+    deletedAccounts = convertToNumber(stats.deleted_count);
+    percentNumberBlocked1 = convertToNumber(stats.percentNumberBlocked1);
+    percentNumberBlocking1 = convertToNumber(stats.percentNumberBlocking1);
+    loading = false;
+  }
+
   return (
     <div className={className} style={{ padding: '0 1em' }}>
       <div style={{ fontSize: '60%', textAlign: 'right', color: 'silver' }}><i>{asofFormatted}</i></div>
 
-      <NetworkCircle />
+      <NetworkCircle
+        {...{
+          activeAccounts,
+          deletedAccounts,
+          percentNumberBlocked1,
+          percentNumberBlocking1,
+          loading
+        }} />
 
       <h2>JSON</h2>
       <pre>
@@ -46,4 +66,12 @@ export function HomeStats({ className }) {
 
     </div>
   );
+}
+
+function convertToNumber(numOrStr) {
+  if (!numOrStr)
+    return undefined;
+  if (typeof numOrStr === 'number')
+    return numOrStr;
+  return Number(String(numOrStr).replace(/,/g, ''));
 }

@@ -82,7 +82,7 @@ export class FaceIcon extends React.Component {
     return (
       <span style={{ position: 'relative' }}>
         <PrevIcon
-          key={this.state.prevIcon}
+          key={this.state.prevIcon === this.state.currentIcon ? this.state.currentIcon - 1 : this.state.prevIcon}
           {...rest}
           style={{ ...style, transition: 'opacity 300ms', opacity: 0, position: 'absolute', zIndex: 1 }} />
         <CurrentIcon
