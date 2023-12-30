@@ -2,7 +2,7 @@
 
 /// <reference path="../../types.d.ts" />
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   AccountCircle,
@@ -13,14 +13,15 @@ import {
   AccountCircleOutlined
 } from '@mui/icons-material';
 
+import { FaceSvg } from './face-svg';
 import { calcHash, nextRandom } from '../../api/core';
 
 const FaceIcons = [
   AccountCircle,
-  Face, Face2, Face3, Face4, Face5, Face6,
+  Face, Face2, Face3, Face4, Face4, Face5, Face6, FaceSvg, FaceSvg,
   //FaceOutlined, Face2Outlined, Face3Outlined, Face4Outlined, Face6Outlined,
   //FaceTwoTone, Face2TwoTone, Face3TwoTone, Face4TwoTone, Face6TwoTone,
-  SentimentDissatisfied, SentimentNeutral, SentimentSatisfied, SentimentSatisfiedAlt, SentimentVerySatisfied
+  SentimentNeutral, SentimentSatisfied, SentimentSatisfiedAlt, SentimentVerySatisfied
 ];
 
 const RemovedIcon = AccountCircleOutlined;
@@ -73,11 +74,13 @@ export class FaceIcon extends React.Component {
       this.timeout = setTimeout(this.nextIcon, UPDATE_INTERVAL_MSEC / 2 + UPDATE_INTERVAL_MSEC * useRnd);
     }
 
+    /** @type {*} */
     const CurrentIcon = FaceIcons[this.state.currentIcon];
+    /** @type {*} */
     const PrevIcon = FaceIcons[this.state.prevIcon];
 
     return (
-      <>
+      <span style={{ position: 'relative' }}>
         <PrevIcon
           key={this.state.prevIcon}
           {...rest}
@@ -86,7 +89,7 @@ export class FaceIcon extends React.Component {
           key={this.state.currentIcon}
           {...rest}
           style={{ ...style, transition: 'opacity 300ms' }} />
-      </>
+      </span>
     );
   }
 

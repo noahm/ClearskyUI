@@ -4,7 +4,6 @@ import React from 'react';
 import { dashboardStats, isPromise } from '../api';
 
 import './home-stats.css';
-import { FaceIcon } from './infographics/face-icon';
 import { NetworkCircle } from './infographics/network-circle';
 
 /**

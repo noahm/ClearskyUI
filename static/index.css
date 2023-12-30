@@ -45,6 +45,13 @@ table.stats-table th {
   text-align: right;
 }
 
+/* src/landing/infographics/face-svg.css */
+.SvgIcon-FaceSvg {
+  width: 1em;
+  height: 1em;
+  font-size: 24px;
+}
+
 /* src/landing/infographics/network-circle.css */
 .network-circle {
   padding: 1em 2em;
@@ -62,7 +69,7 @@ table.stats-table th {
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 17%;
+  padding: 16%;
 }
 .network-circle-circle .network-active-crowd {
   text-align: center;
@@ -106,7 +113,7 @@ table.stats-table th {
   position: absolute;
   left: 76%;
   bottom: 4%;
-  background: white;
+  background: #f5f5f5;
   border: solid 2px #b4b4b4;
   padding: 0.2em 0.7em;
   border-radius: 0.5em;
@@ -120,7 +127,7 @@ table.stats-table th {
   padding-right: 0.1em;
 }
 .network-circle-circle .network-deleted-crowd .network-crowd-deleted-count-container .network-crowd-deleted-label {
-  font-size: 90%;
+  font-size: 85%;
   padding-left: 0.2em;
   padding-bottom: 0.1em;
 }
