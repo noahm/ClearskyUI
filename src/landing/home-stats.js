@@ -4,6 +4,7 @@ import React from 'react';
 import { dashboardStats, isPromise } from '../api';
 
 import './home-stats.css';
+import { FaceIcon } from './infographics/face-icon';
 
 /**
  * @param {{
@@ -69,6 +70,11 @@ export function HomeStats({ className }) {
           }
         </div>
       </p>
+
+      <FaceIcon />
+      <FaceIcon />
+      <FaceIcon />
+      <FaceIcon />
 
       <h2>JSON</h2>
       <pre>
