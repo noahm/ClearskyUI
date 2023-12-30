@@ -7,8 +7,8 @@ import React, { useState } from 'react';
 import {
   AccountCircle,
   Face, Face2, Face3, Face4, Face5, Face6,
-  FaceOutlined, Face2Outlined, Face3Outlined, Face4Outlined, Face6Outlined,
-  FaceTwoTone, Face2TwoTone, Face3TwoTone, Face4TwoTone, Face6TwoTone,
+  //FaceOutlined, Face2Outlined, Face3Outlined, Face4Outlined, Face6Outlined,
+  //FaceTwoTone, Face2TwoTone, Face3TwoTone, Face4TwoTone, Face6TwoTone,
   SentimentDissatisfied, SentimentNeutral, SentimentSatisfied, SentimentSatisfiedAlt, SentimentVerySatisfied,
   AccountCircleOutlined
 } from '@mui/icons-material';
@@ -18,8 +18,8 @@ import { calcHash, nextRandom } from '../../api/core';
 const FaceIcons = [
   AccountCircle,
   Face, Face2, Face3, Face4, Face5, Face6,
-  FaceOutlined, Face2Outlined, Face3Outlined, Face4Outlined, Face6Outlined,
-  FaceTwoTone, Face2TwoTone, Face3TwoTone, Face4TwoTone, Face6TwoTone,
+  //FaceOutlined, Face2Outlined, Face3Outlined, Face4Outlined, Face6Outlined,
+  //FaceTwoTone, Face2TwoTone, Face3TwoTone, Face4TwoTone, Face6TwoTone,
   SentimentDissatisfied, SentimentNeutral, SentimentSatisfied, SentimentSatisfiedAlt, SentimentVerySatisfied
 ];
 

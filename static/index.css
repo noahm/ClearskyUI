@@ -45,6 +45,86 @@ table.stats-table th {
   text-align: right;
 }
 
+/* src/landing/infographics/network-circle.css */
+.network-circle {
+  padding: 1em 2em;
+}
+.network-circle-circle {
+  width: 18em;
+  height: 18em;
+  border: solid 0.3em #636363;
+  border-radius: 200%;
+  position: relative;
+}
+.network-circle-circle .network-crowd {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 17%;
+}
+.network-circle-circle .network-active-crowd {
+  text-align: center;
+}
+.network-circle-circle .network-deleted-crowd {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: end;
+  justify-items: end;
+  padding-right: 26%;
+}
+.network-circle-circle .crowd-icon {
+  width: 1.7em;
+  height: 1.7em;
+}
+.network-circle-circle .crowd-icon-deleted {
+  color: silver;
+}
+.network-circle-circle .network-active-crowd .network-crowd-active-count-container {
+  position: absolute;
+  left: 83%;
+  top: 4%;
+  background: white;
+  border: solid 2px #717171;
+  padding: 0.2em 0.7em;
+  border-radius: 0.5em;
+  box-shadow: 0px 0px 0px 4px white;
+  text-align: left;
+}
+.network-circle-circle .network-active-crowd .network-crowd-active-count-container .network-crowd-active-count {
+  font-size: 200%;
+  font-weight: bold;
+  padding-right: 0.1em;
+}
+.network-circle-circle .network-active-crowd .network-crowd-active-count-container .network-crowd-active-label {
+  padding-left: 0.5em;
+  padding-bottom: 0.1em;
+}
+.network-circle-circle .network-deleted-crowd .network-crowd-deleted-count-container {
+  position: absolute;
+  left: 76%;
+  bottom: 4%;
+  background: white;
+  border: solid 2px #b4b4b4;
+  padding: 0.2em 0.7em;
+  border-radius: 0.5em;
+  box-shadow: 0px 0px 0px 4px white;
+  text-align: left;
+  color: #626262;
+}
+.network-circle-circle .network-deleted-crowd .network-crowd-deleted-count-container .network-crowd-deleted-count {
+  font-size: 110%;
+  font-weight: bold;
+  padding-right: 0.1em;
+}
+.network-circle-circle .network-deleted-crowd .network-crowd-deleted-count-container .network-crowd-deleted-label {
+  font-size: 90%;
+  padding-left: 0.2em;
+  padding-bottom: 0.1em;
+}
+
 /* src/landing/home.css */
 .layout {
   position: fixed;
@@ -130,7 +210,11 @@ table.stats-table th {
 .account-avatar-and-displayName-line .account-banner-overlay {
   grid-row: 1/2;
   grid-column: 1/4;
-  background: linear-gradient(0.8deg, white -0.25em, transparent 1.15em);
+  background:
+    linear-gradient(
+      0.8deg,
+      white -0.25em,
+      transparent 1.15em);
 }
 .account-avatar-and-displayName-line .account-avatar {
   grid-row: 1/3;
@@ -273,7 +357,12 @@ table.stats-table th {
   bottom: 0;
   width: 100%;
   height: 1px;
-  background: linear-gradient(to right, #eee, #d2d2d2 20%, #eee);
+  background:
+    linear-gradient(
+      to right,
+      #eee,
+      #d2d2d2 20%,
+      #eee);
 }
 
 /* src/detail-panels/history/post/render-post.css */
@@ -385,7 +474,11 @@ table.stats-table th {
   margin-top: 0;
 }
 .post-with-content .post-content .post-content-highlight-light-highlight {
-  background-image: linear-gradient(to top, #ffcd70, transparent 0.6em);
+  background-image:
+    linear-gradient(
+      to top,
+      #ffcd70,
+      transparent 0.6em);
   border-radius: 0.2em;
 }
 .post-with-content .post-content .post-content-highlight-highlight {
@@ -412,7 +505,12 @@ table.stats-table th {
 .history-header {
   position: sticky;
   top: 0;
-  background-image: linear-gradient(-0.5deg, transparent 0.5em, #00000010 1.2em, white 1em);
+  background-image:
+    linear-gradient(
+      -0.5deg,
+      transparent 0.5em,
+      #00000010 1.2em,
+      white 1em);
   z-index: 10;
   padding-bottom: 0.7em;
   margin-bottom: -0.5em;
