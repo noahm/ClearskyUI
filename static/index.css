@@ -212,6 +212,26 @@ table.stats-table th {
     grid-row: 3 / 4;
   }
 }
+@media (max-width: 500px) {
+  .home-stats .network-circle {
+    zoom: 0.8;
+  }
+}
+@media (max-width: 410px) {
+  .home-stats .network-circle {
+    zoom: 0.75;
+  }
+}
+@media (max-width: 385px) {
+  .home-stats .network-circle {
+    zoom: 0.7;
+  }
+}
+@media (max-width: 365px) {
+  .home-stats .network-circle {
+    zoom: 0.6;
+  }
+}
 
 /* src/detail-panels/account-header.css */
 .account-banner {
