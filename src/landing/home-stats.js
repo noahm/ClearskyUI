@@ -58,7 +58,7 @@ export function HomeStats({ className }) {
         }} />
 
       <h2>JSON</h2>
-      <pre>
+      <pre style={{ fontSize: '60%', lineHeight: '0.94'}}>
         {
           JSON.stringify(stats, null, 2)
         }

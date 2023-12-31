@@ -16,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 24%;
+  padding: 24.5%;
 }
 
 .network-circle-circle .network-active-crowd {
@@ -33,8 +33,8 @@
 }
 
 .network-circle-circle .crowd-icon {
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.42em;
+  height: 1.42em;
 }
 
 .network-circle-circle .crowd-icon-deleted {
@@ -43,10 +43,11 @@
 
 .network-circle-circle .network-active-crowd .network-crowd-active-count-container {
   position: absolute;
-  left: 77%;
+  left: 83%;
   top: 10%;
   background: white;
   border: solid 2px #717171;
+  padding: 0.1em 0.7em;
   border-radius: 0.5em;
   box-shadow: 0px 0px 0px 4px white;
   text-align: left;
@@ -62,7 +63,7 @@
 .network-circle-circle .network-active-crowd .network-crowd-active-count-container
   .network-crowd-active-label {
   padding-left: 0.5em;
-  padding-bottom: 0.1em;
+  padding-bottom: 0.2em;
 }
 
 
@@ -97,14 +98,30 @@
 }
 
 .network-circle-circle .arc-text-svg .arc-percentNumberBlocking1 {
-  fill: #a7c7ff;
+  fill: #d6e5ff;
+}
+
+.network-circle-circle .arc-text-svg .arc-percentNumberBlocking1-text {
+  fill: #3964b1;
 }
 
 .network-circle-circle .arc-text-svg .arc-percentNumberBlocked1 {
-  fill: #ffac73;
+  fill: #ffc7a1;
+}
+
+.network-circle-circle .arc-text-svg .arc-percentNumberBlocked1-text {
+  fill: #b46707;
 }
 
 .network-circle-circle .arc-text-svg .arc-circle {
   stroke: #636363;
   stroke-width: 3px;
+}
+
+.network-circle-circle .arc-text-svg .arc-text {
+  font-size: 90%;
+}
+
+.network-circle-circle .arc-text-svg .arc-text-caption {
+  font-size: 55%;
 }

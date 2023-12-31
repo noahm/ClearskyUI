@@ -30,14 +30,14 @@ export function NetworkCircle({
           circles={[
             {
               percent: percentNumberBlocking1,
-              caption: 'blocked at least by one',
+              caption: 'blocking someone',
               className: 'arc-percentNumberBlocking1'
             },
             {
               percent: percentNumberBlocked1,
-              caption: 'blocking someone',
+              caption: 'blocked at least by one',
               className: 'arc-percentNumberBlocked1',
-              expand: true
+              outside: true
             }
           ]}
         />
@@ -81,17 +81,19 @@ export function NetworkCircle({
  *   caption: string,
  *   className?: string,
  *   fill?: string,
- *   expand?: boolean
+ *   outside?: boolean
  *  }[]
  * }} _
  */
 function SvgCircles({ className, circles, ...rest }) {
 
-  const expandSize = 10;
+  const expandSize = 19;
+  const outsidePathPadding = -15;
+  const insidePathPadding = +3;
 
   const defPaths = [];
 
-  const circleElements = circles.map(({ percent, caption, className, fill, expand }, index) => {
+  const circleElements = circles.map(({ percent, caption, className, fill, outside }, index) => {
   
     const startPath = `M ${200 - expandSize},100`;
     const valueRad = Math.PI * 2 * (100 - percent) / 100;
@@ -102,7 +104,7 @@ function SvgCircles({ className, circles, ...rest }) {
     const arcPath =
       `A ${100 - expandSize}, ${100 - expandSize} 0 ${largeArc},0 ${valueX.toFixed(4)},${valueY.toFixed(4)}`;
 
-    const expandDirection = expand ? expandSize : -expandSize;
+    const expandDirection = outside ? expandSize : -expandSize;
 
     const expandX = Math.cos(valueRad) * (100 - expandSize + expandDirection) + 100;
     const expandY = Math.sin(valueRad) * (100 - expandSize + expandDirection) + 100;
@@ -113,19 +115,37 @@ function SvgCircles({ className, circles, ...rest }) {
 
     const wholePath =
       startPath + ' ' + arcPath + ' ' + closeArcPath + ' Z';
-    
+
+    const padding = outside ? outsidePathPadding : insidePathPadding;
+
+    const textArcX = Math.cos(valueRad + 0.03) * (100 - expandSize + expandDirection + padding) + 100;
+    const textArcY = Math.sin(valueRad + 0.04) * (100 - expandSize + expandDirection + padding) + 100;
     const textArc =
-      `M ${valueX.toFixed(4)},${valueY.toFixed(4)} ` +
-      `A ${100 - expandSize}, ${100 - expandSize} 0 ${largeArc},0 ${200 - expandSize},100`;
+      `M ${textArcX.toFixed(4)},${textArcY.toFixed(4)} ` +
+      `A ${100 - expandSize + expandDirection + padding}, ${100 - expandSize + expandDirection + padding} 0 ${largeArc},1 ${200 - expandSize + expandDirection + padding},100`;
+
     const textArcPathId = 'path' + index;
     defPaths.push(<path key={index} id={textArcPathId} d={textArc} />);
+    const percentText = percent.toLocaleString() + '%';
 
     return (
       <React.Fragment key={index}>
         <path className={className} fill={fill} d={wholePath} />
-        <textPath className='arc-text' href={'#' + textArcPathId}>
-          {caption}
-        </textPath>
+        <text className={className + '-text'}>
+          <textPath
+            className='arc-text arc-text-percent'
+            href={'#' + textArcPathId}
+            xlinkHref={'#' + textArcPathId}>
+            {percentText}
+          </textPath>
+          <textPath
+            className='arc-text arc-text-caption'
+            href={'#' + textArcPathId}
+            xlinkHref={'#' + textArcPathId}
+            startOffset={(percentText.length * 0.93) + 'em'}>
+            {caption}
+          </textPath>
+        </text>
       </React.Fragment>
     ); // startOffset='50%' textAnchor='middle'
   });
@@ -133,6 +153,8 @@ function SvgCircles({ className, circles, ...rest }) {
   return (
     <svg
       className={'arc-text-svg ' + (className || '')}
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink" 
       {...rest}
       viewBox='0 0 200 200'
       aria-hidden='true'
