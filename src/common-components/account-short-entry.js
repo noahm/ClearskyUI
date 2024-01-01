@@ -18,6 +18,8 @@ import { useDerived } from './derive';
  * @typedef {{
  *  account: Partial<AccountInfo> & { loading?: boolean };
  *  className?: string,
+ *  contentClassName?: string,
+ *  handleClassName?: string,
  *  link?: string,
  *  children?: React.ReactNode,
  *  customTooltip?: React.ReactNode,
@@ -53,6 +55,8 @@ export function AccountShortEntry({ account, ...rest}) {
 function ResolvedAccount({
   account,
   className,
+  contentClassName,
+  handleClassName,
   link,
   children,
   customTooltip,
@@ -62,12 +66,14 @@ function ResolvedAccount({
     'account-short-entry-avatar account-short-entry-avatar-image' :
     'account-short-entry-avatar account-short-entry-at-sign';
   const handle = (
-    <span>
-      <span
-        className={avatarClass}
-        style={!account.avatarUrl ? undefined :
-          { backgroundImage: `url(${account.avatarUrl})` }}>@</span>
-      <FullHandle shortHandle={account.shortHandle} />
+    <span className={contentClassName}>
+      <span className={handleClassName}>
+        <span
+          className={avatarClass}
+          style={!account.avatarUrl ? undefined :
+            { backgroundImage: `url(${account.avatarUrl})` }}>@</span>
+        <FullHandle shortHandle={account.shortHandle} />
+      </span>
       {children}
     </span>
   );

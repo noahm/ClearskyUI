@@ -16,6 +16,7 @@ const DEFAULT_LIMIT = 5;
  *  className?: string,
  *  header?: React.ReactNode | ((list: DashboardBlockListEntry[]) => React.ReactNode),
  *  list: DashboardBlockListEntry[] | undefined,
+ *  list24: DashboardBlockListEntry[] | undefined,
  *  limit?: number
  * }} _
  */
@@ -25,6 +26,7 @@ export function TopList({
   list,
   limit = DEFAULT_LIMIT }) {
   const [expanded, setExpanded] = useState(/** @type {boolean | undefined } */(undefined));
+  const [see24, setSee24] = useState(/** @type {boolean | undefined } */(undefined));
 
   const blockedSlice =
     !list ? [] :
@@ -76,6 +78,7 @@ function BlockListEntry(blockEntry) {
           shortHandle: blockEntry.Handle,
           loading: true
         }}
+        contentClassName='top-list-entry-content'
         accountTooltipPanel >
         <span className='top-list-entry-count'>
           {parseNumberWithCommas(blockEntry.block_count)?.toLocaleString()}

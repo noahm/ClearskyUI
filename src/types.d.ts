@@ -100,7 +100,9 @@ type DashboardStats = { asof: string; } & Partial<{
   totalUsers: string | number,
 
   blocked: DashboardBlockListEntry[],
-  blockers: DashboardBlockListEntry[]
+  blocked24: DashboardBlockListEntry[],
+  blockers: DashboardBlockListEntry[],
+  blockers24: DashboardBlockListEntry[]
 }>;
 
 type DashboardBlockListEntry = {

@@ -60,8 +60,15 @@ export function HomeStats({ className }) {
           loading
         }} />
       
-      <TopBlocked blocked={isPromise(stats) ? undefined : stats.blocked} />
-      <TopBlockers blockers={isPromise(stats) ? undefined : stats.blockers} />
+      <TopBlocked
+        blocked={isPromise(stats) ? undefined : stats.blocked}
+        blocked24={isPromise(stats) ? undefined : stats.blocked24}
+      />
+
+      <TopBlockers
+        blockers={isPromise(stats) ? undefined : stats.blockers}
+        blockers24={isPromise(stats) ? undefined : stats.blockers24}
+      />
 
       <h2>JSON</h2>
       <pre style={{ fontSize: '60%', lineHeight: '0.94'}}>

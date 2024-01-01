@@ -1,5 +1,4 @@
 .stats-section {
-  s-text-align: center;
 }
 
 .stats-section-inner {
@@ -14,4 +13,30 @@ table.stats-table {
 
 table.stats-table th {
   text-align: right;
+}
+
+.home-stats .top-list .top-list-header {
+  margin-bottom: 0.25em;
+  margin-left: -0.2em;
+  margin-right: -0.2em;
+  padding: 0.1em 0 0.2em 0.4em;
+  font-weight: normal;
+}
+
+.home-stats .top-list.top-blocked .top-list-header {
+  color: #ab6002;
+  background: #ffc7a1;
+}
+
+.home-stats .top-list.top-blocked .top-list-entries .top-list-entry:nth-child(even) {
+  background: #ffe4d2;
+}
+
+.home-stats .top-list.top-blockers .top-list-header {
+  color: #4f77bf;
+  background: #d6e5ff;
+}
+
+.home-stats .top-list.top-blockers .top-list-entries .top-list-entry:nth-child(even) {
+  background: #d6e5ff;
 }
