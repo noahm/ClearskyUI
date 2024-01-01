@@ -31,7 +31,7 @@ type SearchMatch = {
   shortDIDMatches?: string;
 
   shortHandle: string;
-  handleMatches?: string;
+  shortHandleMatches?: string;
 
   displayName?: string;
   displayNameMatches?: string;

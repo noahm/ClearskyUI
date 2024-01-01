@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../../types.d.ts" />
 
-import { isPromise } from '..';
+import { isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '..';
 import { performSearchOverBuckets } from './perform-search-over-buckets';
 
 /**
@@ -18,16 +18,35 @@ const cachedSearches = {};
 export function searchHandle(searchText) {
   if (cachedSearches[searchText]) return cachedSearches[searchText];
 
+  const directResolvesOrPromises = searchText.split(/\s+/).filter(word => !!word).map(word => {
+    /** @type {Promise<AccountInfo | undefined> | AccountInfo | undefined} */
+    let accountOrPromise = resolveHandleOrDID(word);
+    if (isPromise(accountOrPromise))
+      return accountOrPromise.catch(() => undefined).then(account =>
+        expandResolvedAccountToSearchMatch(word, account));
+    else
+      return expandResolvedAccountToSearchMatch(word, accountOrPromise);
+  });
+
   const wordStarts = getWordStartsLowerCase(searchText, 3);
   if (!wordStarts.length) return [];
 
   const bucketsOrPromises = wordStarts.map(wordStart => getBucket(wordStart));
-  const allStaticallyResolved = !bucketsOrPromises.some(bucket => isPromise(bucket));
+  const allStaticallyResolved =
+    !directResolvesOrPromises.some(accountOrPromise => isPromise(accountOrPromise)) &&
+    !bucketsOrPromises.some(bucket => isPromise(bucket));
 
   if (allStaticallyResolved) {
-    const searchMatches = performSearchOverBuckets(
+    let searchMatches = performSearchOverBuckets(
       searchText,
       /** @type {IndexedBucket[]} */(bucketsOrPromises));
+
+    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolvesOrPromises)
+      .filter(account =>
+        !!account &&
+        !searchMatches.some(match => match.shortDID === account.shortDID));
+
+    searchMatches = exactMatches.concat(searchMatches);
 
     cachedSearches[searchText] = searchMatches;
     return searchMatches;
@@ -35,7 +54,15 @@ export function searchHandle(searchText) {
 
   return (async () => {
     const buckets = await Promise.all(bucketsOrPromises);
-    const searchMatches = performSearchOverBuckets(searchText, buckets);
+    const directResolves = await Promise.all(directResolvesOrPromises);
+    let searchMatches = performSearchOverBuckets(searchText, buckets);
+
+    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolves)
+      .filter(account =>
+        !!account &&
+        !searchMatches.some(match => match.shortDID === account.shortDID));
+    searchMatches = exactMatches.concat(searchMatches);
+
     cachedSearches[searchText] = searchMatches;
     return searchMatches;
   })();
@@ -81,4 +108,22 @@ function getBucket(threeLetterPrefix) {
 
     return bucket;
   })();
+}
+
+/**
+ * 
+ * @param {string} handleOrDID
+ * @param {AccountInfo | undefined} account
+ * @returns {SearchMatch & AccountInfo | undefined}
+ */
+function expandResolvedAccountToSearchMatch(handleOrDID, account) {
+  return account && {
+    ...account,
+    rank: 2000,
+    shortDIDMatches:
+      shortenDID(handleOrDID) === account.shortDID ? account.shortDID : undefined,
+    shortHandleMatches:
+      shortenHandle(handleOrDID) === account.shortHandle ? account.shortHandle : undefined,
+    displayNameMatches: undefined
+  };
 }
