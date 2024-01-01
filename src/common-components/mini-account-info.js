@@ -5,6 +5,7 @@ import React from 'react';
 
 import { shortenDID, shortenHandle } from '../api';
 
+import { FullDID, FullHandle } from './full-short';
 import './mini-account-info.css';
 
 /**
@@ -12,14 +13,16 @@ import './mini-account-info.css';
  *  banner?: React.ReactNode,
  *  className?: string,
  *  account: AccountInfo,
- *  details?: React.ReactNode
+ *  details?: React.ReactNode,
+ *  children?: React.ReactNode
  * }} _
  */
 export function MiniAccountInfo({
   className,
   account,
   banner,
-  details }) {
+  details,
+  children}) {
   return (
     <div className={'mini-account-info ' + className}>
       <h3>
@@ -37,32 +40,20 @@ export function MiniAccountInfo({
           <span className='account-displayName'>
             {
               account.displayName ||
-              <span style={{ opacity: '0.5' }}>{account.handle}</span>
+              <span style={{ opacity: '0.5' }}><FullHandle shortHandle={account.shortHandle} /></span>
             }
           </span>
           {
             !account.displayName ? undefined :
               <span className='account-handle'>
                 <span className='account-handle-at'>@</span>
-                {
-                  shortenHandle(account.handle) === account.handle ? account.handle :
-                    <>
-                      {shortenHandle(account.handle)}
-                      <span className='account-handle-suffix'>.bsky.social</span>
-                    </>
-                }
+                <FullHandle shortHandle={account.shortHandle} />
               </span>
           }
           {
-            !account.did ? undefined :
+            !account.shortDID ? undefined :
               <span className='account-did'>
-                {
-                  shortenDID(account.did) === account.did ? account.did :
-                    <>
-                      <span className='account-did-prefix'>did:plc:</span>
-                      {shortenDID(account.did)}
-                    </>
-                }
+                <FullDID shortDID={account.shortDID} />
               </span>
           }
         </span>
@@ -71,6 +62,7 @@ export function MiniAccountInfo({
       <div className='account-info-panel-description'>
         {details || account.description}
       </div>
+      {children}
     </div>
   );
 }

@@ -97,5 +97,19 @@ type DashboardStats = { asof: string; } & Partial<{
   /** 13.74 */
   percentUsersBlocking: string | number,
   /** 2,205,748 */
-  totalUsers: string | number
+  totalUsers: string | number,
+
+  blocked: DashboardBlockListEntry[],
+  blockers: DashboardBlockListEntry[]
 }>;
+
+type DashboardBlockListEntry = {
+  /** mailia.bsky.social */
+  Handle: string,
+  /** https://bsky.app/profile/did:plc:i3bauhmsixt5j33pnr5g7475 */
+  ProfileURL: string,
+  /** 1589 */
+  block_count: string | number,
+  /** did:plc:i3bauhmsixt5j33pnr5g7475 */
+  did: string
+};

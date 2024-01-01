@@ -159,6 +159,44 @@ table.stats-table th {
   font-size: 55%;
 }
 
+/* src/common-components/mini-account-info.css */
+.mini-account-info h3 {
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+}
+.mini-account-info .account-banner {
+  height: 4em;
+}
+.mini-account-info .account-avatar-and-displayName-line {
+  font-size: 150%;
+}
+.mini-account-info .account-info-panel-description {
+  font-size: 70%;
+  white-space: pre-wrap;
+}
+
+/* src/common-components/account-short-entry.css */
+.account-short-entry .account-short-entry-avatar {
+  background: no-repeat center center;
+  background-size: cover;
+  color: transparent;
+  border-radius: 200%;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.25em;
+}
+.account-short-entry .account-short-entry-at-sign {
+  display: inline-block;
+  text-align: center;
+  width: 2em;
+  border-radius: 200%;
+  margin-right: 0.5em;
+  color: cornflowerblue;
+  transform: scale(1.5);
+}
+
 /* src/landing/home.css */
 .layout {
   position: fixed;
@@ -181,7 +219,7 @@ table.stats-table th {
 .home-header {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  align-self: end;
+  align-self: start;
 }
 .home-stats {
   grid-column: 2 / 3;
@@ -320,23 +358,6 @@ table.stats-table th {
 }
 .account-avatar-and-displayName-line .account-did .account-did-prefix {
   opacity: 0.6;
-}
-
-/* src/common-components/mini-account-info.css */
-.mini-account-info h3 {
-  font-size: inherit;
-  padding: 0;
-  margin: 0;
-}
-.mini-account-info .account-banner {
-  height: 4em;
-}
-.mini-account-info .account-avatar-and-displayName-line {
-  font-size: 150%;
-}
-.mini-account-info .account-info-panel-description {
-  font-size: 70%;
-  white-space: pre-wrap;
 }
 
 /* src/detail-panels/blocked-by/blocked-by-panel.css */

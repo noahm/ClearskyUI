@@ -5,6 +5,8 @@ import { dashboardStats, isPromise } from '../api';
 
 import './home-stats.css';
 import { NetworkCircle } from './infographics/network-circle';
+import { TopBlocked } from './infographics/top-blocked';
+import { TopBlockers } from './infographics/top-blockers';
 
 /**
  * @param {{
@@ -56,11 +58,18 @@ export function HomeStats({ className }) {
           percentNumberBlocking1,
           loading
         }} />
+      
+      <TopBlocked blocked={isPromise(stats) ? undefined : stats.blocked} />
+      <TopBlockers blockers={isPromise(stats) ? undefined : stats.blockers} />
 
       <h2>JSON</h2>
       <pre style={{ fontSize: '60%', lineHeight: '0.94'}}>
         {
-          JSON.stringify(stats, null, 2)
+          JSON.stringify({
+            ...stats,
+            blockers: undefined, blocked: undefined,
+            blocked_aid: undefined, blockers_aid: undefined
+          }, null, 2)
         }
       </pre>
 
