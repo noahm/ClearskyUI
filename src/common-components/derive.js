@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import React, { Component, createContext, useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { isPromise } from '../api';
 
 /**

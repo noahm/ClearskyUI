@@ -44,11 +44,14 @@ export class AccountLayoutCore extends Component {
 
   materializedTabs = {};
 
+  clearOldTabsTimeout;
+
   render() {
 
     const selectedTab = this.props.selectedTab;
 
-    return (
+    let anyTabsBehind = false;
+    const result = (
       <>
         <div className="layout">
 
@@ -68,6 +71,7 @@ export class AccountLayoutCore extends Component {
               accountTabs.map(tab => {
                 if (tab === selectedTab && !this.materializedTabs[tab])
                   this.materializedTabs[tab] = () => renderTabContent(tab, this.props.account);
+                if (tab !== selectedTab && this.materializedTabs[tab]) anyTabsBehind = true;
 
                 const tabContentRender = this.materializedTabs[tab];
                 if (!tabContentRender) return undefined;
@@ -87,6 +91,26 @@ export class AccountLayoutCore extends Component {
 
       </>
     );
+
+    clearTimeout(this.clearOldTabsTimeout);
+    if (anyTabsBehind) {
+      this.clearOldTabsTimeout = setTimeout(this.clearOldTabs, 700);
+    }
+
+    return result;
+  }
+
+  clearOldTabs = () => {
+    let anyTabsCleared = false;
+    for (const tab of accountTabs) {
+      if (tab !== this.props.selectedTab && this.materializedTabs[tab]) {
+        delete this.materializedTabs[tab];
+        anyTabsCleared = true;
+      }
+    }
+    if (anyTabsCleared) {
+      this.forceUpdate();
+    }
   }
 }
 
