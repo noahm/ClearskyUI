@@ -190,11 +190,20 @@ table.stats-table th {
 .account-short-entry .account-short-entry-at-sign {
   display: inline-block;
   text-align: center;
-  width: 2em;
-  border-radius: 200%;
-  margin-right: 0.5em;
   color: cornflowerblue;
   transform: scale(1.5);
+}
+
+/* src/landing/infographics/top-list.css */
+.top-list .top-list-entry .account-short-entry {
+  text-decoration: none;
+  color: inherit;
+}
+.top-list .top-list-entry .account-short-entry:hover {
+  text-decoration: underline;
+}
+.top-list .top-list-entry .top-list-entry-count {
+  padding-left: 2em;
 }
 
 /* src/landing/home.css */

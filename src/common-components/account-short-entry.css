@@ -12,9 +12,6 @@
 .account-short-entry .account-short-entry-at-sign {
   display: inline-block;
   text-align: center;
-  width: 2em;
-  border-radius: 200%;
-  margin-right: 0.5em;
   color: cornflowerblue;
   transform: scale(1.5);
 }

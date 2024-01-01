@@ -5,6 +5,9 @@
 import React, { useState } from 'react';
 
 import { AccountShortEntry } from '../../common-components/account-short-entry';
+import { parseNumberWithCommas } from '../../api/core';
+
+import './top-list.css'
 
 const DEFAULT_LIMIT = 5;
 
@@ -68,10 +71,14 @@ function BlockListEntry(blockEntry) {
   return (
     <div className='top-list-entry'>
       <AccountShortEntry
-        handleOrDid={blockEntry.did}
+        account={{
+          shortDID: blockEntry.did,
+          shortHandle: blockEntry.Handle,
+          loading: true
+        }}
         accountTooltipPanel >
         <span className='top-list-entry-count'>
-          {blockEntry.block_count}
+          {parseNumberWithCommas(blockEntry.block_count)?.toLocaleString()}
         </span>
       </AccountShortEntry>
     </div>

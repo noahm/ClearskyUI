@@ -7,6 +7,7 @@ import './home-stats.css';
 import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
+import { parseNumberWithCommas } from '../api/core';
 
 /**
  * @param {{
@@ -39,10 +40,10 @@ export function HomeStats({ className }) {
   let percentNumberBlocking1 = undefined;
   let loading = true;
   if (!isPromise(stats)) {
-    activeAccounts = convertToNumber(stats.active_count);
-    deletedAccounts = convertToNumber(stats.deleted_count);
-    percentNumberBlocked1 = convertToNumber(stats.percentNumberBlocked1);
-    percentNumberBlocking1 = convertToNumber(stats.percentNumberBlocking1);
+    activeAccounts = parseNumberWithCommas(stats.active_count);
+    deletedAccounts = parseNumberWithCommas(stats.deleted_count);
+    percentNumberBlocked1 = parseNumberWithCommas(stats.percentNumberBlocked1);
+    percentNumberBlocking1 = parseNumberWithCommas(stats.percentNumberBlocking1);
     loading = false;
   }
 
@@ -75,12 +76,4 @@ export function HomeStats({ className }) {
 
     </div>
   );
-}
-
-function convertToNumber(numOrStr) {
-  if (!numOrStr)
-    return undefined;
-  if (typeof numOrStr === 'number')
-    return numOrStr;
-  return Number(String(numOrStr).replace(/,/g, ''));
 }

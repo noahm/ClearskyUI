@@ -1,0 +1,12 @@
+.top-list .top-list-entry .account-short-entry {
+  text-decoration: none;
+  color: inherit;
+}
+
+.top-list .top-list-entry .account-short-entry:hover {
+  text-decoration: underline;
+}
+
+.top-list .top-list-entry .top-list-entry-count {
+  padding-left: 2em;
+}
