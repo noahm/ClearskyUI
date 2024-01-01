@@ -9,7 +9,7 @@ import { resolveHandleOrDID } from './resolve-handle-or-did';
  * @param {string} handleOrDID
  * @returns {AsyncGenerator<{
  *    pages: number, count: number,
- *    block_list: BlockedByRecord[]
+ *    blocklist: BlockedByRecord[]
  * }>}
  */
 export async function* singleBlocklist(handleOrDID) {
