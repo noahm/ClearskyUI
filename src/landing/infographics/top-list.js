@@ -8,6 +8,7 @@ import { AccountShortEntry } from '../../common-components/account-short-entry';
 import { parseNumberWithCommas } from '../../api/core';
 
 import './top-list.css'
+import { Switch } from '@mui/material';
 
 const DEFAULT_LIMIT = 5;
 
@@ -23,15 +24,17 @@ const DEFAULT_LIMIT = 5;
 export function TopList({
   className,
   header,
-  list,
+  list, list24,
   limit = DEFAULT_LIMIT }) {
   const [expanded, setExpanded] = useState(/** @type {boolean | undefined } */(undefined));
   const [see24, setSee24] = useState(/** @type {boolean | undefined } */(undefined));
 
+  const useList = see24 ? list24 : list;
+
   const blockedSlice =
-    !list ? [] :
-      expanded ? list :
-        list?.slice(0, limit);
+    !useList ? [] :
+      expanded ? useList :
+        useList?.slice(0, limit);
 
   return (
     <div className={'top-list ' + (className + '')}>
@@ -40,17 +43,24 @@ export function TopList({
           typeof header === 'function' ? header(blockedSlice) :
             header || defaultHeader(blockedSlice)
         }
+        <span className='top-list-24h-toggle-container'>
+          <Switch value={!!see24} onChange={() => setSee24(!see24)} size='small' /> <br />
+          <span className='top-list-24h-toggle-label'
+          onClick={() => setSee24(!see24)}>
+            last 24h
+          </span>
+        </span>
       </h2>
       <div className='top-list-entries'>
         {
-          !list ? 'Loading...' :
+          !useList ? 'Loading...' :
           blockedSlice.map(blockEntry =>
             <BlockListEntry key={blockEntry.did} {...blockEntry} />)
         }
         {
-          list && list.length > limit ?
+          useList && useList.length > limit ?
             <div className='top-list-more' onClick={() => setExpanded(!expanded)}>
-              <span>...see top-{list.length}</span>
+              <span>...see top-{useList.length}</span>
             </div> :
             undefined
         }

@@ -70,17 +70,6 @@ export function HomeStats({ className }) {
         blockers24={isPromise(stats) ? undefined : stats.blockers24}
       />
 
-      <h2>JSON</h2>
-      <pre style={{ fontSize: '60%', lineHeight: '0.94'}}>
-        {
-          JSON.stringify({
-            ...stats,
-            blockers: undefined, blocked: undefined,
-            blocked_aid: undefined, blockers_aid: undefined
-          }, null, 2)
-        }
-      </pre>
-
     </div>
   );
 }

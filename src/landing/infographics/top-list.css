@@ -2,6 +2,19 @@
   width: 21em;
 }
 
+.top-list .top-list-header {
+  position: relative;
+}
+
+.top-list .top-list-header .top-list-24h-toggle-container {
+  position: absolute;
+  right: 0;
+  top: 0.2em;
+  font-size: 50%;
+  transform: scale(0.8) translateY(-0.2em);
+  cursor: pointer;
+}
+
 .top-list .top-list-entries .top-list-entry:nth-child(even) {
   background: whitesmoke;
 }
