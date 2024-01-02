@@ -616,6 +616,8 @@ table.stats-table th {
   border-radius: 0.3em;
   padding: 0 0.1em;
   margin: 0 -0.1em;
+  z-index: -1;
+  position: relative;
 }
 .post-with-content .post-content-embed .post-embed-external {
   display: block;

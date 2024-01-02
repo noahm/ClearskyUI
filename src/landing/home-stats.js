@@ -8,6 +8,7 @@ import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
 import { parseNumberWithCommas } from '../api/core';
+import { useDerived } from '../common-components/derive';
 
 /**
  * @param {{
@@ -16,20 +17,7 @@ import { parseNumberWithCommas } from '../api/core';
  */
 export function HomeStats({ className }) {
   let duringRender = true;
-  let [stats, setStats] = React.useState(() => {
-    const statsOrPromise = dashboardStats();
-    if (isPromise(statsOrPromise)) {
-      statsOrPromise.then(
-        asyncStats => {
-          stats = asyncStats;
-          if (duringRender)
-            setTimeout(() => setStats(asyncStats));
-          else
-            setStats(asyncStats);
-        });
-    }
-    return statsOrPromise;
-  });
+  const stats = useDerived(undefined, () => dashboardStats());
   duringRender = false;
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
@@ -40,10 +28,10 @@ export function HomeStats({ className }) {
   let percentNumberBlocking1 = undefined;
   let loading = true;
   if (!isPromise(stats)) {
-    activeAccounts = parseNumberWithCommas(stats.active_count);
-    deletedAccounts = parseNumberWithCommas(stats.deleted_count);
-    percentNumberBlocked1 = parseNumberWithCommas(stats.percentNumberBlocked1);
-    percentNumberBlocking1 = parseNumberWithCommas(stats.percentNumberBlocking1);
+    activeAccounts = parseNumberWithCommas(stats?.active_count);
+    deletedAccounts = parseNumberWithCommas(stats?.deleted_count);
+    percentNumberBlocked1 = parseNumberWithCommas(stats?.percentNumberBlocked1);
+    percentNumberBlocking1 = parseNumberWithCommas(stats?.percentNumberBlocking1);
     loading = false;
   }
 
@@ -59,16 +47,19 @@ export function HomeStats({ className }) {
           percentNumberBlocking1,
           loading
         }} />
-      
-      <TopBlocked
-        blocked={isPromise(stats) ? undefined : stats.blocked}
-        blocked24={isPromise(stats) ? undefined : stats.blocked24}
-      />
 
-      <TopBlockers
-        blockers={isPromise(stats) ? undefined : stats.blockers}
-        blockers24={isPromise(stats) ? undefined : stats.blockers24}
-      />
+      {stats &&
+        <>
+          <TopBlocked
+            blocked={isPromise(stats) ? undefined : stats.blocked}
+            blocked24={isPromise(stats) ? undefined : stats.blocked24}
+          />
+
+          <TopBlockers
+            blockers={isPromise(stats) ? undefined : stats.blockers}
+            blockers24={isPromise(stats) ? undefined : stats.blockers24}
+          />
+        </>}
 
     </div>
   );
