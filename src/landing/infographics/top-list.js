@@ -37,7 +37,7 @@ export function TopList({
         useList?.slice(0, limit);
 
   return (
-    <div className={'top-list ' + (className + '')}>
+    <div className={'top-list ' + (className || '')}>
       <h2 className='top-list-header'>
         {
           typeof header === 'function' ? header(blockedSlice) :
@@ -54,8 +54,8 @@ export function TopList({
       <div className='top-list-entries'>
         {
           !useList ? 'Loading...' :
-          blockedSlice.map(blockEntry =>
-            <BlockListEntry key={blockEntry.did} {...blockEntry} />)
+          blockedSlice.map((blockEntry, index) =>
+            <BlockListEntry key={blockEntry.did + '-' + (className || '') + '-' + index} entry={blockEntry} />)
         }
         {
           useList && useList.length > limit ?
@@ -78,20 +78,20 @@ function defaultHeader(list) {
   </>;
 }
 
-/** @param {DashboardBlockListEntry} blockEntry */
-function BlockListEntry(blockEntry) {
+/** @param {{ entry: DashboardBlockListEntry }} */
+function BlockListEntry({ entry }) {
   return (
     <div className='top-list-entry'>
       <AccountShortEntry
         account={{
-          shortDID: blockEntry.did,
-          shortHandle: blockEntry.Handle,
+          shortDID: entry.did,
+          shortHandle: entry.Handle,
           loading: true
         }}
         contentClassName='top-list-entry-content'
         accountTooltipPanel >
         <span className='top-list-entry-count'>
-          {parseNumberWithCommas(blockEntry.block_count)?.toLocaleString()}
+          {parseNumberWithCommas(entry.block_count)?.toLocaleString()}
         </span>
       </AccountShortEntry>
     </div>
