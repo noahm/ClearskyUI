@@ -27,17 +27,23 @@ export function likelyDID(text) {
   );
 }
 
-/** @param {string | null | undefined} did */
+/**
+ * @param {T} did
+ * @returns {T}
+ * @template {string | undefined | null} T
+ */
 export function shortenDID(did) {
-  return typeof did === 'string' ? did.replace(/^did\:plc\:/, '') : did;
+  return did && /** @type {T} */(did.replace(_shortenDID_Regex, '').toLowerCase() || undefined);
 }
 
+const _shortenDID_Regex = /^did\:plc\:/;
+
 export function unwrapShortDID(shortDID) {
-  return !shortDID ? shortDID : shortDID.indexOf(':') < 0 ? 'did:plc:' + shortDID : shortDID;
+  return !shortDID ? undefined : shortDID.indexOf(':') < 0 ? 'did:plc:' + shortDID.toLowerCase() : shortDID.toLowerCase();
 }
 
 export function unwrapShortHandle(shortHandle) {
-  return !shortHandle ? shortHandle : shortHandle.indexOf('.') < 0 ? shortHandle + '.bsky.social' : shortHandle;
+  return !shortHandle ? undefined : shortHandle.indexOf('.') < 0 ? shortHandle.toLowerCase() + '.bsky.social' : shortHandle.toLowerCase();
 }
 
 /**
@@ -46,7 +52,7 @@ export function unwrapShortHandle(shortHandle) {
  * @template {string | undefined | null} T
  */
 export function shortenHandle(handle) {
-  return handle && /** @type {T} */(handle.replace(_shortenHandle_Regex, ''));
+  return handle && /** @type {T} */(handle.replace(_shortenHandle_Regex, '').toLowerCase() || undefined);
 }
 const _shortenHandle_Regex = /\.bsky\.social$/;
 

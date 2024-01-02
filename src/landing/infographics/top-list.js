@@ -9,6 +9,7 @@ import { parseNumberWithCommas } from '../../api/core';
 
 import './top-list.css'
 import { Switch } from '@mui/material';
+import { isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '../../api';
 
 const DEFAULT_LIMIT = 5;
 
@@ -78,20 +79,28 @@ function defaultHeader(list) {
   </>;
 }
 
-/** @param {{ entry: DashboardBlockListEntry }} */
+/** @param {{ entry: DashboardBlockListEntry }} _ */
 function BlockListEntry({ entry }) {
+  const accountOrPromise = resolveHandleOrDID(entry.did);
+  const account =
+    accountOrPromise && !isPromise(accountOrPromise) ? accountOrPromise :
+      {
+        shortDID: shortenDID(entry.did),
+        shortHandle: shortenHandle(entry.Handle),
+        loading: true
+      };
+  
+  const countStr =
+    parseNumberWithCommas(entry.block_count)?.toLocaleString();
+
   return (
     <div className='top-list-entry'>
       <AccountShortEntry
-        account={{
-          shortDID: entry.did,
-          shortHandle: entry.Handle,
-          loading: true
-        }}
+        account={account}
         contentClassName='top-list-entry-content'
         accountTooltipPanel >
         <span className='top-list-entry-count'>
-          {parseNumberWithCommas(entry.block_count)?.toLocaleString()}
+          {countStr}
         </span>
       </AccountShortEntry>
     </div>
