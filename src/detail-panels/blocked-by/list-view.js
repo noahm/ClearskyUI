@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { resolveHandleOrDID } from '../../api';
+import { isPromise, resolveHandleOrDID } from '../../api';
 import { AsyncLoad } from '../../common-components/async-load';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { MiniAccountInfo } from '../../common-components/mini-account-info';
+import { FullHandle } from '../../common-components/full-short';
+import { AccountShortEntry } from '../../common-components/account-short-entry';
 
 const INITIAL_SIZE = 20;
 const GROW_BLOCK_SIZE = 29;
@@ -80,58 +82,9 @@ function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
 
   const result = (
     <li {...rest} className={'blocking-list-entry ' + (className || '')}>
-      <Link to={`/${handle}/history`} className='blocking-account-link'>
-        <AsyncLoad
-          loadAsync={accountOrPromise}
-          renderAsync={blockingAccount => (
-            <FlushBackgroundTooltip
-              title={
-                <AccountInfoPanel
-                  account={blockingAccount}
-                  blocked_date={blocked_date} />}>
-              <div>
-                <span className='blocking-account-avatar' style={
-                  !blockingAccount.avatarUrl ? undefined :
-                    { backgroundImage: `url(${blockingAccount.avatarUrl})` }
-                }>@</span>
-
-                <span className='blocking-account-handle'>{handle}</span>
-                {' '}
-                <FormatTimestamp
-                  timestamp={blocked_date}
-                  noTooltip
-                  className='blocking-date' />
-              </div>
-            </FlushBackgroundTooltip>
-          )}>
-          @<span className='blocking-account-handle'>{handle}</span>
-          {' '}
-          <FormatTimestamp
-            timestamp={blocked_date}
-            noTooltip
-            className='blocking-date' />
-
-        </AsyncLoad>
-      </Link>
-    </li>
-  );
-
-  return result;
-}
-
-/**
- * @param {{
- *  account: AccountInfo,
- *  blocked_date: string | number | null | undefined
- * }} _
- */
-function AccountInfoPanel({ account, blocked_date }) {
-  return (
-    <div className='blocking-account-info-panel'
-      onClick={e => e.preventDefault()}>
-      <MiniAccountInfo
-        account={account}
-        banner={
+      <AccountShortEntry
+        className='blocking-account-link'
+        accountTooltipBanner={
           !blocked_date ? undefined :
             <div className='account-info-panel-blocked-timestamp'>
               blocked
@@ -139,7 +92,15 @@ function AccountInfoPanel({ account, blocked_date }) {
                 {new Date(blocked_date).toString()}
               </div>
             </div>
-        } />
-    </div>
+        }
+        account={handle}>
+        <FormatTimestamp
+          timestamp={blocked_date}
+          noTooltip
+          className='blocking-date' />
+        </AccountShortEntry>
+    </li>
   );
+
+  return result;
 }
