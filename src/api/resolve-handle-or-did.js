@@ -6,7 +6,10 @@ import { atClient } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
 
 const resolveHandleCache = throttledAsyncCache(async (handle) => {
-  const resolved = await atClient.com.atproto.identity.resolveHandle({ handle: unwrapShortHandle(handle) });
+  const resolved = await atClient.com.atproto.identity.resolveHandle({
+    handle: unwrapShortHandle(handle)
+  });
+
   if (!resolved.data.did) throw new Error('Handle did not resolve: ' + handle);
   return shortenDID(resolved.data.did);
 });

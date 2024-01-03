@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../../types.d.ts" />
 
-import { isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '..';
+import { breakFeedUri, breakPostURL, isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '..';
 import { performSearchOverBuckets } from './perform-search-over-buckets';
 
 /**
@@ -19,6 +19,16 @@ export function searchHandle(searchText) {
   if (cachedSearches[searchText]) return cachedSearches[searchText];
 
   const directResolvesOrPromises = searchText.split(/\s+/).filter(word => !!word).map(word => {
+    const postLink = breakPostURL(word) || breakFeedUri(word);
+    if (postLink) {
+      let accountOrPromise = resolveHandleOrDID(postLink.shortDID);
+      if (isPromise(accountOrPromise))
+        return accountOrPromise.catch(() => undefined).then(account =>
+          expandResolvedAccountToSearchMatch(word, account, postLink.postID));
+      else
+        return expandResolvedAccountToSearchMatch(word, accountOrPromise, postLink.postID);
+    }
+
     /** @type {Promise<AccountInfo | undefined> | AccountInfo | undefined} */
     let accountOrPromise = resolveHandleOrDID(word);
     if (isPromise(accountOrPromise))
@@ -104,7 +114,13 @@ function getBucket(threeLetterPrefix) {
       threeLetterPrefix.slice(0, 2) + '/' +
       threeLetterPrefix.slice(1) + '.json';
 
-    const bucket = await fetch(bucketPath).then(r => r.json());
+    const bucket = await fetch(bucketPath)
+      .then(r => r.json())
+      .catch(err => {
+        console.warn(
+          'Failed to fetch bucket for ' + threeLetterPrefix,
+          err);
+      });
 
     return bucket;
   })();
@@ -114,9 +130,10 @@ function getBucket(threeLetterPrefix) {
  * 
  * @param {string} handleOrDID
  * @param {AccountInfo | undefined} account
+ * @param {string | undefined} [postID]
  * @returns {SearchMatch & AccountInfo | undefined}
  */
-function expandResolvedAccountToSearchMatch(handleOrDID, account) {
+function expandResolvedAccountToSearchMatch(handleOrDID, account, postID) {
   return account && {
     ...account,
     rank: 2000,
@@ -124,6 +141,7 @@ function expandResolvedAccountToSearchMatch(handleOrDID, account) {
       shortenDID(handleOrDID) === account.shortDID ? account.shortDID : undefined,
     shortHandleMatches:
       shortenHandle(handleOrDID) === account.shortHandle ? account.shortHandle : undefined,
-    displayNameMatches: undefined
+    displayNameMatches: undefined,
+    postID
   };
 }

@@ -9,7 +9,7 @@ import { SearchAutoComplete } from './search-autocomplete';
  *  className?: string,
  *  searchText?: string,
  *  onSearchTextChanged?: (text: string) => void,
- *  onAccountSelected?: (account: AccountInfo | SearchMatch) => void
+ *  onAccountSelected?: (account: Partial<AccountInfo & SearchMatch>) => void
  * }} _
  */
 export function HomeHeader({ className, searchText, onSearchTextChanged, onAccountSelected }) {

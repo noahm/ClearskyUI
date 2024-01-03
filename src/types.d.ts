@@ -35,6 +35,8 @@ type SearchMatch = {
 
   displayName?: string;
   displayNameMatches?: string;
+
+  postID?: string;
 }
 
 type DashboardStats = { asof: string; } & Partial<{

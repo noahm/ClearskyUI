@@ -3,7 +3,7 @@
 
 /**
  * @param {string} searchText
- * @param {import('./search-handle').IndexedBucket[]} buckets
+ * @param {(import('./search-handle').IndexedBucket | undefined)[]} buckets
  * @return {SearchMatch[]}
  */
 export function performSearchOverBuckets(searchText, buckets) {
@@ -13,6 +13,7 @@ export function performSearchOverBuckets(searchText, buckets) {
 
   const combinedSearchUniverse = [];
   for (const bucket of buckets) {
+    if (!bucket) continue;
     for (var shortDID in bucket) {
       const accountIndexEntry = bucket[shortDID];
       if (typeof accountIndexEntry === 'string')

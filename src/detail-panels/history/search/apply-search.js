@@ -26,7 +26,7 @@ export function applySearch(searchText, posts) {
     }
     const postUri = breakFeedUri(post.uri);
     let refs = [postUri?.postID];
-    const replyUri = breakFeedUri(post.reply?.uri);
+    const replyUri = breakFeedUri(/** @type {string} */(post.reply?.uri));
     if (replyUri) refs.push(replyUri.postID);
     if (replyUri && replyUri.shortDID !== postUri?.shortDID) refs.push(replyUri.shortDID);
     const rootUri = breakFeedUri(post.reply?.root?.uri);

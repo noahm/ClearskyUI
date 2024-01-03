@@ -26,7 +26,12 @@ export function Home() {
         }}
         onAccountSelected={(account) => {
           console.log('Account selected ', account);
-          navigate('/' + unwrapShortHandle(account.shortHandle));
+          if (account.shortHandle) {
+            if (account.postID)
+              navigate('/' + unwrapShortHandle(account.shortHandle) + '/history/?q=' + account.postID);
+            else
+              navigate('/' + unwrapShortHandle(account.shortHandle));
+          }
         }}
       />
       <HomeStats className='home-stats' />
