@@ -4,6 +4,11 @@ import React from 'react';
 import { dashboardStats, isPromise } from '../api';
 
 import './home-stats.css';
+import { NetworkCircle } from './infographics/network-circle';
+import { TopBlocked } from './infographics/top-blocked';
+import { TopBlockers } from './infographics/top-blockers';
+import { parseNumberWithCommas } from '../api/core';
+import { useDerived } from '../common-components/derive';
 
 /**
  * @param {{
@@ -12,70 +17,49 @@ import './home-stats.css';
  */
 export function HomeStats({ className }) {
   let duringRender = true;
-  let [stats, setStats] = React.useState(() => {
-    const statsOrPromise = dashboardStats();
-    if (isPromise(statsOrPromise)) {
-      statsOrPromise.then(
-        asyncStats => {
-          stats = asyncStats;
-          if (duringRender)
-            setTimeout(() => setStats(asyncStats));
-          else
-            setStats(asyncStats);
-        });
-    }
-    return statsOrPromise;
-  });
+  const stats = useDerived(undefined, () => dashboardStats());
   duringRender = false;
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
 
+  let activeAccounts = undefined;
+  let deletedAccounts = undefined;
+  let percentNumberBlocked1 = undefined;
+  let percentNumberBlocking1 = undefined;
+  let loading = true;
+  if (!isPromise(stats)) {
+    activeAccounts = parseNumberWithCommas(stats?.active_count);
+    deletedAccounts = parseNumberWithCommas(stats?.deleted_count);
+    percentNumberBlocked1 = parseNumberWithCommas(stats?.percentNumberBlocked1);
+    percentNumberBlocking1 = parseNumberWithCommas(stats?.percentNumberBlocking1);
+    loading = false;
+  }
+
   return (
     <div className={className} style={{ padding: '0 1em' }}>
-      <h2><span className='bluesky-logo-'>BlueSky</span> Statistics</h2>
-      <div><i>{asofFormatted}</i></div>
+      <div style={{ fontSize: '60%', textAlign: 'right', color: 'silver' }}><i>{asofFormatted}</i></div>
 
-      <p className='stats-section'>
-        <div className='stats-section-inner'>
-          {
-            isPromise(stats) ?
-              'Loading...' :
-              <table className='stats-table'>
-                <tr>
-                  <th>
-                    {stats.active_count}
-                  </th>
-                  <td>
-                    Active Accounts
-                  </td>
-                </tr>
-                <tr>
-                  <th>
-                    {stats.total_count}
-                  </th>
-                  <td>
-                    Total Accounts
-                  </td>
-                </tr>
-                <tr>
-                  <th>
-                    {stats.deleted_count}
-                  </th>
-                  <td>
-                    Deleted Accounts
-                  </td>
-                </tr>
-              </table>
-          }
-        </div>
-      </p>
+      <NetworkCircle
+        {...{
+          activeAccounts,
+          deletedAccounts,
+          percentNumberBlocked1,
+          percentNumberBlocking1,
+          loading
+        }} />
 
-      <h2>JSON</h2>
-      <pre>
-        {
-          JSON.stringify(stats, null, 2)
-        }
-      </pre>
+      {stats &&
+        <>
+          <TopBlocked
+            blocked={isPromise(stats) ? undefined : stats.blocked}
+            blocked24={isPromise(stats) ? undefined : stats.blocked24}
+          />
+
+          <TopBlockers
+            blockers={isPromise(stats) ? undefined : stats.blockers}
+            blockers24={isPromise(stats) ? undefined : stats.blockers24}
+          />
+        </>}
 
     </div>
   );

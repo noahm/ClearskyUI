@@ -1,0 +1,44 @@
+.top-list {
+  width: 21em;
+}
+
+.top-list .top-list-header {
+  position: relative;
+}
+
+.top-list .top-list-header .top-list-24h-toggle-container {
+  position: absolute;
+  right: 0;
+  top: 0.2em;
+  font-size: 50%;
+  transform: scale(0.8) translateY(-0.2em);
+  cursor: pointer;
+}
+
+.top-list .top-list-entries .top-list-entry:nth-child(even) {
+  background: whitesmoke;
+}
+
+.top-list .top-list-entry .top-list-entry-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr;
+}
+
+.top-list .top-list-entry .account-short-entry {
+  text-decoration: none;
+  color: inherit;
+}
+
+.top-list .top-list-entry .account-short-entry:hover {
+  text-decoration: underline;
+}
+
+.top-list .top-list-entry .top-list-entry-count {
+  padding-left: 2em;
+}
+
+.top-list .top-list-more {
+  min-width: 21em;
+  text-align: right;
+}

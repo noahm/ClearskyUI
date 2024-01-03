@@ -3,7 +3,8 @@
 
 /**
  * @param {string} searchText
- * @param {import('./search-handle').IndexedBucket[]} buckets
+ * @param {(import('./search-handle').IndexedBucket | undefined)[]} buckets
+ * @return {SearchMatch[]}
  */
 export function performSearchOverBuckets(searchText, buckets) {
   const searchWords = searchText.split(/\s+/g)
@@ -12,6 +13,7 @@ export function performSearchOverBuckets(searchText, buckets) {
 
   const combinedSearchUniverse = [];
   for (const bucket of buckets) {
+    if (!bucket) continue;
     for (var shortDID in bucket) {
       const accountIndexEntry = bucket[shortDID];
       if (typeof accountIndexEntry === 'string')
@@ -45,7 +47,7 @@ export function performSearchOverBuckets(searchText, buckets) {
     if (rank > 0) searchResults.push({
       shortDID,
       shortHandle,
-      displayName,
+      displayName: displayName || undefined,
       rank,
 
       matchShortDID,
@@ -103,7 +105,8 @@ function rankHandle(searchString, handle) {
  */
 function rankDisplayName(searchString, displayName) {
   if (!searchString || !displayName) return 0;
-  const posInDisplayName = displayName.indexOf(searchString);
+  const displayNameLower = displayName.toLowerCase();
+  const posInDisplayName = displayNameLower.indexOf(searchString);
   if (posInDisplayName < 0) return 0;
   if (posInDisplayName === 0) return searchString.length * 1.5;
   if (displayName.charAt(posInDisplayName - 1) === ' ') return searchString.length * 0.9;

@@ -8,8 +8,8 @@ import {
 } from "react-router-dom";
 
 import { Home } from './landing/home';
-import { AccountLayout } from './detail-panels/layout';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { AccountView } from './detail-panels';
 
 function detectBaseURL() {
   if (/file/i.test(location.protocol)) return './';
@@ -49,8 +49,8 @@ function showApp() {
       { path: '/', element: <Home /> },
       { path: '/index.html', element: <Home /> },
       { path: '/stable/*', element: <Home /> },
-      { path: '/:handle', element: <AccountLayout /> },
-      { path: '/:handle/:tab', element: <AccountLayout /> }
+      { path: '/:handle', element: <AccountView /> },
+      { path: '/:handle/:tab', element: <AccountView /> }
     ], {
       basename:
         /file/i.test(location.protocol) ? undefined :

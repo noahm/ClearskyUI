@@ -1,5 +1,6 @@
 // @ts-check
 // <reference path="../api.d.ts" />
+
 import React, { Component } from 'react';
 
 import { Autocomplete, TextField } from '@mui/material';
@@ -13,13 +14,20 @@ import './search-autocomplete.css';
 const AUTOCOMPLETE_POPULATE_BATCH = 20;
 
 /**
- * @param {{
+ * @extends {React.Component<{
  *  className?: string,
  *  searchText?: string,
  *  onSearchTextChanged?: (text: string) => void,
- *  onAccountSelected?: (account: AccountInfo | SearchMatch) => void,
+ *  onAccountSelected?: (account: Partial<AccountInfo & SearchMatch>) => void,
  *  onResolveAccount?: (text: string) => Promise<AccountInfo[]>
- * }} _
+ * }, { 
+ *  max: number,
+ *  options: {
+ *    label: string,
+ *    render: (props, option) => React.ReactNode,
+ *    account?: Partial<AccountInfo & SearchMatch>,
+ *    postID?: string
+ * }[] }>}
  */
 export class SearchAutoComplete extends Component {
 
@@ -59,16 +67,16 @@ export class SearchAutoComplete extends Component {
         value={searchText || ''}
         filterOptions={options => options}
         onChange={(event, newValue) => {
-          if (typeof onAccountSelected === 'function') {
+          if (typeof newValue !== 'string' && newValue?.account && typeof onAccountSelected === 'function') {
             if (newValue?.account)
-              onAccountSelected(newValue?.account);
-            else if (newValue?.shortDID)
-              onAccountSelected(newValue?.account);
+              onAccountSelected(
+                newValue.postID ? { ...newValue.account, postID: newValue.postID } :
+                  newValue.account);
           }
         }}
         getOptionLabel={option => {
-          const some = first20Options;
-          return option.label || option || '';
+          if (typeof option === 'string') return option;
+          return option.label || String(option) || '';
         }}
         renderOption={(params, option) =>
           [first20Options] &&
@@ -124,6 +132,7 @@ export class SearchAutoComplete extends Component {
           const option = {
             label: entry.shortHandle,
             account: isPromise(accountOrPromise) ? entry : accountOrPromise,
+            postID: entry.postID,
             render: (props) => <SearchEntryDisplay {...props} key={entry.shortDID} entry={entry} />
           };
           return option;

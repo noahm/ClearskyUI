@@ -41,7 +41,6 @@ export async function* singleBlocklist(handleOrDID) {
   const pages = Number(firstPage.data.pages) || 1;
   const count = Number(firstPage.data.count) || 0;
   if (pages <= 1) return;
-  pages.toString();
 
   yield { ...firstPage, ...firstPage.data, pages, count };
 

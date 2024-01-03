@@ -4,7 +4,7 @@ import React from 'react';
 
 /**
  * @param {{
- *  account: AccountInfo;
+ *  account: AccountInfo | { shortHandle: String, loading: true };
  *  blocklist: BlockedByRecord[];
  * }} _ 
  */

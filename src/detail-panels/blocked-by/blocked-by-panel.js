@@ -7,77 +7,63 @@ import { ListView } from './list-view';
 import { TableView } from './table-view';
 
 import './blocked-by-panel.css';
-
-const blockingListPerShortDID = {};
+import { useDerived } from '../../common-components/derive';
 
 /**
- * @extends {React.Component<{
- *  account?: AccountInfo,
- * }, { count: number, blocklist: BlockedByRecord[], tableView: boolean }>} _
+ * @this {never}
+ * @param {{
+ *  account: AccountInfo | { shortHandle: String, loading: true }
+ * }} _
  */
-export class BlockedByPanel extends Component {
+export function BlockedByPanel({ account }) {
+  const { count, blocklist, loading } =
+    useDerived(account?.shortHandle, fetchAccountBlocking) ||
+    { loading: true };
+  
+  const [tableView, setTableView] = React.useState(false);
 
-  /**
-   * @type {{ account: AccountInfo, fetching: Promise | undefined } | undefined}
-   */
-  fetchingAccount
-
-  render() {
-
-    if (!this.fetchingAccount || this.fetchingAccount?.account?.shortHandle !== this.props.account?.shortHandle) {
-      if (!this.props.account) {
-        this.fetchingAccount = undefined;
-      } else {
-        this.fetchingAccount = {
-          account: this.props.account,
-          fetching: this.fetchAccountBlocking()
-        };
+  return (
+    <div style={{
+      backgroundColor: '#fefafa',
+      backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
+      minHeight: '100%'
+    }}>
+      {count ?
+        <h3 className='blocking-panel-header'>Blocked by {count}:</h3> :
+        ''
       }
-    }
+      {
+        loading && !blocklist?.length ?
+          'Loading...' :
+          tableView ?
+            <TableView
+              account={account}
+              blocklist={blocklist} /> :
+            <ListView
+              account={account}
+              blocklist={blocklist} />
+      }
+    </div>
+  );
+}
 
-    return (
-      <div style={{
-        backgroundColor: '#fefafa',
-        backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
-        minHeight: '100%'
-      }}>
-        {this.state?.count ?
-          <h3 className='blocking-panel-header'>Blocked by {this.state.count}:</h3> :
-          ''
-        }
-        {
-          !this.state?.blocklist || !this.props.account ?
-            (this.fetchingAccount?.fetching ?
-              'Loading...' :
-              'No blocks found.') :
-            this.state?.tableView ?
-              <TableView
-                account={this.props.account}
-                blocklist={this.state.blocklist} /> :
-              <ListView
-                account={this.props.account}
-                blocklist={this.state.blocklist} />
-        }
-      </div>
-    );
+async function* fetchAccountBlocking(shortHandle) {
+
+  let blocklist = [];
+  for await (const block of singleBlocklist(unwrapShortHandle(shortHandle))) {
+    if (block.blocklist)
+      blocklist = blocklist.concat(block.blocklist);
+
+    yield {
+      count: block.count,
+      blocklist,
+      loading: true
+    };
   }
-
-  async fetchAccountBlocking() {
-    const account = this.props.account;
-    if (!account) return;
-
-    for await (const block of singleBlocklist(unwrapShortHandle(account.shortHandle))) {
-      const accountChanged =
-        account.shortDID ? account?.shortDID !== this.props.account?.shortDID :
-          account.shortHandle !== this.props.account?.shortHandle;
-      if (accountChanged) return;
-
-      this.setState({
-        count: block.count,
-        blocklist: this.state?.blocklist ?
-          this.state.blocklist.concat(block.blocklist) :
-          block.blocklist
-      });
-    }
-  }
+ 
+  yield {
+    count: blocklist.length,
+    blocklist,
+    loading: false
+  };
 }

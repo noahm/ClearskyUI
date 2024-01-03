@@ -18,7 +18,7 @@ const GROW_BLOCK_SIZE = 29;
 
 /**
  * @param {{
- *  account: AccountInfo;
+ *  account: AccountInfo | { shortHandle: string, loading: true };
  *  blocklist: BlockedByRecord[];
  * }} _ 
  */
@@ -69,7 +69,7 @@ const FlushBackgroundTooltip = withStyles({
 
 /**
  * @param {{
- *  account: AccountInfo;
+ *  account: AccountInfo | {shortHandle: string, loading: true};
  *  blocked_date: string;
  *  handle: string;
  *  className?: string;
