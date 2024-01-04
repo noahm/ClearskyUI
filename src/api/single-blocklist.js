@@ -44,7 +44,7 @@ export async function* singleBlocklist(handleOrDID) {
 
   yield { ...firstPage, ...firstPage.data, pages, count };
 
-  for (let i = 2; i < pages; i++) {
+  for (let i = 2; i <= pages; i++) {
     const nextPage = await fetch(
       handleURL + '/' + i,
       { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
