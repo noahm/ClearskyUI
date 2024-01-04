@@ -38,6 +38,12 @@
   text-decoration: underline;
 }
 
+.blocking-list-entry .account-short-entry-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 15em 1fr;
+}
+
 .blocking-list-entry .blocking-account-avatar {
   background: no-repeat center center;
   background-size: cover;
