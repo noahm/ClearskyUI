@@ -40,7 +40,9 @@ export function AccountShortEntry({ account, ...rest }) {
 
   const loading = isPromise(accountOrPromise);
 
-  if (!loading) return <ResolvedAccount {...rest} account={/** @type {AccountInfo} */(account)} />;
+  if (!loading) return (
+    <ResolvedAccount {...rest} account={/** @type {AccountInfo} */(accountOrPromise)} />
+  );
 
   return (
     <AsyncLoad
@@ -48,7 +50,7 @@ export function AccountShortEntry({ account, ...rest }) {
       renderAsync={account =>
         <ResolvedAccount {...rest} account={account} />}
       renderError={({error}) =>
-        <ErrorAccount {...rest} error={error} handle={typeof account === 'string' ? account : account} />}>
+        <ErrorAccount {...rest} error={error} handle={typeof account === 'string' ? account : account.shortHandle} />}>
       <LoadingAccount  {...rest} handle={typeof account === 'string' ? account : account.shortHandle} />
     </AsyncLoad>
   );
@@ -112,7 +114,7 @@ function ResolvedAccount({
 }
 
 /**
- * @param {{ error?: any, handle: string } & Props} _
+ * @param {{ error?: any, handle: string | undefined } & Props} _
  */
 function ErrorAccount({
   handle,
@@ -167,7 +169,7 @@ function LoadingAccount({
     <Link
       to={link || `/${unwrapShortHandle(handle)}/history`}
       className={'account-short-entry ' + (className || '')}>
-      <span className={'account-short-entry-content account-short-entry-error ' + (contentClassName || '')}>
+      <span className={'account-short-entry-content account-short-entry-loading ' + (contentClassName || '')}>
         <span className={'account-short-entry-handle ' + (handleClassName || '')}>
           <span
             className='account-short-entry-avatar account-short-entry-at-sign'>@</span>

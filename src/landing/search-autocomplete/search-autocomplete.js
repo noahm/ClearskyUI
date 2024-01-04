@@ -31,6 +31,8 @@ const AUTOCOMPLETE_POPULATE_BATCH = 20;
  */
 export class SearchAutoComplete extends Component {
 
+  highlight;
+
   render() {
     const { className, searchText, onAccountSelected } = this.props;
     if (!this.renderedBefore) {
@@ -59,6 +61,9 @@ export class SearchAutoComplete extends Component {
       });
     }
 
+    if (searchText !== this.highlight?.searchText)
+      this.highlight = undefined;
+
     return (
       <Autocomplete
         freeSolo
@@ -73,6 +78,12 @@ export class SearchAutoComplete extends Component {
                 newValue.postID ? { ...newValue.account, postID: newValue.postID } :
                   newValue.account);
           }
+        }}
+        onHighlightChange={(event, newValue) => {
+          this.highlight = {
+            searchText: this.props.searchText,
+            value: newValue
+          };
         }}
         getOptionLabel={option => {
           if (typeof option === 'string') return option;
@@ -89,7 +100,14 @@ export class SearchAutoComplete extends Component {
               if (event.key === 'Enter' && this.state?.options?.[0].account && typeof onAccountSelected === 'function') {
                 event.preventDefault();
                 event.stopPropagation();
-                onAccountSelected(this.state?.options?.[0].account);
+                const account =
+                  this.props.searchText &&
+                  this.highlight?.searchText === this.props.searchText &&
+                  this.highlight?.value?.account ||
+                  this.state?.options?.[0].account;
+
+                if (account)
+                  onAccountSelected(account);
               }
             }}
             label="Find an account:"

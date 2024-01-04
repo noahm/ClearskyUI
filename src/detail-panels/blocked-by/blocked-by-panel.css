@@ -41,7 +41,11 @@
 .blocking-list-entry .account-short-entry-content {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 15em 1fr;
+  grid-template-columns: auto 1fr;
+}
+
+.blocking-list-entry .account-short-entry-content .account-short-entry-handle {
+  min-width: 15em;
 }
 
 .blocking-list-entry .blocking-account-avatar {

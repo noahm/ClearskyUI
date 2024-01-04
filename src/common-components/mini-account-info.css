@@ -15,4 +15,5 @@
 .mini-account-info .account-info-panel-description {
   font-size: 70%;
   white-space: pre-wrap;
+  padding: 0.5em;
 }

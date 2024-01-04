@@ -23,7 +23,7 @@ export async function* dashboardStats() {
   const dashboardStatsApiPromise = dashboardStatsApi();
   try {
     const dashboardStatsIndexedDB = await dashboardStatsIndexedDBPromise;
-    if (dashboardStatsIndexedDB.asof)
+    if (dashboardStatsIndexedDB?.asof)
       yield { ...dashboardStatsIndexedDB, loading: true };
   } catch (indexedDbError) {
     console.warn(indexedDbError);
@@ -42,7 +42,7 @@ function indexedDBStore() {
     dashboardStats: 'key'
   });
 
-  return db;
+  return /** @type {typeof db & { dashboardStats: import('dexie').Table }} */(db);
 }
 
 async function dashboardStatsIndexedDB() {

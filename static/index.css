@@ -194,6 +194,7 @@ table.stats-table th {
 .mini-account-info .account-info-panel-description {
   font-size: 70%;
   white-space: pre-wrap;
+  padding: 0.5em;
 }
 
 /* src/common-components/account-short-entry.css */
@@ -347,6 +348,13 @@ table.stats-table th {
   font-size: 80%;
   position: sticky;
   top: -0.1em;
+  padding: 0.2em 0.6em;
+  border-radius: 200%;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.account-close-button:hover {
+  background: rgba(255, 255, 255, 0.325);
+  box-shadow: 0 0 25px #ffffffde;
 }
 .account-avatar-and-displayName-line {
   display: grid;
@@ -457,7 +465,10 @@ table.stats-table th {
 .blocking-list-entry .account-short-entry-content {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 15em 1fr;
+  grid-template-columns: auto 1fr;
+}
+.blocking-list-entry .account-short-entry-content .account-short-entry-handle {
+  min-width: 15em;
 }
 .blocking-list-entry .blocking-account-avatar {
   background: no-repeat center center;
