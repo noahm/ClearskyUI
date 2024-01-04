@@ -66,7 +66,7 @@ export function AccountHeader({ className, account, onCloseClick }) {
             !account.displayName ? undefined :
               <span className='account-handle'>
                 <span className='account-handle-at'>@</span>
-                <a href={`https:\/\/bsky.app/profile/${account.shortHandle}`} target="_blank">
+                <a href={`https://bsky.app/profile/${account.shortHandle}`} target="_blank">
                 <FullHandle shortHandle={account.shortHandle} />
               </a>
               </span>
