@@ -1,28 +1,26 @@
 // @ts-check
 
-import React, { Component, createContext, useState } from 'react';
+import React, { createContext } from 'react';
 
-import { useNavigate, useParams } from 'react-router-dom';
-import { isPromise, resolveHandleOrDID, shortenHandle, unwrapShortHandle } from '../api';
-import { useDerived } from '../common-components/derive';
+import { useParams } from 'react-router-dom';
+import { unwrapShortHandle } from '../api';
+import { useResolveAccount } from '../common-components/use-resolve-account';
 
 const AccountContext = createContext(
-  /** @type {AccountInfo | { shortHandle: String, loading: true } | undefined} */(
+  /** @type {import('../common-components/use-resolve-account').AccountInfoResolving | undefined} */(
     undefined));
 
 /**
  * @param {{
  *  children: React.ReactNode |
- *    ((account: AccountInfo | { shortHandle: String, loading: true }) => React.ReactNode)
+ *    ((account: import('../common-components/use-resolve-account').AccountInfoResolving) => React.ReactNode)
  * }} _
  */
 export function AccountResolver({ children }) {
   let { handle } = useParams();
 
-  const account = useDerived(
-    handle,
-    resolveHandleOrDID
-  ) || { shortHandle: unwrapShortHandle(handle), loading: true };
+  const account = useResolveAccount(handle) ||
+    { shortHandle: unwrapShortHandle(handle) || '*', loading: true };
 
   if (typeof children === 'function')
     children = children(account);

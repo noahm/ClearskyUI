@@ -109,7 +109,7 @@ function getBucket(threeLetterPrefix) {
   // TODO: failover/retry?
   return buckets[threeLetterPrefix] = (async () => {
     const bucketPath =
-      'https://colds.ky/index/' +
+      'https://accounts.colds.ky/' +
       threeLetterPrefix[0] + '/' +
       threeLetterPrefix.slice(0, 2) + '/' +
       threeLetterPrefix.slice(1) + '.json';

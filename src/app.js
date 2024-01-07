@@ -41,7 +41,8 @@ function showApp() {
   `;
   document.body.appendChild(root);
 
-  const useRouter = /file/i.test(location.protocol) || /github\.dev/i.test(location.hostname) ?
+  const useRouter =
+    /file/i.test(location.protocol) || /(github\.dev)|127|localhost/i.test(location.hostname) ?
     createHashRouter : createBrowserRouter;
 
   const router = useRouter(

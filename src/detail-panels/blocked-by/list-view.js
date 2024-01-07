@@ -4,15 +4,11 @@
 import React from 'react';
 
 import { isPromise, resolveHandleOrDID } from '../../api';
-import { AsyncLoad } from '../../common-components/async-load';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Tooltip } from '@mui/material';
 import { withStyles } from '@mui/styles';
-import { MiniAccountInfo } from '../../common-components/mini-account-info';
-import { FullHandle } from '../../common-components/full-short';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 
 const INITIAL_SIZE = 20;

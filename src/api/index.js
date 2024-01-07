@@ -19,7 +19,7 @@ export function getFeedBlobUrl(did, cid) {
   return `https://cdn.bsky.app/img/feed_thumbnail/plain/${unwrapShortDID(did)}/${cid}@jpeg`;
 }
 
-/** @param {string} text */
+/** @param {string | null | undefined} text */
 export function likelyDID(text) {
   return text && (
     !text.trim().indexOf('did:') ||

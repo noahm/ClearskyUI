@@ -7,12 +7,12 @@ import { Tooltip } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 import { isPromise, resolveHandleOrDID, unwrapShortHandle } from '../api';
-import { AsyncLoad } from './async-load';
 import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
 
 import './account-short-entry.css';
-import { useDerived } from './derive';
+import { forAwait } from './for-await';
+import { useResolveAccount } from './use-resolve-account';
 
 /**
  * @typedef {{
@@ -33,31 +33,22 @@ import { useDerived } from './derive';
  */
 export function AccountShortEntry({ account, ...rest }) {
 
-  const accountOrPromise =
-    typeof account === 'string' ? resolveHandleOrDID(account) :
-      account.loading || !account.shortDID ? resolveHandleOrDID(account.shortDID || /** @type {string} */(account.shortHandle)) :
-        account;
-
-  const loading = isPromise(accountOrPromise);
-
-  if (!loading) return (
-    <ResolvedAccount {...rest} account={/** @type {AccountInfo} */(accountOrPromise)} />
+  const resolved = useResolveAccount(account);
+  if (!resolved) return undefined;
+  
+  if (resolved.loading) return (
+    <LoadingAccount  {...rest} handle={resolved.shortHandle} />
   );
-
-  return (
-    <AsyncLoad
-      loadAsync={accountOrPromise}
-      renderAsync={account =>
-        <ResolvedAccount {...rest} account={account} />}
-      renderError={({error}) =>
-        <ErrorAccount {...rest} error={error} handle={typeof account === 'string' ? account : account.shortHandle} />}>
-      <LoadingAccount  {...rest} handle={typeof account === 'string' ? account : account.shortHandle} />
-    </AsyncLoad>
+  else if (resolved.error) return (
+    <ErrorAccount {...rest} error={resolved.error} handle={resolved.shortHandle} />
+  );
+  else return (
+    <ResolvedAccount {...rest} account={resolved} />
   );
 }
 
 /**
- * @param {Props & { account: AccountInfo}} _
+ * @param {Props & { account: Partial<AccountInfo>}} _
  */
 function ResolvedAccount({
   account,
@@ -114,7 +105,7 @@ function ResolvedAccount({
 }
 
 /**
- * @param {{ error?: any, handle: string | undefined } & Props} _
+ * @param {{ error?: any, handle: string | undefined } & Omit<Props, 'account'>} _
  */
 function ErrorAccount({
   handle,
@@ -155,7 +146,7 @@ function ErrorAccount({
 }
 
 /**
- * @param {{handle?: string, account: AccountInfo} & Props} _
+ * @param {{ handle?: string } & Omit<Props, 'account'>} _
  */
 function LoadingAccount({
   handle,

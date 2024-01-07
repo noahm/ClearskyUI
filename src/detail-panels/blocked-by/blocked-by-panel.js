@@ -1,13 +1,13 @@
 // @ts-check
 
-import React, { Component } from 'react';
+import React from 'react';
+
 import { singleBlocklist, unwrapShortHandle } from '../../api';
-import { MiniAccountInfo } from '../../common-components/mini-account-info';
+import { forAwait } from '../../common-components/for-await';
 import { ListView } from './list-view';
 import { TableView } from './table-view';
 
 import './blocked-by-panel.css';
-import { useDerived } from '../../common-components/derive';
 
 /**
  * @this {never}
@@ -17,9 +17,9 @@ import { useDerived } from '../../common-components/derive';
  */
 export function BlockedByPanel({ account }) {
   const { count, blocklist, loading } =
-    useDerived(account?.shortHandle, fetchAccountBlocking) ||
+    forAwait(account?.shortHandle, fetchAccountBlocking) ||
     { loading: true };
-  
+
   const [tableView, setTableView] = React.useState(false);
 
   return (
@@ -48,22 +48,25 @@ export function BlockedByPanel({ account }) {
 }
 
 async function* fetchAccountBlocking(shortHandle) {
-
+  try {
   let blocklist = [];
-  for await (const block of singleBlocklist(unwrapShortHandle(shortHandle))) {
-    if (block.blocklist)
-      blocklist = blocklist.concat(block.blocklist);
+    for await (const block of singleBlocklist(unwrapShortHandle(shortHandle))) {
+      if (block.blocklist)
+        blocklist = blocklist.concat(block.blocklist);
 
-    yield {
-      count: block.count,
-      blocklist,
-      loading: true
-    };
+      yield {
+        count: block.count,
+        blocklist,
+        loading: true
+      };
   }
- 
+
   yield {
     count: blocklist.length,
     blocklist,
     loading: false
   };
+  } finally {
+    console.log('fetch account blocking finished');
+  }
 }
