@@ -5,7 +5,7 @@ export { dashboardStats } from './dashboard-stats';
 export { postHistory } from './post-history';
 export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
-export { singleBlocklist } from './single-blocklist';
+export { singleBlocklist, blocklist } from './blocklist';
 
 export const xAPIKey = 'CLEARSKYtest90asdfghjklqwerr2345';
 

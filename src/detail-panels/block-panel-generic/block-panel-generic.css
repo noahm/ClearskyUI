@@ -1,0 +1,68 @@
+.account-info-panel-blocked-timestamp {
+  font-size: 80%;
+  text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
+  padding: 0.5em;
+  padding-left: 1em;
+}
+
+.account-info-panel-blocked-timestamp-full {
+  zoom: 80%;
+  transform: scaleY(1.1);
+}
+
+.block-account-info-panel .account-info-panel-description {
+  padding: 1em;
+}
+
+
+
+.block-panel-header {
+  padding-left: 0.6em;
+}
+
+.block-list {
+  padding-left: 0.6em;
+}
+
+.blocking-list-entry {
+  list-style-type: none;
+  height: 2em;
+}
+
+.blocking-list-entry .blocking-account-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.blocking-list-entry .blocking-account-link:hover {
+  text-decoration: underline;
+}
+
+.blocking-list-entry .account-short-entry-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr;
+}
+
+.blocking-list-entry .account-short-entry-content .account-short-entry-handle {
+  min-width: 15em;
+}
+
+.blocking-list-entry .blocking-account-avatar {
+  background: no-repeat center center;
+  background-size: cover;
+  color: transparent;
+  border-radius: 200%;
+
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.25em;
+}
+
+.blocking-list-entry .blocking-date {
+  opacity: 0.6;
+  font-weight: 200;
+  font-size: 80%;
+  padding-left: 0.1em;
+}
