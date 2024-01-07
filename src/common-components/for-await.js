@@ -18,280 +18,331 @@ import { isPromise } from '../api';
  * @template {any} TTo
  * @param {TFrom} from
  * @param {TSourceOf<TFrom, TTo>} derive
- * @param {(error: any, from: TFrom) => TTo} [catchError]
  * @returns {Awaited<TTo>}
  */
-export function forAwait(from, derive, catchError) {
+export function forAwait(from, derive) {
+  const [state, setState] = useState(initAwaitState);
+  state.reactSetState = setState;
+  return /** @type {*} */(state.hookUse(from, derive));
+}
 
-  const [state, setState] = useState(/** @type {State} */({}));
-  /** @type {*} */(state).derive = derive;
+function initAwaitState() {
+  return new AwaitState();
+}
 
-  let fromToken;
-  if (!state.from || state.from.value !== from) {
-    fromToken = state.from = { value: from };
-    state.sync = true;
-    state.to = {};
-    const run = (callback) => {
-      if (!callback) return;
-      if (state.sync) {
-        try { callback(); }
-        catch (error) { handleError(error); }
-        return;
-      }
+/**
+ * @template {any} TFrom
+ * @template {any} TTo
+ * @typedef {{
+ *  from: TFrom,
+ *  derive: TSourceOf<TFrom, TTo>,
+ *  iterators: Set<{ return?: () => void }>,
+ *  current?: TTo,
+ *  error?: any,
+ *  finished?: boolean,
+ *  nudgeCallbacks?: (() => void)[],
+ *  nudge?: () => void
+ * }} TRun
+ */
 
-      if (!state.to.continueDerivePromise) {
-        state.to.continueDerivePromise = new Promise(resolve => state.to.continueDerive = resolve);
-        try { callback(); }
-        catch (error) { handleError(error); }
+/**
+ * @template {any} TFrom
+ * @template {any} TTo
+ */
+class AwaitState {
+
+  /** @type {TRun<TFrom, TTo>} */
+  run;
+
+  /** @type {boolean} */
+  withinHook;
+
+  /** @type {AwaitState | undefined} */
+  repalcedWith;
+
+  reactSetState(setState) { }
+
+  /**
+   * @param {TFrom} from
+   * @param {TSourceOf<TFrom, TTo>} derive
+   * @returns {TTo | undefined}
+   */
+  hookUse = (from, derive) => {
+    this.withinHook = true;
+    try {
+      if (this.repalcedWith) return this.repalcedWith.hookUse(from, derive);
+
+      if (!this.run || this.run.from !== from) {
+        this.finishExistingIteration();
+        this.initializeNewValues(from, derive);
       } else {
-        state.to.continueDerivePromise = state.to.continueDerivePromise
-          .then(() => {
-            try { callback(); }
-            catch (error) { handleError(error); }
-          });
+        this.nudgeContinuationFromHook();
       }
-    };
 
-    const runFinalizers = () => {
-      const finalizers = state.to?.finalizers;
-      if (finalizers) {
-        state.to.finalizers = undefined;
-        for (const finalizer of finalizers) {
-          if (typeof finalizer === 'function') {
-            try { finalizer(); }
-            catch (finalizerError) { console.warn('finalizer threw an error', finalizerError); }
-          }
-        }
-      }
-    };
-    state.runFinalizers = runFinalizers;
+      return this.run.current;
+    } finally {
+      this.withinHook = false;
+    }
+  };
 
-    const handleError = (error) => {
-      state.to.failed = true;
-      state.to.continueDerive = undefined;
-      state.to.continueDerivePromise = undefined;
-      state.runFinalizers = undefined;
-      if (typeof catchError === 'function') {
-        try {
-          state.to.current = catchError(error, from);
-        } catch (secondaryError) {
-          console.warn('catchError threw an error', { originalError: error, secondaryError });
-        }
-      }
-      runFinalizers();
-    };
+  effectMount = () => {
+    if (this.repalcedWith) return this.repalcedWith.effectMount();
+    this.nudgeContinuationFromHook();
+  };
 
-    const continuation = {
+  effectUnmount = () => {
+    if (this.repalcedWith) return this.repalcedWith.effectUnmount();
+    // TODO: freeze any pending continuation
+  };
+
+  /**
+   * @param {TFrom} from
+   * @param {TSourceOf<TFrom, TTo>} derive
+   */
+  initializeNewValues(from, derive) {
+    this.run = {
       from,
       derive,
-      completed: false,
-      alive: function alive(callback) {
-        if (continuation.completed) return console.warn('continuation already completed');
-        if (state.from !== fromToken || state.to.failed) return;
-        run(callback);
-      },
-      addFinalizer: (finalizer) => {
-        if (continuation.completed) return console.warn('continuation already completed');
-
-        if (state.from !== fromToken || state.to.failed) {
-          if (typeof finalizer === 'function') {
-            try { finalizer(); }
-            catch (finalizerError) { console.warn('finalizer threw an error', finalizerError); }
-          }
-          return;
-        }
-
-        if (!state.to.finalizers) state.to.finalizers = [finalizer];
-        else state.to.finalizers.push(finalizer);
-      },
-      next: function next(value, callback) {
-        if (continuation.completed) return console.warn('continuation already completed');
-        if (state.from !== fromToken || state.to.failed) return;
-        state.to.current = value;
-        if (!state.sync) setState({ from: state.from, to: state.to, runFinalizers: state.runFinalizers });
-        run(callback);
-      },
-      error: function error(error) {
-        if (continuation.completed) return console.warn('continuation already completed');
-        if (state.from !== fromToken || state.to.failed) return;
-        state.to.error = error;
-        state.to.failed = true;
-        state.to.continueDerive = undefined;
-        state.to.continueDerivePromise = undefined;
-        runFinalizers();
-        if (!state.sync) setState({ from: state.from, to: state.to });
-      },
-      complete: function () {
-        if (continuation.completed) return console.warn('continuation already completed');
-        if (state.from !== fromToken || state.to.failed) return;
-        state.to.continueDerive = undefined;
-        state.to.continueDerivePromise = undefined;
-        runFinalizers();
-      }
+      iterators: new Set()
     };
-    continueWith(continuation, derive);
-  } else if (state.to.continueDerive) {
-    state.sync = true;
-    state.to.continueDerive();
-  }
-  state.sync = typeof state.to?.continueDerive === 'function' ? false : undefined;
-  useEffect(() => {
-    state.toString();
-    return unmount;
 
-    function unmount() {
-      if (typeof state.runFinalizers === 'function') {
-        state.runFinalizers();
-      }
+    this.continueWithChecked(from, this.run, derive, this.iterationCompletedNaturally);
+  }
+
+  iterationCompletedNaturally = () => {
+    this.finishExistingIteration();
+  };
+
+  finishExistingIteration() {
+  }
+
+  nudgeContinuationFromHook() {
+  }
+
+  /**
+   * @param {TFrom} from
+   * @param {TRun<TFrom, TTo>} run
+   * @param {TSourceOf<TFrom, any>} derive
+   * @param {() => void} completedNaturally
+   */
+  continueWithChecked(from, run, derive, completedNaturally) {
+    if (!this.canContinue(run)) return;
+
+    if (derive) {
+      if (typeof derive === 'function')
+        return this.continueWithFunction(from, run, derive, completedNaturally);
+      if (isPromise(derive))
+        return this.continueWithPromise(from, run, derive, completedNaturally);
+      if (Array.isArray(derive))
+        return this.continueWithArray(from, run, derive, completedNaturally);
+      if (isIterable(derive))
+        return this.continueWithIterable(from, run, derive, completedNaturally);
+      if (isAsyncIterable(derive))
+        return this.continueWithAsyncIterable(from, run, derive);
     }
-  }, [0]);
 
-  return state.to.current;
-}
-
-/**
- * @typedef {{
- *  from?: { value: any },
- *  to: {
- *    current?: any,
- *    error?: any,
- *    failed?: boolean,
- *    continueDerive?: () => void,
- *    finalizers?: (() => void)[],
- *    continueDerivePromise?: Promise<void>,
- *  },
- *  runFinalizers?: () => void,
- *  sync?: boolean
- * }} State
- */
-
-/**
- * @typedef {{
- *  from: any,
- *  addFinalizer(finalizer: () => void): void,
- *  alive: (callback: () => void) => void,
- *  next: (value: any, callback?: () => void) => void,
- *  error: (error: any) => void,
- *  complete: () => void
- * }} Continuation
- */
-
-/**
- * @param {Continuation} continuation 
- * @param {any} derive 
- */
-function continueWith(continuation, derive) {
-  if (typeof derive === 'function')
-    return continueWithFunction(continuation, derive);
-  if (isPromise(derive))
-    return continueWithPromise(continuation, derive);
-  else if (isIterable(derive))
-    return continueWithIterable(continuation, derive);
-  else if (isAsyncIterable(derive))
-    return continueWithAsyncIterable(continuation, derive);
-
-  continuation.next(derive);
-}
-
-/**
- * @param {Continuation} continuation 
- * @param {Function} func
- */
-function continueWithFunction(continuation, func) {
-  try {
-    continueWith(continuation, func(continuation.from));
-  } catch (error) {
-    continuation.error(error);
+    this.continueWithScalar(from, run, derive);
+    completedNaturally();
   }
-}
 
-/**
- * @param {Continuation} continuation
- * @param {Promise} promise
+  /**
+   * @param {TFrom} from
+   * @param {TRun<TFrom, TTo>} run
+   * @param {TTo} value
+   */
+  continueWithScalar(from, run, value) {
+    this.run.current = value;
+    if (!this.withinHook) {
+      this.repalcedWith = new AwaitState();
+      this.repalcedWith.run = this.run;
+
+    }
+  }
+
+  /**
+   * @param {TFrom} from
+   * @param {TRun<TFrom, TTo>} run
+   * @param {Function} func
+   * @param {() => void} completedNaturally
+   */
+  continueWithFunction(from, run, func, completedNaturally) {
+    try {
+      const value = func(from);
+      this.continueWithChecked(from, run, value, completedNaturally);
+    } catch (error) {
+      this.continueWithError(error);
+    }
+  }
+
+  /**
+   * @param {Error} error
+   */
+  continueWithError(error) {
+    this.run.error = error;
+    this.run.finished = true;
+
+    this.finishExistingIteration();
+  }
+
+  /**
+   * @param {TFrom} from
+   * @param {TRun<TFrom, TTo>} run
+   * @param {Promise<any>} promise
+   * @param {() => void} completedNaturally
+   */
+  continueWithPromise(from, run, promise, completedNaturally) {
+    promise.then(
+      result => {
+        if (!this.canContinue(run)) return;
+        this.continueWithChecked(from, run, result, completedNaturally);
+      },
+      error => {
+        if (!this.canContinue(run)) return;
+        this.continueWithError(error);
+      });
+  }
+
+  /**
+ * @param {TFrom} from
+ * @param {TRun<TFrom, TTo>} run
+ * @param {any[]} array
+ * @param {() => void} completedNaturally
  */
-function continueWithPromise(continuation, promise) {
-  promise.then(
-    result => {
-      continuation.alive(() =>
-        continueWith(continuation, result));
-    },
-    error => {
-      continuation.error(error);
+  continueWithArray(from, run, array, completedNaturally) {
+    // treat array like iterable, no optimizations for now
+    this.continueWithIterable(from, run, array, completedNaturally);
+  }
+
+  /**
+   * @param {TFrom} from
+   * @param {TRun<TFrom, TTo>} run
+   * @param {Iterable<any>} iterable
+   * @param {() => void} completedNaturally
+   */
+  continueWithIterable(from, run, iterable, completedNaturally) {
+    let iterator;
+    try {
+      iterator = iterable[Symbol.iterator]();
+    } catch (error) {
+      return this.continueWithError(error);
+    }
+
+    if (!iterator) return completedNaturally();
+    this.run.iterators.add(iterator);
+
+    this.continueWithIterator(from, run, iterator, () => {
+      this.run.iterators.delete(iterator);
+      completedNaturally();
     });
-}
-
-/**
- * @param {Continuation} continuation
- * @param {Iterable<any>} iterable
- */
-function continueWithIterable(continuation, iterable) {
-  try {
-    const iterator = iterable[Symbol.iterator]();
-    continuation.addFinalizer(() => iterator.return?.());
-    continueWithIterator(continuation, iterator);
-  } catch (error) {
-    continuation.error(error);
   }
-}
 
-/**
- * @param {Continuation} continuation
+  /**
+ * @param {TFrom} from
+ * @param {TRun<TFrom, TTo>} run
  * @param {Iterator<any>} iterator
+ * @param {() => void} completedNaturally
  */
-function continueWithIterator(continuation, iterator) {
-  try {
-    const iteratorResult = iterator.next();
-    if (iteratorResult.done) {
-      if (iteratorResult.value !== undefined)
-        continuation.next(iteratorResult.value);
-      continuation.complete();
-    } else {
-      continuation.next(
-        iteratorResult.value,
-        () => continueWithIterator(continuation, iterator));
+  continueWithIterator(from, run, iterator, completedNaturally) {
+    try {
+      const iteratorResult = iterator.next();
+      if (iteratorResult.done) {
+        if (iteratorResult.value !== undefined)
+          this.continueWithChecked(from, run, iteratorResult.value, completedNaturally);
+      } else {
+        this.continueWithChecked(
+          from, run, iteratorResult.value,
+          () => {
+            this.continueWhenever(() => {
+              this.continueWithIterator(from, run, iterator, completedNaturally);
+            });
+          });
+      }
+    } catch (error) {
+      this.continueWithError(error);
     }
-  } catch (error) {
-    continuation.error(error);
   }
-}
 
-/**
- * @param {Continuation} continuation
- * @param {AsyncIterable<any>} iterable
- */
-async function continueWithAsyncIterable(continuation, iterable) {
-  try {
-    const iterator = iterable[Symbol.asyncIterator]();
-    continuation.addFinalizer(() => iterator.return?.());
-    continueWithAsyncIterator(continuation, iterator);
-  } catch (error) {
-    continuation.error(error);
-  }
-}
-
-/**
- * @param {Continuation} continuation
- * @param {AsyncIterator<any>} iterator
- */
-async function continueWithAsyncIterator(continuation, iterator) {
-  try {
-    let iteratorPromise = iterator.next();
-    const iteratorResult = isPromise(iteratorPromise) ?
-      await iteratorPromise :
-      iteratorPromise;
-
-    if (iteratorResult.done) {
-      if (iteratorResult.value !== undefined)
-        continuation.next(iteratorResult.value);
-      continuation.complete();
-    } else {
-      continuation.next(
-        iteratorResult.value,
-        () => continueWithAsyncIterator(continuation, iterator));
+  /**
+   * @param {TFrom} from
+   * @param {TRun<TFrom, TTo>} run
+   * @param {AsyncIterable<any>} asyncIterable
+   * @param {() => void} completedNaturally
+   */
+  continueWithAsyncIterable(from, run, asyncIterable, completedNaturally) {
+    let asyncIterator;
+    try {
+      asyncIterator = asyncIterable[Symbol.iterator]();
+    } catch (error) {
+      return this.continueWithError(error);
     }
-  } catch (error) {
-    continuation.error(error);
+
+    if (!asyncIterator) return completedNaturally();
+    this.run.iterators.add(asyncIterator);
+
+    this.continueWithAsyncIterator(from, run, asyncIterator, () => {
+      this.run.iterators.delete(asyncIterator);
+      completedNaturally();
+    });
+
   }
+
+  /**
+* @param {TFrom} from
+* @param {TRun<TFrom, TTo>} run
+* @param {AsyncIterator<any>} asyncIterator
+* @param {() => void} completedNaturally
+*/
+  async continueWithAsyncIterator(from, run, asyncIterator, completedNaturally) {
+    try {
+      const iteratorResult = await asyncIterator.next();
+      if (iteratorResult.done) {
+        if (iteratorResult.value !== undefined)
+          this.continueWithChecked(from, run, iteratorResult.value, completedNaturally);
+      } else {
+        this.continueWithChecked(
+          from, run, iteratorResult.value,
+          () => {
+            this.continueWhenever(() => {
+              this.continueWithAsyncIterator(from, run, asyncIterator, completedNaturally);
+            });
+          });
+      }
+    } catch (error) {
+      this.continueWithError(error);
+    }
+  }
+
+  canContinue(run) {
+    if (run !== this.run) {
+      ['DEBUG: activity after stop'].toString();
+      return false;
+    }
+  }
+
+  continueWhenever(callback) {
+    if (this.withinHook) {
+      try {
+        callback();
+      } catch (error) {
+        this.continueWithError(error);
+      }
+      return;
+    }
+
+    if (this.run.nudgeCallbacks) {
+      this.run.nudgeCallbacks.push(callback);
+      return;
+    }
+
+    this.run.nudgeCallbacks = [];
+
+    try {
+      callback();
+    } catch (error) {
+      this.continueWithError(error);
+    }
+  }
+
 }
 
 /** @type {(value: any) => value is Iterable} */
