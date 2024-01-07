@@ -23,6 +23,7 @@ import { isPromise } from '../api';
 export function forAwait(from, derive) {
   const [state, setState] = useState(initAwaitState);
   state.reactSetState = setState;
+  useEffect(state.effectMount, []);
   return /** @type {*} */(state.hookUse(from, derive));
 }
 
@@ -41,7 +42,6 @@ function initAwaitState() {
  *  error?: any,
  *  finished?: boolean,
  *  nudgeCallbacks?: (() => void)[],
- *  nudge?: () => void
  * }} TRun
  */
 
@@ -73,7 +73,7 @@ class AwaitState {
       if (this.repalcedWith) return this.repalcedWith.hookUse(from, derive);
 
       if (!this.run || this.run.from !== from) {
-        this.finishExistingIteration();
+        if (this.run) this.finishExistingIteration();
         this.initializeNewValues(from, derive);
       } else {
         this.nudgeContinuationFromHook();
@@ -114,9 +114,26 @@ class AwaitState {
   };
 
   finishExistingIteration() {
+    const iterators = Array.from(this.run.iterators);
+    this.run.iterators.clear();
+    for (const iter of iterators) {
+      try {
+        iter.return?.();
+      } catch (error) {
+        console.warn('DEBUG: error while stopping iterator', error);
+      }
+    }
   }
 
   nudgeContinuationFromHook() {
+    if (!this.run.nudgeCallbacks?.length) return;
+
+    const nudge = this.run.nudgeCallbacks.pop();
+    if (typeof nudge === 'function')
+      nudge();
+
+    if (!this.run.nudgeCallbacks.length)
+      this.run.nudgeCallbacks = undefined;
   }
 
   /**
@@ -138,7 +155,7 @@ class AwaitState {
       if (isIterable(derive))
         return this.continueWithIterable(from, run, derive, completedNaturally);
       if (isAsyncIterable(derive))
-        return this.continueWithAsyncIterable(from, run, derive);
+        return this.continueWithAsyncIterable(from, run, derive, completedNaturally);
     }
 
     this.continueWithScalar(from, run, derive);
@@ -155,7 +172,9 @@ class AwaitState {
     if (!this.withinHook) {
       this.repalcedWith = new AwaitState();
       this.repalcedWith.run = this.run;
+      this.repalcedWith.reactSetState = this.reactSetState;
 
+      this.reactSetState(this.repalcedWith);
     }
   }
 
@@ -271,7 +290,7 @@ class AwaitState {
   continueWithAsyncIterable(from, run, asyncIterable, completedNaturally) {
     let asyncIterator;
     try {
-      asyncIterator = asyncIterable[Symbol.iterator]();
+      asyncIterator = asyncIterable[Symbol.asyncIterator]();
     } catch (error) {
       return this.continueWithError(error);
     }
@@ -317,6 +336,8 @@ class AwaitState {
       ['DEBUG: activity after stop'].toString();
       return false;
     }
+ 
+    return true;
   }
 
   continueWhenever(callback) {
