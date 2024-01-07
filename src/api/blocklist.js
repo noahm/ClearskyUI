@@ -1,18 +1,32 @@
 // @ts-check
 
 import { unwrapShortHandle, xAPIKey } from '.';
-import { unwrapClearSkyURL } from './core';
+import { parseNumberWithCommas, unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 
 /**
- * 
  * @param {string} handleOrDID
+ */
+export function blocklist(handleOrDID) {
+  return blocklistCall(handleOrDID, 'blocklist');
+}
+
+/**
+ * @param {string} handleOrDID
+ */
+export function singleBlocklist(handleOrDID) {
+  return blocklistCall(handleOrDID, 'single-blocklist');
+}
+
+/**
+ * @param {string} handleOrDID
+ * @param {string} api
  * @returns {AsyncGenerator<{
  *    pages: number, count: number,
  *    blocklist: BlockedByRecord[]
  * }>}
  */
-export async function* singleBlocklist(handleOrDID) {
+async function* blocklistCall(handleOrDID, api) {
   const resolved = await resolveHandleOrDID(handleOrDID);
 
   if (!resolved) throw new Error('Could not resolve handle or DID: ' + handleOrDID);
@@ -29,7 +43,7 @@ export async function* singleBlocklist(handleOrDID) {
    * }} SingleBlocklistResponse */
 
   const handleURL =
-    unwrapClearSkyURL('/api/v1/single-blocklist/') +
+    unwrapClearSkyURL('/api/v1/' + api + '/') +
     unwrapShortHandle(resolved.shortHandle);
 
   /** @type {SingleBlocklistResponse} */
@@ -39,10 +53,11 @@ export async function* singleBlocklist(handleOrDID) {
 
 
   const pages = Number(firstPage.data.pages) || 1;
-  const count = Number(firstPage.data.count) || 0;
-  if (pages <= 1) return;
+  const count = parseNumberWithCommas(firstPage.data.count) || 0;
+  const firstPageEntry = /** @type {*} */({ ...firstPage, ...firstPage.data, pages, count });
+  yield firstPageEntry;
 
-  yield { ...firstPage, ...firstPage.data, pages, count };
+  if (pages <= 1) return;
 
   for (let i = 2; i <= pages; i++) {
     const nextPage = await fetch(

@@ -12,7 +12,7 @@ import './mini-account-info.css';
  * @param {{
  *  banner?: React.ReactNode,
  *  className?: string,
- *  account: AccountInfo,
+ *  account: Partial<AccountInfo>,
  *  details?: React.ReactNode,
  *  children?: React.ReactNode
  * }} _

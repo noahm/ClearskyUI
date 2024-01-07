@@ -36,6 +36,8 @@
 .post-with-content .post-header .post-replying-to-marker-text {
   font-weight: normal;
   color: gray;
+  padding-left: 0.2em;
+  padding-right: 0.15em;
 }
 
 .post-with-content .post-header .post-timestamp {

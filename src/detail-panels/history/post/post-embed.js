@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { breakFeedUri, getFeedBlobUrl } from '../../../api';
 import { getPost } from '../../../api/post-history';
 
-import { AsyncLoad } from '../../../common-components/async-load';
 import { RenderPost } from './render-post';
+import { forAwait } from '../../../common-components/for-await';
 
 /**
  * @param {{
@@ -44,21 +44,11 @@ export function PostEmbed({ post, embed, disableEmbedQT, level }) {
  * }} _
  */
 function PostEmbedRecord({ embed, disableEmbedQT, level }) {
-  return (
-    <AsyncLoad
-      loadAsync={() => getPost(embed.record.uri)}
-      dependencies={[embed.record.uri]}
-      renderAsync={(post, recordUri) => {
-        return (
-          <div className='post-content-embed'>
-            <RenderPost post={post} disableEmbedQT={disableEmbedQT} level={level} className='post-content-embed-qt' />
-          </div>
-        );
-      }}
-      renderError={error => <div>Error loading post: {error.message}</div>}
-    >
-      Loading...
-    </AsyncLoad>
+  const post = forAwait(embed.record.uri, getPost);
+  return !post ? 'Loading...' : (
+    <div className='post-content-embed'>
+      <RenderPost post={post} disableEmbedQT={disableEmbedQT} level={level} className='post-content-embed-qt' />
+    </div>
   );
 }
 
@@ -129,6 +119,7 @@ function ImageWithAlt({ className, Component = 'span', imageClassName, altClassN
 function PostEmbedRecordWithMedia({ post, embed }) {
   const images = /** @type {import('@atproto/api').AppBskyEmbedImages.Main['images']} */(embed.media?.images);
   const postUri = breakFeedUri(post.uri);
+  const embedPost = forAwait(embed.record.record.uri, getPost);
   return (
     <div className='post-content-embed'>
       {
@@ -149,18 +140,10 @@ function PostEmbedRecordWithMedia({ post, embed }) {
                 altClassName='post-content-embed-image-alt'
                 alt={image.alt} />)
       }
-      <AsyncLoad
-        loadAsync={() => getPost(embed.record.record.uri)}
-        dependencies={[embed.record.record.uri]}
-        renderAsync={(post, recordUri) => {
-          return (
-            <RenderPost post={post} disableEmbedQT className='post-content-embed-qt' />
-          );
-        }}
-        renderError={error => <div>Error loading post: {error.message}</div>}
-      >
-        Loading...
-      </AsyncLoad>
+      {
+        !embedPost ? 'Loading...' :
+          <RenderPost post={embedPost} disableEmbedQT className='post-content-embed-qt' />
+      }
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { NetworkCircle } from './infographics/network-circle';
 import { TopBlocked } from './infographics/top-blocked';
 import { TopBlockers } from './infographics/top-blockers';
 import { parseNumberWithCommas } from '../api/core';
-import { useDerived } from '../common-components/derive';
+import { forAwait } from '../common-components/for-await';
 
 /**
  * @param {{
@@ -17,7 +17,7 @@ import { useDerived } from '../common-components/derive';
  */
 export function HomeStats({ className }) {
   let duringRender = true;
-  const stats = useDerived(undefined, () => dashboardStats());
+  const stats = forAwait(undefined, () => dashboardStats());
   duringRender = false;
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';

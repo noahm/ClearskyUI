@@ -5,7 +5,7 @@ export { dashboardStats } from './dashboard-stats';
 export { postHistory } from './post-history';
 export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
-export { singleBlocklist } from './single-blocklist';
+export { singleBlocklist, blocklist } from './blocklist';
 
 export const xAPIKey = 'CLEARSKYtest90asdfghjklqwerr2345';
 
@@ -19,7 +19,7 @@ export function getFeedBlobUrl(did, cid) {
   return `https://cdn.bsky.app/img/feed_thumbnail/plain/${unwrapShortDID(did)}/${cid}@jpeg`;
 }
 
-/** @param {string} text */
+/** @param {string | null | undefined} text */
 export function likelyDID(text) {
   return text && (
     !text.trim().indexOf('did:') ||
