@@ -423,7 +423,7 @@ table.stats-table th {
   opacity: 0.6;
 }
 
-/* src/detail-panels/blocked-by/blocked-by-panel.css */
+/* src/detail-panels/block-panel-generic/block-panel-generic.css */
 .account-info-panel-blocked-timestamp {
   font-size: 80%;
   text-shadow:
@@ -442,10 +442,10 @@ table.stats-table th {
   zoom: 80%;
   transform: scaleY(1.1);
 }
-.blocking-account-info-panel .account-info-panel-description {
+.block-account-info-panel .account-info-panel-description {
   padding: 1em;
 }
-.blocking-panel-header {
+.block-panel-header {
   padding-left: 0.6em;
 }
 .block-list {
@@ -487,28 +487,26 @@ table.stats-table th {
   padding-left: 0.1em;
 }
 
-/* src/detail-panels/blocking/blocking-panel.css */
-
 /* src/detail-panels/history/history-scrollable-list.css */
 .history-post-entry {
   padding: 1em 1em;
   position: relative;
 }
 .history-post-entry::after {
-  content: "";
+  content: " ";
   display: block;
   clear: both;
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 1px;
+  height: 0.5px;
   background:
     linear-gradient(
       to right,
-      #eee,
-      #d2d2d2 20%,
-      #eee);
+      #eaeaea,
+      #d2d2d2 30%,
+      #ededed);
 }
 
 /* src/detail-panels/history/post/render-post.css */
@@ -544,6 +542,8 @@ table.stats-table th {
 .post-with-content .post-header .post-replying-to-marker-text {
   font-weight: normal;
   color: gray;
+  padding-left: 0.2em;
+  padding-right: 0.15em;
 }
 .post-with-content .post-header .post-timestamp {
   text-decoration: none;
