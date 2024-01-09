@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { breakFeedUri, isPromise, resolveHandleOrDID, unwrapShortDID } from '../../../api';
+import { breakFeedUri, isPromise, likelyDID, resolveHandleOrDID, unwrapShortDID, unwrapShortHandle } from '../../../api';
 import { getPost } from '../../../api/post-history';
 
 import { Tooltip } from '@mui/material';
@@ -151,5 +151,6 @@ function MiniAvatar({ account, className, ...rest }) {
  */
 function createPostHref(handleOrDID, postID) {
   if (!handleOrDID || !postID) return;
-  return `https://bsky.app/profile/${handleOrDID}/post/${postID}`;
+  return `https://bsky.app/profile/${likelyDID(handleOrDID) ?
+    unwrapShortDID(handleOrDID) : unwrapShortHandle(handleOrDID)}/post/${postID}`;
 }

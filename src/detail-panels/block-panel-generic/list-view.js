@@ -58,13 +58,6 @@ export function ListView({ account, blocklist }) {
   }
 }
 
-const FlushBackgroundTooltip = withStyles({
-  tooltip: {
-    padding: '0',
-    overflow: 'hidden'
-  }
-})(Tooltip);
-
 /**
  * @param {{
  *  account: AccountInfo | {shortHandle: string, loading: true};
@@ -74,7 +67,6 @@ const FlushBackgroundTooltip = withStyles({
  * }} _
  */
 function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
-  const accountOrPromise = handle && resolveHandleOrDID(handle);
 
   const result = (
     <li {...rest} className={'blocking-list-entry ' + (className || '')}>
