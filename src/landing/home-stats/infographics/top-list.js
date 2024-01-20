@@ -1,15 +1,15 @@
 // @ts-check
 
-/// <reference path="../../types.d.ts" />
+/// <reference path="../../../types.d.ts" />
 
 import React, { useState } from 'react';
 
-import { AccountShortEntry } from '../../common-components/account-short-entry';
-import { parseNumberWithCommas } from '../../api/core';
+import { AccountShortEntry } from '../../../common-components/account-short-entry';
+import { parseNumberWithCommas } from '../../../api/core';
 
 import './top-list.css'
 import { Switch } from '@mui/material';
-import { isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '../../api';
+import { isPromise, resolveHandleOrDID, shortenDID, shortenHandle } from '../../../api';
 
 const DEFAULT_LIMIT = 5;
 

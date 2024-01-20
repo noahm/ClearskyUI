@@ -7,6 +7,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
+import "ag-grid-community/styles/ag-grid.css"; // Core CSS
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
+
 import { Home } from './landing/home';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { AccountView } from './detail-panels';

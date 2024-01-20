@@ -1,6 +1,6 @@
 // @ts-check
 
-/// <reference path="../../types.d.ts" />
+/// <reference path="../../../types.d.ts" />
 
 import React from 'react';
 
@@ -14,7 +14,7 @@ import {
 } from '@mui/icons-material';
 
 import { FaceSvg } from './face-svg';
-import { calcHash, nextRandom } from '../../api/core';
+import { calcHash, nextRandom } from '../../../api/core';
 
 const FaceIcons = [
   AccountCircle,
