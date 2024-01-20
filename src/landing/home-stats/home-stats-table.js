@@ -45,7 +45,10 @@ export function HomeStatsTable({
           <AgGridReact
             columnDefs={columns}
             getRowClass={params => 
-              params?.data?.title ? 'home-stats-table-title' : undefined}
+              !params?.data?.title ? undefined :
+                /blocked/i.test(params?.data?.Handle || '') ? 'home-stats-table-title home-stats-table-title-blocked' :
+                  /blockers/i.test(params?.data?.Handle || '') ? 'home-stats-table-title home-stats-table-title-blockers' :
+                  'home-stats-table-title'}
             rowData={rows}
           />
         </div>
@@ -60,6 +63,13 @@ function getGridRowsAndColumns(stats) {
 
   /** @type {Partial<DashboardBlockListEntry & { title: boolean }>[]} */
   const rows = [];
+
+  rows.push({ Handle: 'Stats', title: true });
+  const specialStats = ['asof', 'blocked', 'blocked24', 'blockers', 'blockers24', 'blocked_aid', 'blockers_aid'];
+  for (const key in stats) {
+    if (specialStats.indexOf(key) >= 0 || stats[key] == null || Array.isArray(stats[key])) continue;
+    rows.push({ Handle: key, block_count: stats[key] });
+  }
 
   if (stats.blocked?.length) {
     rows.push({ Handle: 'Blocked', block_count: stats.blocked.length, title: true });
@@ -96,10 +106,10 @@ function getGridRowsAndColumns(stats) {
   return {
     rows,
     columns: [
-      { field: 'Handle', sortable: true, filter: true },
-      { field: 'block_count', headerName: 'Count', sortable: true, filter: true },
-      { field: 'ProfileURL', sortable: true, filter: true },
-      { field: 'did', sortable: true, filter: true },
+      { field: 'Handle' },
+      { field: 'block_count', headerName: 'Count' },
+      { field: 'ProfileURL' },
+      { field: 'did' },
     ]
   }
 

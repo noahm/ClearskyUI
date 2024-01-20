@@ -32,6 +32,15 @@
 
 .home-stats-table .ag-row.home-stats-table-title {
   font-size: 140%;
-  background: black;
-  color: white;
+  background: #ffe492;
+}
+
+.home-stats-table .ag-row.home-stats-table-title-blocked {
+  background: #ffc7a1;
+  color: #ab6002;
+}
+
+.home-stats-table .ag-row.home-stats-table-title-blockers {
+  background: #d6e5ff;
+  color: #4f77bf;
 }
