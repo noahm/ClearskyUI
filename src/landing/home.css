@@ -34,6 +34,10 @@
   max-height: 100%;
 }
 
+.home-stats.home-stats-table {
+  align-self: unset;
+}
+
 @media (max-width: 950px) {
   .home-stats .network-circle {
     zoom: 0.8;
