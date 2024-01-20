@@ -13,6 +13,7 @@ import { TabSelector } from './tab-selector';
 import { AccountResolver } from './account-resolver';
 
 import './layout.css';
+import { AccountExtraInfo } from './account-extra-info';
 
 export const accountTabs = /** @type {const} */(['blocked-by', 'blocking', 'followers', 'history']);
 
@@ -59,6 +60,8 @@ export class AccountLayoutCore extends Component {
             account={this.props.account}
             className='account-header'
             onCloseClick={this.props.onCloseClick} />
+          
+          <AccountExtraInfo account={this.props.account} />
 
           <TabSelector
             className='account-tabs-handles'

@@ -15,3 +15,7 @@
   color: cornflowerblue;
   transform: scale(1.5);
 }
+
+.account-short-entry .did-std-prefix {
+  opacity: 0.5;
+}

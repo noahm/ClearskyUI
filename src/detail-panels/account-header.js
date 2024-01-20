@@ -81,6 +81,8 @@ export function AccountHeader({ className, account, onCloseClick }) {
           }
         </span>
       </h1>
+      <div>
+      </div>
     </div>
   );
 }
