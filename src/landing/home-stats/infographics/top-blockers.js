@@ -1,6 +1,6 @@
 // @ts-check
 
-/// <reference path="../../types.d.ts" />
+/// <reference path="../../../types.d.ts" />
 
 import React, { useState } from 'react';
 import { TopList } from './top-list';

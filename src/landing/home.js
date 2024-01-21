@@ -4,10 +4,10 @@ import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { unwrapShortHandle } from '../api';
 import { HomeHeader } from './home-header';
-import { HomeStats } from './home-stats';
 
 import './home.css';
 import { Logo } from './logo';
+import { HomeStats } from './home-stats';
 
 export function Home() {
 

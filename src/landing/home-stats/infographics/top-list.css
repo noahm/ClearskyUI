@@ -1,5 +1,20 @@
 .top-list {
-  width: 21em;
+  width: 70%;
+}
+
+.top-list .top-list-more {
+  min-width: 70%;
+  text-align: right;
+}
+
+@media (max-width: 500px) {
+  .top-list {
+    width: 21em;
+  }
+
+  .top-list .top-list-more {
+    min-width: 21em;
+  }
 }
 
 .top-list .top-list-header {
@@ -13,6 +28,10 @@
   font-size: 50%;
   transform: scale(0.8) translateY(-0.2em);
   cursor: pointer;
+}
+
+.top-list .top-list-entries .top-list-entry {
+  white-space: nowrap;
 }
 
 .top-list .top-list-entries .top-list-entry:nth-child(even) {
@@ -36,9 +55,4 @@
 
 .top-list .top-list-entry .top-list-entry-count {
   padding-left: 2em;
-}
-
-.top-list .top-list-more {
-  min-width: 21em;
-  text-align: right;
 }

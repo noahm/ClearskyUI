@@ -1,0 +1,46 @@
+.home-stats-table {
+  position: relative;
+}
+
+.home-stats-table-container {
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
+}
+
+.home-stats-table-container .as-of-subtitle {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  padding-left: 2em;
+  align-self: center;
+}
+
+.home-stats-table-container .toggle-table {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  margin: 0.5em;
+}
+
+.home-stats-table-container .home-stats-table-host {
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+}
+
+.home-stats-table .ag-row.home-stats-table-title {
+  font-size: 140%;
+  background: #ffe492;
+}
+
+.home-stats-table .ag-row.home-stats-table-title-blocked {
+  background: #ffc7a1;
+  color: #ab6002;
+}
+
+.home-stats-table .ag-row.home-stats-table-title-blockers {
+  background: #d6e5ff;
+  color: #4f77bf;
+}

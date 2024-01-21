@@ -93,3 +93,7 @@
 .account-avatar-and-displayName-line .account-did .account-did-prefix {
   opacity: 0.6;
 }
+
+.account-bio {
+  padding-left: 0.5em;
+}

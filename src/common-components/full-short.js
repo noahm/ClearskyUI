@@ -2,11 +2,12 @@
 // <reference path="../types.d.ts" />
 
 import React from 'react';
-import { unwrapShortDID, unwrapShortHandle } from '../api';
+import { likelyDID, unwrapShortDID, unwrapShortHandle } from '../api';
 
 /** @param {{ shortHandle: string | null | undefined }} _ */
-export function FullHandle({ shortHandle }) {
+export function FullHandle({ shortHandle, ...rest }) {
   if (!shortHandle) return undefined;
+  if (likelyDID(shortHandle)) return <FullDID shortDID={shortHandle} {...rest} />;
   const fullHandle = unwrapShortHandle(shortHandle);
   if (shortHandle === fullHandle) return shortHandle;
   else return (<>

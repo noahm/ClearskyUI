@@ -6,7 +6,7 @@ import React from 'react';
 import { Tooltip } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
-import { isPromise, resolveHandleOrDID, unwrapShortHandle } from '../api';
+import { isPromise, likelyDID, resolveHandleOrDID, unwrapShortHandle } from '../api';
 import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
 
@@ -116,11 +116,12 @@ function ErrorAccount({
   link,
   children
 }) {
+  const at = likelyDID(handle) ? '\u24d3' : '@';
   const content = (
     <span className={'account-short-entry-content account-short-entry-error ' + (contentClassName || '')}>
       <span className={'account-short-entry-handle ' + (handleClassName || '')}>
         <span
-          className='account-short-entry-avatar account-short-entry-at-sign'>@</span>
+          className='account-short-entry-avatar account-short-entry-at-sign'>{at}</span>
         <FullHandle shortHandle={handle} />
       </span>
       {children}
@@ -156,6 +157,7 @@ function LoadingAccount({
   link,
   children
 }) {
+  const at = likelyDID(handle) ? '\u24d3' : '@';
   return (
     <Link
       to={link || `/${unwrapShortHandle(handle)}/history`}
@@ -163,7 +165,7 @@ function LoadingAccount({
       <span className={'account-short-entry-content account-short-entry-loading ' + (contentClassName || '')}>
         <span className={'account-short-entry-handle ' + (handleClassName || '')}>
           <span
-            className='account-short-entry-avatar account-short-entry-at-sign'>@</span>
+            className='account-short-entry-avatar account-short-entry-at-sign'>{at}</span>
           <FullHandle shortHandle={handle} />
         </span>
         {children}
