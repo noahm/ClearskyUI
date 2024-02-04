@@ -8,7 +8,7 @@ export function TabSelector({ className, tab, onTabSelected }) {
   const tabHandlers = {
     'blocked-by': <VerticalTab key='blocked-by' className='tab-blocked-by'>Blocked By</VerticalTab>,
     'blocking': <VerticalTab key='blocking' className='tab-blocking'>Blocking</VerticalTab>,
-    'followers': <VerticalTab key='followers' className='tab-followers'>Followers</VerticalTab>,
+    'lists': <VerticalTab key='lists' className='tab-lists'>Lists</VerticalTab>,
     'history': <VerticalTab key='history' className='tab-history'>History</VerticalTab>
   };
 
@@ -66,14 +66,14 @@ export function TabSelector({ className, tab, onTabSelected }) {
   background-color: #b87700;
 }
 
-.tab-selector-root .MuiTab-root.tab-followers {
+.tab-selector-root .MuiTab-root.tab-lists {
   background: linear-gradient(to right, #c5d7f9, #e9f1ff 0.6em);
 }
-.tab-selector-root .MuiTab-root.tab-followers.Mui-selected {
+.tab-selector-root .MuiTab-root.tab-lists.Mui-selected {
   background: linear-gradient(to right, #c1d7ff, #a3c1f7 0.6em);
   color: #27519b;
 }
-.tab-selector-root.selected-tab-followers .MuiTabs-indicator {
+.tab-selector-root.selected-tab-lists .MuiTabs-indicator {
   background-color: #3c68b7;
 }
 

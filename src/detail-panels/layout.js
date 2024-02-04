@@ -14,8 +14,9 @@ import { AccountResolver } from './account-resolver';
 
 import './layout.css';
 import { AccountExtraInfo } from './account-extra-info';
+import { Lists } from './lists';
 
-export const accountTabs = /** @type {const} */(['blocked-by', 'blocking', 'followers', 'history']);
+export const accountTabs = /** @type {const} */(['blocked-by', 'blocking', 'lists', 'history']);
 
 export function AccountLayout() {
   let { tab } = useParams();
@@ -121,7 +122,7 @@ function renderTabContent(tab, account) {
   switch (tab) {
     case 'blocked-by': return <BlockedByPanel account={account} />
     case 'blocking': return <BlockingPanel account={account} />;
-    // case 'followers': return <div>followers</div>;
+    case 'lists': return <Lists account={account} />;
     case 'history': return <HistoryPanel account={account} />;
 
     default: return (

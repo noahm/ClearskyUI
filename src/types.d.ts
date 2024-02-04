@@ -117,3 +117,13 @@ type DashboardBlockListEntry = {
   /** did:plc:i3bauhmsixt5j33pnr5g7475 */
   did: string
 };
+
+type AccountListEntry = {
+  created_date: string,
+  date_added: string,
+  description: string,
+  handle: string,
+  name: string,
+  status: boolean,
+  url: string
+}

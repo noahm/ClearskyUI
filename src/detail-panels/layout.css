@@ -66,16 +66,16 @@
   background-color: #b87700;
 }
 
-.account-tabs-handles .MuiTab-root.tab-followers {
+.account-tabs-handles .MuiTab-root.tab-lists {
   background: linear-gradient(to right, #c5d7f9, #e9f1ff 0.6em);
 }
 
-.account-tabs-handles .MuiTab-root.tab-followers.Mui-selected {
+.account-tabs-handles .MuiTab-root.tab-lists.Mui-selected {
   background: linear-gradient(to right, #c1d7ff, #a3c1f7 0.6em);
   color: #27519b;
 }
 
-.account-tabs-handles.selected-tab-followers .MuiTabs-indicator {
+.account-tabs-handles.selected-tab-lists .MuiTabs-indicator {
   background-color: #3c68b7;
 }
 
