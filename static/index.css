@@ -8549,6 +8549,13 @@ input[class^=ag-][type=range]:disabled {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr auto 1fr;
 }
+@media (max-width: 800px) {
+  .home {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+}
 .home-header-logo {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
@@ -8581,7 +8588,7 @@ input[class^=ag-][type=range]:disabled {
   .home-header-logo {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
-    min-height: 2em;
+    min-height: 5.8em;
     margin-top: 0.8em;
     margin-left: 1em;
     margin-bottom: -0.5em;
