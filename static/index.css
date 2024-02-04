@@ -8750,6 +8750,9 @@ input[class^=ag-][type=range]:disabled {
 }
 
 /* src/common-components/account-short-entry.css */
+.account-short-entry {
+  line-height: 1.4;
+}
 .account-short-entry .account-short-entry-avatar {
   background: no-repeat center center;
   background-size: cover;
@@ -9008,6 +9011,14 @@ table.stats-table th {
   padding-left: 0.5em;
 }
 
+/* src/detail-panels/block-panel-generic/table-view.css */
+.block-panel-table-view a.account-short-entry {
+  text-decoration: none;
+}
+.block-panel-table-view a.account-short-entry:hover {
+  text-decoration: underline;
+}
+
 /* src/detail-panels/block-panel-generic/block-panel-generic.css */
 .account-info-panel-blocked-timestamp {
   font-size: 80%;
@@ -9029,6 +9040,12 @@ table.stats-table th {
 }
 .block-account-info-panel .account-info-panel-description {
   padding: 1em;
+}
+.block-panel-generic {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
 }
 .block-panel-header {
   padding-left: 0.6em;
@@ -9072,11 +9089,15 @@ table.stats-table th {
   padding-left: 0.1em;
 }
 .blocking-panel-header {
-  padding-left: 0.5em;
+  padding: 0.5em;
+  margin: 0;
 }
 .blocking-panel-header-loading * {
-  filter: blur(2px);
+  filter: blur(0.5px);
   opacity: 0.7;
+}
+.blocking-panel-header .panel-toggle-table {
+  float: right;
 }
 
 /* src/detail-panels/history/history-scrollable-list.css */
@@ -9408,6 +9429,7 @@ table.stats-table th {
   z-index: 10;
   opacity: 1;
   pointer-events: auto;
+  position: relative;
   disabled: false;
 }
 @media (max-width: 800px) {

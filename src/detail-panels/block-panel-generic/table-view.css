@@ -1,0 +1,7 @@
+.block-panel-table-view a.account-short-entry {
+  text-decoration: none;
+}
+
+.block-panel-table-view a.account-short-entry:hover {
+  text-decoration: underline;
+}

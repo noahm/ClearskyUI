@@ -1,3 +1,7 @@
+.account-short-entry {
+  line-height: 1.4;
+}
+
 .account-short-entry .account-short-entry-avatar {
   background: no-repeat center center;
   background-size: cover;

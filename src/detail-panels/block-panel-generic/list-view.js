@@ -3,12 +3,9 @@
 
 import React from 'react';
 
-import { isPromise, resolveHandleOrDID } from '../../api';
 import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
 import { useState } from 'react';
-import { Tooltip } from '@mui/material';
-import { withStyles } from '@mui/styles';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
 
 const INITIAL_SIZE = 20;

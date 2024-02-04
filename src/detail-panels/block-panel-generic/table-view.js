@@ -1,6 +1,22 @@
 // @ts-check
 
 import React from 'react';
+import { AgGridReact } from 'ag-grid-react';
+
+import { AccountShortEntry } from '../../common-components/account-short-entry';
+
+import './table-view.css';
+
+/** @type {import('ag-grid-community').ColDef[]} */
+const columnDefs = [
+  {
+    field: 'handle',
+    cellRenderer: HandleCellRenderer
+  },
+  {
+    field: 'blocked_date'
+  }
+];
 
 /**
  * @param {{
@@ -10,23 +26,14 @@ import React from 'react';
  */
 export function TableView({ account, blocklist }) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Blocked</th>
-          <th>Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          blocklist.map(block => (
-            <tr>
-              <td>{block.blocked_date}</td>
-              <td>{block.handle}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+    <AgGridReact
+      className='block-panel-table-view'
+      rowData={blocklist}
+      columnDefs={columnDefs}
+    />
   );
+}
+
+export function HandleCellRenderer({ value }) {
+  return <AccountShortEntry account={value} />;
 }

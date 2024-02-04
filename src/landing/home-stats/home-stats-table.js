@@ -41,7 +41,7 @@ export function HomeStatsTable({
             </Button>
         }
 
-        <div className='home-stats-table-host ag-theme-quartz'>
+        <div className='home-stats-table-host'>
           <AgGridReact
             columnDefs={columns}
             getRowClass={params => 
