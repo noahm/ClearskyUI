@@ -66,3 +66,12 @@
   font-size: 80%;
   padding-left: 0.1em;
 }
+
+.blocking-panel-header {
+  padding-left: 0.5em;
+}
+
+.blocking-panel-header-loading * {
+  filter: blur(2px);
+  opacity: 0.7;
+}

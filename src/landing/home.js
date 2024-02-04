@@ -16,7 +16,7 @@ export function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="layout">
+    <div className="home">
       <Logo />
       <HomeHeader className='home-header'
         searchText={searchText}

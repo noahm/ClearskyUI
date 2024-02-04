@@ -36,17 +36,10 @@ export function BlockPanelGeneric({
       backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
       minHeight: '100%'
     }}>
-      {count ?
-        <h3 className='block-panel-header'>{
-          !header ? <>Blocked by {count}:</> :
-            typeof header === 'function' ? header({ count, blocklist }) :
-              header
-          }</h3> :
-        ''
-      }
+      <PanelHeader count={count} blocklist={blocklist} header={header} />
       {
         loading && !blocklist?.length ?
-          'Loading...' :
+          <p style={{ padding: '0.5em', opacity: '0.5' }}>Loading...</p> :
           tableView ?
             <TableView
               account={account}
@@ -57,6 +50,39 @@ export function BlockPanelGeneric({
       }
     </div>
   );
+}
+
+class PanelHeader extends React.Component {
+  direction = +1;
+
+  render() {
+    let count = this.props.count;
+    if (typeof this.props.count !== 'number') {
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => this.forceUpdate(), 10);
+      count = this.state?.count || 0;
+      if (!this.state) this.state = { count: 0 };
+    }
+
+    const { blocklist, header } = this.props;
+
+    return (
+      <h3 className={'blocking-panel-header' + (typeof this.props.count === 'number' ? '' : ' blocking-panel-header-loading')}>
+        {typeof header === 'function' ?
+          header({ count, blocklist }) :
+          header
+        }
+      </h3>
+    );
+  }
+
+  forceUpdate = () => {
+    let count = Math.max(0, (this.state?.count || 0) + this.direction);
+    this.setState({ count });
+    if (count === 0) this.direction = +1;
+    else if (count > 300 && this.direction > 0 && Math.random() > 0.9)
+      this.direction = -1;
+  };
 }
 
 /** @param {typeof singleBlocklist} fetch */

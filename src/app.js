@@ -31,10 +31,16 @@ function detectBaseURL() {
 
 function showApp() {
 
-  console.log('the app was loaded');
   const loadingUI = document.getElementById('loading-ui');
   if (loadingUI) {
-    loadingUI.parentElement?.removeChild(loadingUI);
+    loadingUI.style.transition = 'opacity 0.5s';
+    setTimeout(() => {
+      loadingUI.style.opacity = '0';
+      setTimeout(() => {
+        console.log('removing loadingUI');
+        loadingUI.parentElement?.removeChild(loadingUI);
+      }, 500);
+    }, 1);
   }
 
   const root = document.createElement('div');
@@ -81,6 +87,7 @@ function showApp() {
     },
   });
 
+  console.log('React createRoot/render');
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
@@ -90,5 +97,5 @@ function showApp() {
   );
 }
 
-console.log('loading app...');
+console.log('starting the app...');
 showApp();

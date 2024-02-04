@@ -30,7 +30,7 @@ export function BlockedByPanel({ account }) {
     }}>
       {count ?
         <h3 className='blocking-panel-header'>Blocked by {count}:</h3> :
-        ''
+        <h3 className='blocking-panel-header'>Blocked by <FunnyCounter />:</h3>
       }
       {
         loading && !blocklist?.length ?
@@ -69,4 +69,18 @@ async function* fetchAccountBlocking(shortHandle) {
   } finally {
     console.log('fetch account blocking finished');
   }
+}
+
+function FunnyCounter() {
+  const [count, setCount] = React.useState(0);
+  React.useEffect(() => {
+    let direction = +1;
+    const interval = setInterval(() => {
+      if (!count) direction = +1;
+      else if (direction > 0 && count > 400 && Math.random() > 0.9) direction = -direction;
+      setCount(count => count + direction);
+    }, 200);
+    return () => clearInterval(interval);
+  }, []);
+  return <span>{count}</span>;
 }

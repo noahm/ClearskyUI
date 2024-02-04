@@ -11,6 +11,6 @@ export function BlockedByPanel({ account }) {
       className='blocked-by-panel'
       fetch={singleBlocklist}
       account={account}
-      header={({ count }) => 'Blocked by ' + count.toLocaleString() + ':'} />
+      header={({ count }) => <>Blocked by <span>{count.toLocaleString()}:</span></>} />
   );
 }
