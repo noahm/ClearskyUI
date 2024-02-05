@@ -9526,4 +9526,10 @@ table.stats-table th {
   text-overflow: ellipsis;
   padding-left: 0.5em;
 }
+
+/* src/detail-panels/lists/lists.css */
+.lists-header {
+  padding: 0.5em;
+  margin: 0;
+}
 /*# sourceMappingURL=index.css.map */
