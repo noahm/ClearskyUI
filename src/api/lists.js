@@ -22,5 +22,13 @@ export async function getList(handleOrDID) {
     handleURL,
     { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
 
-  return re.data?.lists;
+  const lists = re.data?.lists;
+  if (lists) {
+    lists.sort((entry1, entry2) => {
+      const date1 = new Date(entry1.date_added).getTime();
+      const date2 = new Date(entry2.date_added).getTime();
+      return date2 - date1;
+    });
+  }
+  return lists;
 }
