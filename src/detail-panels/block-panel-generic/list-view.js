@@ -20,6 +20,7 @@ const GROW_BLOCK_SIZE = 29;
 export function ListView({ account, blocklist }) {
   const [listSize, setListSize] = useState(INITIAL_SIZE);
   const showSize = Math.min(blocklist.length, listSize);
+
   return (
     <ul className='block-list'>
       {
@@ -69,6 +70,7 @@ function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
     <li {...rest} className={'blocking-list-entry ' + (className || '')}>
       <AccountShortEntry
         className='blocking-account-link'
+        withDisplayName
         accountTooltipBanner={
           !blocked_date ? undefined :
             <div className='account-info-panel-blocked-timestamp'>

@@ -16,7 +16,8 @@ import { useResolveAccount } from './use-resolve-account';
 
 /**
  * @typedef {{
- *  account: string | Partial<AccountInfo> & { loading?: boolean };
+ *  account: string | Partial<AccountInfo> & { loading?: boolean },
+ *  withDisplayName?: boolean,
  *  className?: string,
  *  contentClassName?: string,
  *  handleClassName?: string,
@@ -52,6 +53,7 @@ export function AccountShortEntry({ account, ...rest }) {
  */
 function ResolvedAccount({
   account,
+  withDisplayName,
   className,
   contentClassName,
   handleClassName,
@@ -64,14 +66,22 @@ function ResolvedAccount({
   const avatarClass = account.avatarUrl ?
     'account-short-entry-avatar account-short-entry-avatar-image' :
     'account-short-entry-avatar account-short-entry-at-sign';
-  const handle = (
+  const handleWithContent = (
     <span className={'account-short-entry-content ' + (contentClassName || '')}>
-      <span className={'account-short-entry-handle ' + (handleClassName || '') }>
+      <span className={'account-short-entry-handle ' + (handleClassName || '')}>
         <span
           className={avatarClass}
           style={!account.avatarUrl ? undefined :
             { backgroundImage: `url(${account.avatarUrl})` }}>@</span>
         <FullHandle shortHandle={account.shortHandle} />
+        {
+          !withDisplayName || !account.displayName ? undefined :
+            <>
+              {' '}<span className='account-short-entry-display-name'>
+                {account.displayName}
+              </span>
+            </>
+        }
       </span>
       {children}
     </span>
@@ -79,7 +89,7 @@ function ResolvedAccount({
 
   const linkContent =
     customTooltip ?
-      <FlushBackgroundTooltip title={customTooltip}>{handle}</FlushBackgroundTooltip> :
+      <FlushBackgroundTooltip title={customTooltip}>{handleWithContent}</FlushBackgroundTooltip> :
       accountTooltipPanel || accountTooltipBanner ?
         (
           <FlushBackgroundTooltip
@@ -89,10 +99,10 @@ function ResolvedAccount({
                 children={accountTooltipPanel === true ? undefined : accountTooltipPanel}
                 banner={accountTooltipBanner === true ? undefined : accountTooltipBanner} />
             }>
-            {handle}
+            {handleWithContent}
           </FlushBackgroundTooltip>
         ) :
-        handle;
+        handleWithContent;
 
   return (
     <Link
