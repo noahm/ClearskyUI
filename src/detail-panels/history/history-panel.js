@@ -5,13 +5,13 @@ import React, { Component } from 'react';
 import { isPromise, postHistory } from '../../api';
 import { HistoryLoading } from './history-loading';
 import { HistoryScrollableList } from './history-scrollable-list';
-import { SearchHeader } from './search-header';
+import { SearchHeaderDebounced } from './search-header';
 import { useSearchParams } from 'react-router-dom';
 
 /**
  * @extends {Component<
  *  { account: AccountInfo },
- *  { searchText: string, searchTextInstant: string, error: Error | null, loaded?: number }>}
+ *  { error: Error | null, loaded?: number }>}
  */
 export class HistoryPanel extends Component {
 
@@ -54,27 +54,13 @@ export class HistoryPanel extends Component {
     return (
       <SearchParamsHelper>
         {({ searchParams, setSearchParams }) => {
-          const searchText =
-            typeof this.state?.searchText === 'string' ? this.state.searchText :
-              searchParams.get('q') || '';
-          const searchTextInstant =
-            typeof this.state?.searchTextInstant === 'string' ? this.state.searchTextInstant :
-              searchText;
+          const searchText = searchParams.get('q') || '';
 
           return (
             <>
-              <SearchHeader value={searchTextInstant}
-                onChange={(event) => {
-                  const searchTextInstant = event.target.value;
-                  this.setState({ searchTextInstant });
-                  clearTimeout(this.applySearchTextTimeout);
-                  this.applySearchTextTimeout = setTimeout(() => {
-                    if (this.state?.searchText !== searchTextInstant) {
-                      this.setState({ searchText: searchTextInstant });
-                      setSearchParams(searchTextInstant ? { q: searchTextInstant } : {});
-                    }
-                  }, 500);
-                }} />
+              <SearchHeaderDebounced
+                label='Search history'
+                setQ />
               <div style={{
                 // background: 'tomato',
                 // backgroundColor: '#fffcf5',
