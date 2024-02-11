@@ -32,6 +32,7 @@
 .block-panel-generic .history-header {
   background: inherit;
   padding-top: 0.7em;
+  padding-bottom: 0;
 }
 
 @media (max-width: 800px) {
@@ -99,6 +100,8 @@ li.blocking-list-entry:nth-child(even) {
 .blocking-panel-header {
   padding: 0.5em;
   margin: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0;
 }
 
 .blocking-panel-header-loading * {

@@ -17,6 +17,8 @@ export function FormatTimestamp({
   Component = 'span',
   noTooltip,
   ...props }) {
+  const [_, setState] = useState(0);
+
   const date = new Date(timestamp);
   const now = Date.now();
 
@@ -48,16 +50,14 @@ export function FormatTimestamp({
     }
   }
 
-  const [_, setState] = useState(0);
+  useEffect(() => {
+    if (updateDelay) return;
 
-  if (updateDelay) {
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setState(Date.now());
-      }, updateDelay);
-      return () => clearTimeout(timeout);
-    });
-  }
+    const timeout = setTimeout(() => {
+      setState(Date.now());
+    }, updateDelay);
+    return () => clearTimeout(timeout);
+  });
 
   const core =
     <Component {...props}>{dateStr}</Component>;

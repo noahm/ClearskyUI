@@ -52,13 +52,10 @@ export function BlockPanelGeneric({
       backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
       minHeight: '100%'
     }}>
-      <div>
-        <div style={showSearch ? undefined : { display: 'none' }}>
-          <SearchHeaderDebounced
-            label='Search'
-              setQ />
-        </div>
-      </div>
+      <SearchHeaderDebounced
+        style={showSearch ? undefined : { display: 'none' }}
+        label='Search'
+        setQ />
       <PanelHeader
         count={count}
         blocklist={blocklist}

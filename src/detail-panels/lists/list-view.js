@@ -41,6 +41,7 @@ function ListViewEntry({ className, account, entry }) {
       <div className='row'>
         <AccountShortEntry
           className='list-owner'
+          withDisplayName
           account={entry.handle}
         />
         <FormatTimestamp

@@ -9106,6 +9106,7 @@ table.stats-table th {
 .block-panel-generic .history-header {
   background: inherit;
   padding-top: 0.7em;
+  padding-bottom: 0;
 }
 @media (max-width: 800px) {
   .block-panel-generic .history-header {
@@ -9168,6 +9169,8 @@ li.blocking-list-entry:nth-child(even) {
 .blocking-panel-header {
   padding: 0.5em;
   margin: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0;
 }
 .blocking-panel-header-loading * {
   filter: blur(0.5px);
@@ -9556,7 +9559,12 @@ li.blocking-list-entry:nth-child(even) {
 
 /* src/detail-panels/lists/lists.css */
 .lists-header {
-  padding: 0.5em;
+  padding: 0.7em 0.5em;
   margin: 0;
+}
+.panel-toggles {
+  float: right;
+  position: relative;
+  top: -0.4em;
 }
 /*# sourceMappingURL=index.css.map */
