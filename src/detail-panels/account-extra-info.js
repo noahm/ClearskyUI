@@ -5,7 +5,9 @@ import React from 'react';
 import './account-extra-info.css';
 
 /**
- * @param {{ account: AccountInfo }} _
+ * @param {{
+ *  account: AccountInfo,
+ * }} _
  */
 export function AccountExtraInfo({ account }) {
   return (
@@ -23,8 +25,8 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
   const lines = text.split('\n');
   const lineElements = [];
   for (const ln of lines) {
-    if (lineElements.length) lineElements.push(<br key={lineElements.length} />);
-    lineElements.push(<Line key={lineElements.length} text={ln} className={lineClassName} />);
+    if (!ln) lineElements.push(<div key={lineElements.length} style={{ height: '0.5em' }}></div>);
+    else lineElements.push(<Line key={lineElements.length} text={ln} className={lineClassName} />);
   }
 
   return lineElements;

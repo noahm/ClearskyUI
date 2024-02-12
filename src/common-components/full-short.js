@@ -4,25 +4,38 @@
 import React from 'react';
 import { likelyDID, unwrapShortDID, unwrapShortHandle } from '../api';
 
-/** @param {{ shortHandle: string | null | undefined }} _ */
+/**
+ * @param {{
+ *  shortHandle: string | null | undefined,
+ *  className?: string
+ * }} _
+ */
 export function FullHandle({ shortHandle, ...rest }) {
   if (!shortHandle) return undefined;
   if (likelyDID(shortHandle)) return <FullDID shortDID={shortHandle} {...rest} />;
   const fullHandle = unwrapShortHandle(shortHandle);
-  if (shortHandle === fullHandle) return shortHandle;
-  else return (<>
-    {shortHandle}
-    <span className='handle-std-suffix'>{fullHandle.slice(shortHandle.length)}</span>
-  </>);
+  if (shortHandle === fullHandle) return <span {...rest}>{shortHandle}</span>;
+  else return (
+    <span {...rest}>
+      {shortHandle}
+      <span className='handle-std-suffix'>{fullHandle.slice(shortHandle.length)}</span>
+    </span>);
 }
 
-/** @param {{ shortDID: string | null | undefined }} _ */
-export function FullDID({ shortDID }) {
+/**
+ * @param {{
+ *  shortDID: string | null | undefined,
+ *  className?: string
+ * }} _
+ */
+export function FullDID({ shortDID, ...rest }) {
   if (!shortDID) return undefined;
   const fullDID = unwrapShortDID(shortDID);
-  if (shortDID === fullDID) return fullDID;
-  else return (<>
-    <span className='did-std-prefix'>{fullDID.slice(0, -shortDID.length)}</span>
-    {shortDID}
-  </>);
+  if (shortDID === fullDID) return <span {...rest}>{fullDID}</span>;
+  else return (
+    <span {...rest}>
+      <span className='did-std-prefix'>{fullDID.slice(0, -shortDID.length)}</span>
+      {shortDID}
+    </span>
+  );
 }

@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { isPromise, resolveHandleOrDID, shortenHandle, unwrapShortHandle } from '../api';
@@ -15,30 +15,44 @@ import { AccountResolver } from './account-resolver';
 import './layout.css';
 import { AccountExtraInfo } from './account-extra-info';
 import { Lists } from './lists';
+import { getHandleHistory } from '../api/handle-history';
+import { forAwait } from '../common-components/for-await';
 
 export const accountTabs = /** @type {const} */(['blocked-by', 'blocking', 'lists', 'history']);
 
 export function AccountLayout() {
+
+  return (
+    <AccountResolver.Consumer>
+      {account => <WithAccount account={account} />}
+    </AccountResolver.Consumer>
+  );
+}
+
+function WithAccount({ account }) {
   let { tab } = useParams();
   if (!tab) tab = accountTabs[0];
 
   const navigate = useNavigate();
 
+  const handleHistory = forAwait(
+    account?.shortDID || account?.shortHandle,
+    getHandleHistory);
+
   return (
-    <AccountResolver.Consumer>
-      {account => <AccountLayoutCore
-        account={account}
-        selectedTab={tab}
-        onSetSelectedTab={(selectedTab) => {
-          navigate(
-            '/' + unwrapShortHandle(account?.shortHandle) +
-            '/' + selectedTab,
-            { replace: true });
-        }}
-        onCloseClick={() => {
-          navigate('/');
-        }} />}
-    </AccountResolver.Consumer>
+    <AccountLayoutCore
+      account={account}
+      handleHistory={handleHistory && !isPromise(handleHistory) ? handleHistory.handle_history : undefined}
+      selectedTab={tab}
+      onSetSelectedTab={(selectedTab) => {
+        navigate(
+          '/' + unwrapShortHandle(account?.shortHandle) +
+          '/' + selectedTab,
+          { replace: true });
+      }}
+      onCloseClick={() => {
+        navigate('/');
+      }} />
   );
 }
 
@@ -51,6 +65,8 @@ export class AccountLayoutCore extends Component {
   render() {
 
     const selectedTab = this.props.selectedTab;
+    const expandHandleHistory =
+      this.props.handleHistory?.length > 1 && this.state?.expandHandleHistory;
 
     let anyTabsBehind = false;
     const result = (
@@ -60,9 +76,11 @@ export class AccountLayoutCore extends Component {
           <AccountHeader
             account={this.props.account}
             className='account-header'
+            handleHistory={this.props.handleHistory}
             onCloseClick={this.props.onCloseClick} />
           
-          <AccountExtraInfo account={this.props.account} />
+          <AccountExtraInfo
+            account={this.props.account} />
 
           <TabSelector
             className='account-tabs-handles'

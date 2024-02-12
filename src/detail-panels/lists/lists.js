@@ -62,10 +62,14 @@ export function Lists({ account }) {
                 {
                   showSearch ? undefined :
                     <Button size='small' className='panel-show-search' onClick={() => setShowSearch(true)}><SearchIcon /></Button>
-                }
-                <Button variant='contained' size='small' className='panel-toggle-table' onClick={() => setTableView(!setTableView)}>
-                  <ViewList />
-                </Button>
+                  }
+
+                  {
+                    // table view is not yet implemented, hide the button for now
+                    // <Button variant='contained' size='small' className='panel-toggle-table' onClick={() => setTableView(!setTableView)}>
+                    //   <ViewList />
+                    // </Button>
+                  }
               </span>
             </> :
             <>
