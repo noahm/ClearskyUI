@@ -8,16 +8,19 @@ import { HomeHeader } from './home-header';
 import './home.css';
 import { Logo } from './logo';
 import { HomeStats } from './home-stats';
+import { About } from './about';
 
 export function Home() {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchText, setSearchText] = React.useState(searchParams.get('q') || '');
+  const [aboutOpen, setAboutOpen] = React.useState(false);
   const navigate = useNavigate();
 
   return (
-    <div className="home">
+    <div className={'home ' + (aboutOpen ? 'about-open' : '')}>
       <Logo />
+      <About onToggleAbout={() => setAboutOpen(!aboutOpen)} />
       <HomeHeader className='home-header'
         searchText={searchText}
         onSearchTextChanged={searchText => {

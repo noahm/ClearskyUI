@@ -28,6 +28,20 @@
   background-position-y: bottom;
 }
 
+.home .about {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.home .about .text {
+  padding: 0.5em;
+}
+
+.home .about .corner-buttons {
+  display: none;
+  z-index: 2;
+}
+
 .home-header {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
@@ -54,6 +68,14 @@
 
 @media (max-width: 800px) {
 
+  .home {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .home.about-open {
+    transform: translateY(5em);
+  }
+
   .home-header-logo {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
@@ -61,6 +83,19 @@
     margin-top: 0.8em;
     margin-left: 1em;
     margin-bottom: -0.5em;
+  }
+
+  .home .about {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .home .about .text {
+    transform: translateY(-5em);
+  }
+
+  .home .about .corner-buttons {
+    display: block;
   }
 
   .home-header {
