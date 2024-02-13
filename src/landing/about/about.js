@@ -18,7 +18,7 @@ export function About({ onToggleAbout }) {
       </span>
       <div className='text'>
         conceived by ******<br />
-        implemented with help from ***, ****, ***
+        implemented with help from ***, ****, *** - version 0.2.0
       </div>
     </div>
   );

@@ -8672,11 +8672,11 @@ input[class^=ag-][type=range]:disabled {
 }
 .network-circle-circle .network-crowd {
   position: absolute;
-  top: 0;
+  top: 0.3em;
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 24.5%;
+  padding: 22.5%;
 }
 .network-circle-circle .network-active-crowd {
   text-align: center;
