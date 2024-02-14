@@ -9436,6 +9436,94 @@ li.blocking-list-entry:nth-child(even) {
   font-size: 80%;
 }
 
+/* src/detail-panels/tab-selector.css */
+.tab-outer-container {
+  position: relative;
+}
+.tab-selector-root {
+  position: sticky;
+  top: 5em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  border-right: none;
+}
+.tab-selector-root .MuiTab-root {
+  min-width: 0;
+  padding: 2em 0.8em;
+  margin-bottom: 0.5em;
+  background:
+    linear-gradient(
+      to right,
+      #dfdfdf,
+      #f3f3f3 0.4em);
+  box-shadow: inset -1px 0px 1px #00000059;
+}
+.tab-selector-root .MuiTabs-indicator {
+  background-color: black;
+}
+.tab-selector-root .MuiTab-root.Mui-selected {
+  background:
+    linear-gradient(
+      to right,
+      #e8e5e5,
+      #dadada 0.4em);
+  color: black;
+}
+.tab-selector-root .MuiTab-root.tab-blocked-by {
+  background:
+    linear-gradient(
+      to right,
+      #f7c9c1,
+      #fde4e0 0.4em);
+}
+.tab-selector-root .MuiTab-root.tab-blocked-by.Mui-selected {
+  background:
+    linear-gradient(
+      to right,
+      #ffccc4,
+      #f4b6ac 0.6em);
+  color: #a02d19;
+}
+.tab-selector-root.selected-tab-blocked-by .MuiTabs-indicator {
+  background-color: #a02d19;
+}
+.tab-selector-root .MuiTab-root.tab-blocking {
+  background:
+    linear-gradient(
+      to right,
+      #efe5b2,
+      #fff7d1 0.6em);
+}
+.tab-selector-root .MuiTab-root.tab-blocking.Mui-selected {
+  background:
+    linear-gradient(
+      to right,
+      #fff2af,
+      #ffea81 0.6em);
+  color: #a26900;
+}
+.tab-selector-root.selected-tab-blocking .MuiTabs-indicator {
+  background-color: #b87700;
+}
+.tab-selector-root .MuiTab-root.tab-lists {
+  background:
+    linear-gradient(
+      to right,
+      #c5d7f9,
+      #e9f1ff 0.6em);
+}
+.tab-selector-root .MuiTab-root.tab-lists.Mui-selected {
+  background:
+    linear-gradient(
+      to right,
+      #c1d7ff,
+      #a3c1f7 0.6em);
+  color: #27519b;
+}
+.tab-selector-root.selected-tab-lists .MuiTabs-indicator {
+  background-color: #3c68b7;
+}
+
 /* src/detail-panels/layout.css */
 .layout {
   position: fixed;
@@ -9662,5 +9750,18 @@ li.blocking-list-entry:nth-child(even) {
   float: right;
   position: relative;
   top: -0.4em;
+}
+
+/* src/app.css */
+.bluethernal-llc-watermark {
+  position: fixed;
+  bottom: 1.4em;
+  right: 0.8em;
+  font-size: 113%;
+  opacity: 0.1;
+  pointer-events: none;
+  writing-mode: vertical-rl;
+  font-weight: 900;
+  text-shadow: 0 0 1px currentColor;
 }
 /*# sourceMappingURL=index.css.map */

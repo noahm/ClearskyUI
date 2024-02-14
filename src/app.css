@@ -1,0 +1,11 @@
+.bluethernal-llc-watermark {
+  position: fixed;
+  bottom: 1.4em;
+  right: 0.8em;
+  font-size: 113%;
+  opacity: 0.1;
+  pointer-events: none;
+  writing-mode: vertical-rl;
+  font-weight: 900;
+  text-shadow: 0 0 1px currentColor;
+}

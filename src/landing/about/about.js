@@ -18,7 +18,7 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className='text'>
-        Version: 0.2.1 <br />
+        Version: 0.2.3 <br />
         Created by: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'

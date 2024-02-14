@@ -6,14 +6,16 @@ import {
   createHashRouter,
   RouterProvider,
 } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material';
 
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 
 import { Home } from './landing/home';
-import { createTheme, ThemeProvider } from '@mui/material';
 import { AccountView } from './detail-panels';
+
+import './app.css';
 
 function detectBaseURL() {
   if (/file/i.test(location.protocol)) return './';
@@ -91,7 +93,12 @@ function showApp() {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <>
+          <RouterProvider router={router} />
+          <div className='bluethernal-llc-watermark'>
+            Bluethernal LLC
+          </div>
+        </>
       </ThemeProvider>
     </React.StrictMode>
   );
