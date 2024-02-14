@@ -6,13 +6,14 @@ import React from 'react';
 import { Tooltip } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
-import { isPromise, likelyDID, resolveHandleOrDID, unwrapShortHandle } from '../api';
+
+import { likelyDID, unwrapShortHandle } from '../api';
 import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
+import { useResolveAccount } from './use-resolve-account';
 
 import './account-short-entry.css';
-import { forAwait } from './for-await';
-import { useResolveAccount } from './use-resolve-account';
+import { calcHash, nextRandom } from '../api/core';
 
 /**
  * @typedef {{
@@ -66,13 +67,19 @@ function ResolvedAccount({
   const avatarClass = account.avatarUrl ?
     'account-short-entry-avatar account-short-entry-avatar-image' :
     'account-short-entry-avatar account-short-entry-at-sign';
+
+  const avatarDelay = getAvatarDelay(account);
+
   const handleWithContent = (
     <span className={'account-short-entry-content ' + (contentClassName || '')}>
       <span className={'account-short-entry-handle ' + (handleClassName || '')}>
         <span
           className={avatarClass}
           style={!account.avatarUrl ? undefined :
-            { backgroundImage: `url(${account.avatarUrl})` }}>@</span>
+            {
+              backgroundImage: `url(${account.avatarUrl})`,
+              animationDelay: avatarDelay
+            }}>@</span>
         <FullHandle shortHandle={account.shortHandle} />
         {
           !withDisplayName || !account.displayName ? undefined :
@@ -112,6 +119,23 @@ function ResolvedAccount({
     </Link>
   );
 
+}
+
+const avatarDelays = {};
+const delayRandomBase = Math.random() * 400;
+
+function getAvatarDelay(account) {
+  const avatarUrl = account?.avatarUrl;
+  if (!avatarUrl) return undefined;
+  let delay = avatarDelays[avatarUrl];
+  if (delay) return delay;
+
+  const hash = calcHash(avatarUrl) / delayRandomBase + delayRandomBase;
+  const rnd = Math.abs(hash) - Math.floor(Math.abs(hash));
+  delay = (rnd * 40).toFixed(3) + 's';
+  avatarDelays[avatarUrl] = delay;
+  console.log('Avatar delay', account.shortHandle, { delay, hash, rnd });
+  return delay;
 }
 
 /**

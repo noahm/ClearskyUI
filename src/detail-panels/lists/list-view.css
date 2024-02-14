@@ -24,6 +24,8 @@
   grid-column: 1 / 2;
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lists-as-list-view .lists-entry .list-add-date {

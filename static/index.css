@@ -8782,6 +8782,9 @@ input[class^=ag-][type=range]:disabled {
   white-space: pre-wrap;
   padding: 0.5em;
 }
+.mini-account-info .account-info-panel-children {
+  padding: 0.4em;
+}
 
 /* src/common-components/account-short-entry.css */
 .account-short-entry {
@@ -8805,6 +8808,26 @@ input[class^=ag-][type=range]:disabled {
 }
 .account-short-entry .did-std-prefix {
   opacity: 0.5;
+}
+.account-short-entry .account-short-entry-avatar-image {
+  animation: 20s ease-in 1s infinite reverse both running wait-and-flip;
+}
+@keyframes wait-and-flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  96% {
+    transform: rotateY(0deg);
+  }
+  98% {
+    transform: rotateY(90deg);
+  }
+  98% {
+    transform: rotateY(-90deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
 }
 
 /* src/landing/home-stats/infographics/top-list.css */
@@ -9605,6 +9628,8 @@ li.blocking-list-entry:nth-child(even) {
   grid-column: 1 / 2;
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .lists-as-list-view .lists-entry .list-add-date {
   grid-row: 1 / 2;

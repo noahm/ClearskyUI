@@ -22,9 +22,10 @@ export function MiniAccountInfo({
   account,
   banner,
   details,
-  children}) {
+  children,
+  ...rest }) {
   return (
-    <div className={'mini-account-info ' + className}>
+    <div className={'mini-account-info ' + className} {...rest}>
       <h3>
         <div className='account-banner' style={{
           backgroundImage: account.bannerUrl ? `url(${account.bannerUrl})` : 'transparent'
@@ -62,7 +63,11 @@ export function MiniAccountInfo({
       <div className='account-info-panel-description'>
         {details || account.description}
       </div>
-      {children}
+      {children == null ? undefined :
+        <div className='account-info-panel-children'>
+          {children}
+        </div>
+      }
     </div>
   );
 }

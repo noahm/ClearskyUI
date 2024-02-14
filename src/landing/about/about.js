@@ -5,6 +5,7 @@ import React from 'react';
 import { Button, Fab } from '@mui/material';
 
 import './about.css';
+import { AccountShortEntry } from '../../common-components/account-short-entry';
 
 export function About({ onToggleAbout }) {
   return (
@@ -17,8 +18,17 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className='text'>
-        conceived by ******<br />
-        implemented with help from ***, ****, *** - version 0.2.0
+        Version: 0.2.1 <br />
+        Created by: <AccountShortEntry
+          account='thieflord.dev'
+          link='https://bsky.app/profile/thieflord.dev'
+          accountTooltipPanel={true}
+        /> <br />
+        Implementation developer: <AccountShortEntry
+          account='oyin.bo'
+          link='https://bsky.app/profile/oyin.bo'
+          accountTooltipPanel='User experience and interaction beauty.'
+        />
       </div>
     </div>
   );

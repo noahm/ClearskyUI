@@ -17,3 +17,7 @@
   white-space: pre-wrap;
   padding: 0.5em;
 }
+
+.mini-account-info .account-info-panel-children {
+  padding: 0.4em;
+}
