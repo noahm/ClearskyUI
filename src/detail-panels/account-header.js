@@ -90,6 +90,7 @@ export function AccountHeader({
                     'DID: copied to Clipboard' :
                     <HandleHistory handleHistory={handleHistory} />
                 }
+                placement='bottom-start'
                 open={!!isCopied || ((handleHistory?.length || 0) > 1 && handleHistoryExpanded)}>
                 <span className='account-did'>
                   <span className='history-toggle'>

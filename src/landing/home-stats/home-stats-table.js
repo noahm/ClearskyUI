@@ -43,6 +43,9 @@ export function HomeStatsTable({
 
         <div className='home-stats-table-host'>
           <AgGridReact
+            defaultColDef={{
+              sortable: false
+            }}
             columnDefs={columns}
             getRowClass={params => 
               !params?.data?.title ? undefined :
