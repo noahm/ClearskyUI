@@ -7,6 +7,7 @@ import { HistoryLoading } from './history-loading';
 import { HistoryScrollableList } from './history-scrollable-list';
 import { SearchHeaderDebounced } from './search-header';
 import { useSearchParams } from 'react-router-dom';
+import { localise } from '../../localisation';
 
 /**
  * @extends {Component<
@@ -59,7 +60,7 @@ export class HistoryPanel extends Component {
           return (
             <>
               <SearchHeaderDebounced
-                label='Search history'
+                label={localise('Search history', { uk: 'Шукати в історії' })}
                 setQ />
               <div style={{
                 // background: 'tomato',

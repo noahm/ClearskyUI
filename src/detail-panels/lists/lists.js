@@ -14,6 +14,7 @@ import { ListView } from './list-view';
 import './lists.css';
 import { ViewList } from '@mui/icons-material';
 import { SearchHeaderDebounced } from '../history/search-header';
+import { localise, localiseNumberSuffix } from '../../localisation';
 
 /**
  * @this {never}
@@ -46,22 +47,32 @@ export function Lists({ account }) {
       <div>
         <div style={showSearch ? undefined : { display: 'none' }}>
           <SearchHeaderDebounced
-            label='Search'
+            label={localise('Search', { uk: 'Пошук' })}
             setQ />
         </div>
       </div>
 
       <h3 className='lists-header'>
         {
-          list?.loading ? 'Member in lists:' :
+          list?.loading ? localise('Member in lists:', { uk: 'Входить до списків:' }) :
           list?.lists?.length ? 
-            <>
-              Member in <span>{list.lists.length.toLocaleString()}</span> lists:
+              <>
+                {
+                  localise(
+                    'Member in ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('lists', list.lists.length) + ':',
+                    {
+                      uk: 'Входить до ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('списку', list.lists.length) + ':'
+                    })
+                }
 
               <span className='panel-toggles'>
                 {
                   showSearch ? undefined :
-                    <Button size='small' className='panel-show-search' onClick={() => setShowSearch(true)}><SearchIcon /></Button>
+                      <Button
+                        size='small'
+                        className='panel-show-search'
+                        title={localise('Search', { uk: 'Пошук' })}
+                        onClick={() => setShowSearch(true)}><SearchIcon /></Button>
                   }
 
                   {
@@ -73,7 +84,7 @@ export function Lists({ account }) {
               </span>
             </> :
             <>
-              Not a member of any lists
+              {localise('Not a member of any lists', { uk: 'Не входить до жодного списку' })}
             </>
         }
       </h3>

@@ -7,14 +7,27 @@ import { Tab, Tabs } from '@mui/material';
 import { accountTabs } from './layout';
 
 import './tab-selector.css';
+import { localise } from '../localisation';
 
 export function TabSelector({ className, tab, onTabSelected }) {
 
   const tabHandlers = {
-    'blocked-by': <VerticalTab key='blocked-by' className='tab-blocked-by'>Blocked By</VerticalTab>,
-    'blocking': <VerticalTab key='blocking' className='tab-blocking'>Blocking</VerticalTab>,
-    'lists': <VerticalTab key='lists' className='tab-lists'>Lists</VerticalTab>,
-    'history': <VerticalTab key='history' className='tab-history'>History</VerticalTab>
+    'blocked-by':
+      <VerticalTab key='blocked-by' className='tab-blocked-by'>
+        {localise('Blocked By', { uk: 'Блокують' })}
+      </VerticalTab>,
+    'blocking':
+      <VerticalTab key='blocking' className='tab-blocking'>
+        {localise('Blocking', { uk: 'Блокує' })}
+      </VerticalTab>,
+    'lists':
+      <VerticalTab key='lists' className='tab-lists'>
+        {localise('Lists', { uk: 'У списках' })}
+      </VerticalTab>,
+    'history':
+      <VerticalTab key='history' className='tab-history'>
+        {localise('History', { uk: 'Історія' })}
+      </VerticalTab>
   };
 
   return (

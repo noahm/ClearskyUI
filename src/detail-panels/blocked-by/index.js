@@ -4,6 +4,7 @@ import React from 'react';
 
 import { singleBlocklist } from '../../api';
 import { BlockPanelGeneric } from '../block-panel-generic';
+import { localise } from '../../localisation';
 
 export function BlockedByPanel({ account }) {
   return (
@@ -11,6 +12,6 @@ export function BlockedByPanel({ account }) {
       className='blocked-by-panel'
       fetch={singleBlocklist}
       account={account}
-      header={({ count }) => <>Blocked by <span>{count.toLocaleString()}:</span></>} />
+      header={({ count }) => <>{localise('Blocked by', { uk: 'Блокують' })} <span>{count.toLocaleString()}:</span></>} />
   );
 }

@@ -11,6 +11,7 @@ import { FormatTimestamp } from '../common-components/format-timestamp';
 import { FullDID, FullHandle } from '../common-components/full-short';
 
 import './account-header.css';
+import { localise } from '../localisation';
 
 /**
  * @param {{
@@ -53,6 +54,7 @@ export function AccountHeader({
         {
           typeof onCloseClick !== 'function' ? undefined :
             <button
+              title={localise('Back to homepage', { uk: 'Повернутися до головної сторінки' })}
               className='account-close-button'
               onClick={onCloseClick}>&lsaquo;</button>
         }
@@ -87,7 +89,7 @@ export function AccountHeader({
               <Tooltip
                 title={
                   isCopied ?
-                    'DID: copied to Clipboard' :
+                    localise('DID: copied to Clipboard', { uk: 'DID-код: скопійовано в буфер обміну' }) :
                     <HandleHistory handleHistory={handleHistory} />
                 }
                 placement='bottom-start'
@@ -99,6 +101,7 @@ export function AccountHeader({
                         handleHistory.length === 1 ?
                           <FormatTimestamp timestamp={handleHistory[handleHistory.length - 1][1]} /> :
                           <Button
+                            title={localise('Handle history', { uk: 'Показати історію nickname' })}
                             size='small' onClick={() => setHandleHistoryExpanded(!handleHistoryExpanded)}>
                             <HistoryToggleOff />
                             <FormatTimestamp timestamp={handleHistory[handleHistory.length - 1][1]} noTooltip />

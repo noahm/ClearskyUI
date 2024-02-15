@@ -7,6 +7,7 @@ import { getPost } from '../../../api/post-history';
 
 import { RenderPost } from './render-post';
 import { forAwait } from '../../../common-components/for-await';
+import { localise } from '../../../localisation';
 
 /**
  * @param {{
@@ -141,7 +142,7 @@ function PostEmbedRecordWithMedia({ post, embed }) {
                 alt={image.alt} />)
       }
       {
-        !embedPost ? 'Loading...' :
+        !embedPost ? localise('Loading...', {uk: 'Зачекайте...'}) :
           <RenderPost post={embedPost} disableEmbedQT className='post-content-embed-qt' />
       }
     </div>

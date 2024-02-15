@@ -14,6 +14,7 @@ import { ListView } from './list-view';
 import { TableView } from './table-view';
 
 import './block-panel-generic.css';
+import { localise } from '../../localisation';
 
 /**
  * @this {never}
@@ -54,7 +55,7 @@ export function BlockPanelGeneric({
     }}>
       <SearchHeaderDebounced
         style={showSearch ? undefined : { display: 'none' }}
-        label='Search'
+        label={localise('Search', {uk: 'Пошук'})}
         setQ />
       <PanelHeader
         count={count}
@@ -105,7 +106,9 @@ class PanelHeader extends React.Component {
             this.props.showSearch ? undefined :
               <Button size='small' className='panel-show-search' onClick={this.props.setShowSearch}><SearchIcon /></Button>
           }
-          <Button variant='contained' size='small' className='panel-toggle-table' onClick={this.props.onToggleView}>
+          <Button
+            title={localise('Toggle table view', {uk: 'Перемкнути вигляд таблиці/списку'})}
+            variant='contained' size='small' className='panel-toggle-table' onClick={this.props.onToggleView}>
             <ViewList />
           </Button>
         </span>

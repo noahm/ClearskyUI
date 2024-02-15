@@ -7,6 +7,7 @@ import React from 'react';
 import { FaceIcon } from './face-icon';
 
 import './network-circle.css';
+import { localise } from '../../../localisation';
 
 /**
  * @param {{
@@ -30,12 +31,12 @@ export function NetworkCircle({
           circles={[
             {
               percent: percentNumberBlocking1,
-              caption: 'blocking someone',
+              caption: localise('blocking someone', {uk: 'блокують когось'}),
               className: 'arc-percentNumberBlocking1'
             },
             {
               percent: percentNumberBlocked1,
-              caption: 'blocked at least by one',
+              caption: localise('blocked at least by one', { uk: 'заблоковані хоч одним' }),
               className: 'arc-percentNumberBlocked1',
               outside: true
             }
@@ -45,7 +46,7 @@ export function NetworkCircle({
         <div className='network-crowd network-active-crowd'>
           <div className='network-crowd-active-count-container'>
             <div className='network-crowd-active-count'>{activeAccounts.toLocaleString()}</div>
-            <div className='network-crowd-active-label'>active accounts</div>
+            <div className='network-crowd-active-label'>{localise('active accounts', { uk: 'активних акаунтів' })}</div>
           </div>
           {/* 9 faces */}
           <FaceIcon className='crowd-icon' />
@@ -63,7 +64,7 @@ export function NetworkCircle({
         <div className='network-crowd network-deleted-crowd'>
           <div className='network-crowd-deleted-count-container'>
             <div className='network-crowd-deleted-count'>{deletedAccounts.toLocaleString()}</div>
-            <div className='network-crowd-deleted-label'>deleted</div>
+            <div className='network-crowd-deleted-label'>{localise('deleted', { uk: 'закрито' })}</div>
           </div>
 
           <FaceIcon removed className='crowd-icon crowd-icon-deleted' />

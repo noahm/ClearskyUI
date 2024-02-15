@@ -2,10 +2,12 @@
 
 import React from 'react';
 
-import { Button, Fab } from '@mui/material';
+import { Button } from '@mui/material';
 
-import './about.css';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
+
+import { localise } from '../../localisation';
+import './about.css';
 
 export function About({ onToggleAbout }) {
   return (
@@ -18,16 +20,16 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className='text'>
-        Version: 0.2.3 <br />
-        Created by: <AccountShortEntry
+        {localise('Version', { uk: 'Версія' })}: 0.2.4 <br />
+        {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'
           accountTooltipPanel={true}
         /> <br />
-        Implementation developer: <AccountShortEntry
+        {localise('Implementation developer', { uk: 'Програміст-артист' })}: <AccountShortEntry
           account='oyin.bo'
           link='https://bsky.app/profile/oyin.bo'
-          accountTooltipPanel='User experience and interaction beauty.'
+          accountTooltipPanel={localise('User experience and interaction beauty.', {uk: 'Майстер намалювати та втілити.'})}
         />
       </div>
     </div>

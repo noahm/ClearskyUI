@@ -1,5 +1,6 @@
 import React from 'react';
+import { localise } from '../../localisation';
 
 export function HistoryLoading({ account }) {
-  return (<div>Loading...</div>);
+  return (<div>{localise('Loading', {uk: 'Зачекайте'})}...</div>);
 }

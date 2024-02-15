@@ -8,12 +8,12 @@ import { withStyles } from '@mui/styles';
 import { Link } from 'react-router-dom';
 
 import { likelyDID, unwrapShortHandle } from '../api';
+import { calcHash } from '../api/core';
 import { FullHandle } from './full-short';
 import { MiniAccountInfo } from './mini-account-info';
 import { useResolveAccount } from './use-resolve-account';
 
 import './account-short-entry.css';
-import { calcHash, nextRandom } from '../api/core';
 
 /**
  * @typedef {{

@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { TopList } from './top-list';
+import { localise } from '../../../localisation';
 
 /**
  * @param {{
@@ -16,7 +17,9 @@ export function TopBlocked({ blocked, blocked24, limit }) {
   return (
     <TopList
       className='top-blocked'
-      header={(list) => <>Top {list.length || undefined} Blocked</>}
+      header={(list) =>
+        localise(`Top ${list.length || undefined} Blocked`,
+          { uk: `Топ ${list.length || undefined} заблокованих` })}
       list={blocked}
       list24={blocked24}
       limit={limit} />

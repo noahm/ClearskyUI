@@ -10,6 +10,7 @@ import { Visible } from '../../common-components/visible';
 import { SearchEntryDisplay } from './search-entry-display';
 
 import './search-autocomplete.css';
+import { localise } from '../../localisation';
 
 const AUTOCOMPLETE_POPULATE_BATCH = 20;
 
@@ -110,7 +111,7 @@ export class SearchAutoComplete extends Component {
                   onAccountSelected(account);
               }
             }}
-            label="Find an account:"
+            label={localise('Find an account:', { uk: 'Кого шукаємо?' })}
             variant="standard" />}
       />
     );

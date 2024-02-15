@@ -7,6 +7,7 @@ import { FormatTimestamp } from '../../common-components/format-timestamp';
 import { Visible } from '../../common-components/visible';
 import { useState } from 'react';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
+import { localise } from '../../localisation';
 
 const INITIAL_SIZE = 20;
 const GROW_BLOCK_SIZE = 29;
@@ -74,7 +75,7 @@ function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
         accountTooltipBanner={
           !blocked_date ? undefined :
             <div className='account-info-panel-blocked-timestamp'>
-              blocked
+              {localise('blocked', { uk: 'заблоковано' })}
               <div className='account-info-panel-blocked-timestamp-full'>
                 {new Date(blocked_date).toString()}
               </div>

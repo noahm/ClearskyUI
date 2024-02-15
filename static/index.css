@@ -9070,6 +9070,8 @@ table.stats-table th {
   white-space: nowrap;
   position: relative;
   top: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .account-avatar-and-displayName-line .account-handle {
   grid-row: 2/3;

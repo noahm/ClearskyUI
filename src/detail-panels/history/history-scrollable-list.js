@@ -7,6 +7,7 @@ import './history-scrollable-list.css';
 import { Visible } from '../../common-components/visible';
 import { applySearchGetResults } from './search/cached-search';
 import { RenderSearchResults } from './search/render-search-results';
+import { localise } from '../../localisation';
 
 const BLOCK_ADD_INFINITE_SCROLLING = 7;
 
@@ -92,11 +93,11 @@ export class HistoryScrollableList extends React.Component {
 }
 
 function CompleteHistoryFooter({ account, history }) {
-  return history.posts.length + ' loaded, complete.';
+  return history.posts.length + localise(' loaded, complete.', { uk: ' завантажено, вичерпно.'});
 }
 
 function LoadingHistoryFooter({ account, history }) {
-  return history.posts.length + ' loaded, loading more from server...';
+  return history.posts.length + localise(' loaded, loading more from server...', { uk: ' завантажено, зачекайте ще...'});
 }
 
 function LoadMoreHistoryFooter({ account, history, onClick }) {
@@ -104,7 +105,7 @@ function LoadMoreHistoryFooter({ account, history, onClick }) {
     <span onClick={onClick}>
       {
         history.posts.length > 0 ?
-          history.posts.length + ' loaded, click to load more...' :
+          history.posts.length + localise(' loaded, click to load more...', {uk:' завантажено, натисніть щоб пошукати ще...'}) :
           '.'
       }
     </span>

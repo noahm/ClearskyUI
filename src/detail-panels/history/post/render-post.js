@@ -15,6 +15,7 @@ import { PostContentText } from './post-content-text';
 import { PostEmbed } from './post-embed';
 
 import './render-post.css';
+import { localise } from '../../../localisation';
 
 /**
  * @param {{
@@ -76,7 +77,7 @@ export function RenderPost({ post, className, disableEmbedQT, level, textHighlig
 
 function UnknownAccountHeader({ post }) {
   const postUri = breakFeedUri(/** @type {string} */(post.uri));
-  return 'Unknown account ' + (postUri?.shortDID || post.uri);
+  return localise('Unknown account ', {uk: 'Невідомий акаунт '}) + (postUri?.shortDID || post.uri);
 }
 
 /**

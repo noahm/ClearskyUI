@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@mui/material';
+import { localise } from '../localisation';
 
 /**
  * @param {{
@@ -30,22 +31,21 @@ export function FormatTimestamp({
     dateStr = date.toLocaleDateString();
   }
   else {
-    // TODO: localize
     const timeAgo = now - dateTime;
     if (timeAgo > 1000 * 60 * 60 * 48) {
-      dateStr = Math.round(timeAgo / (1000 * 60 * 60 * 24)) + 'd';
+      dateStr = Math.round(timeAgo / (1000 * 60 * 60 * 24)) + localise('d', { uk: 'д' });
       updateDelay = 1000 * 60 * 60 * 24;
     } else if (timeAgo > 1000 * 60 * 60 * 2) {
-      dateStr = Math.round(timeAgo / (1000 * 60 * 60)) + 'h';
+      dateStr = Math.round(timeAgo / (1000 * 60 * 60)) + localise('h', { uk: 'г' });
       updateDelay = 1000 * 60 * 60;
     } else if (timeAgo > 1000 * 60 * 2) {
-      dateStr = Math.round(timeAgo / (1000 * 60)) + 'm';
+      dateStr = Math.round(timeAgo / (1000 * 60)) + localise('m', { uk: 'хв' });
       updateDelay = 1000 * 60;
     } else if (timeAgo > 1000 * 2) {
-      dateStr = Math.round(timeAgo / 1000) + 's';
+      dateStr = Math.round(timeAgo / 1000) + localise('s', { uk: 'с' });
       updateDelay = 1000;
     } else {
-      dateStr = 'now';
+      dateStr = localise('now', { uk: 'тільки шо' });
       updateDelay = 1000;
     }
   }
