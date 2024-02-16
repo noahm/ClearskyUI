@@ -20,7 +20,7 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className='text'>
-        {localise('Version', { uk: 'Версія' })}: 0.2.4 <br />
+        {localise('Version', { uk: 'Версія' })}: 4.0.0b <br />
         {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'
