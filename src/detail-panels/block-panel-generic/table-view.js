@@ -14,7 +14,7 @@ const columnDefs = [
     cellRenderer: HandleCellRenderer
   },
   {
-    field: 'blocked_date'
+    field: 'Blocked Date'
   }
 ];
 
