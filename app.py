@@ -162,7 +162,7 @@ async def always_200():
 
 
 # Route handler for privacy.clearsky.app
-@app.route('/', subdomain='privacy', methods=['GET'])
+@app.route('/', subdomain='privacy.ui.staging', methods=['GET'])
 @rate_limit(10, timedelta(seconds=1))
 async def privacy_home():
     # Redirect to privacy_policy.html when accessing privacy.clearsky.app
