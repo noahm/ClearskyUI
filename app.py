@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.10d"
+version = "4.0.11d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -27,7 +27,7 @@ except OSError:
     username = "Unknown"
 
 app = Quart(__name__, static_folder='static', static_url_path='/static')
-app.config['SERVER_NAME'] = "ui.staging.clearsky.app:443"
+app.config['SERVER_NAME'] = "ui.staging.clearsky.app"
 rate_limiter = RateLimiter(app)
 
 # Configure session secret key
