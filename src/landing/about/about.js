@@ -20,7 +20,7 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className='text'>
-        {localise('Version', { uk: 'Версія' })}: 4.0.14d <br />
+        {localise('Version', { uk: 'Версія' })}: 4.0.15d <br />
         {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'
@@ -32,7 +32,8 @@ export function About({ onToggleAbout }) {
           accountTooltipPanel={localise('User experience and interaction beauty.', {uk: 'Майстер намалювати та втілити.'})}
         />
         <br />
-        <a href="/privacy_policy.html">Privacy Policy</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/terms-and-conditions.html">Privacy Policy</a>
       </div>
     </div>
   );
