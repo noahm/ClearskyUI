@@ -31,6 +31,8 @@ export function About({ onToggleAbout }) {
           link='https://bsky.app/profile/oyin.bo'
           accountTooltipPanel={localise('User experience and interaction beauty.', {uk: 'Майстер намалювати та втілити.'})}
         />
+        <br />
+        <a href="/privacy_policy.html">Privacy Policy</a>
       </div>
     </div>
   );
