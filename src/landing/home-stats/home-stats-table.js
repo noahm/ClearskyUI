@@ -78,6 +78,10 @@ function getGridRowsAndColumns(stats) {
     rows.push({ Handle: 'Blocked', block_count: stats.blocked.length, title: true });
 
     for (const blocked of stats.blocked) {
+      // Add a hyperlink for "Blocked" entries
+      if (/blocked/i.test(blocked.Handle || '')) {
+        blocked.Handle = <a href={`https://example.com/${blocked.Handle}`} target="_blank" rel="noopener noreferrer">{blocked.Handle}</a>;
+      }
       rows.push(blocked);
     }
   }
