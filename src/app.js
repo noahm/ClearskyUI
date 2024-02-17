@@ -96,7 +96,7 @@ function showApp() {
         <>
           <RouterProvider router={router} />
           <div className='bluethernal-llc-watermark'>
-            Bluethernal LLC
+            © 2024 Bluethernal LLC
           </div>
         </>
       </ThemeProvider>
