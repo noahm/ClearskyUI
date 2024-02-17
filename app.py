@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.12d"
+version = "4.0.13d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -26,8 +26,7 @@ try:
 except OSError:
     username = "Unknown"
 
-app = Quart(__name__, static_folder='static', static_url_path='/static', subdomain_matching=True)
-app.config['SERVER_NAME'] = "clearsky-staging-ui.onrender.com"
+app = Quart(__name__, static_folder='static', static_url_path='/static')
 rate_limiter = RateLimiter(app)
 
 # Configure session secret key
@@ -160,14 +159,6 @@ async def page_not_found(e):
 @rate_limit(10, timedelta(seconds=1))
 async def always_200():
     return "OK", 200
-
-
-# Route handler for privacy.clearsky.app
-@app.route('/', subdomain='privacy.ui.staging', methods=['GET'])
-@rate_limit(10, timedelta(seconds=1))
-async def privacy_home():
-    # Redirect to privacy_policy.html when accessing privacy.clearsky.app
-    return await send_from_directory(app.static_folder, 'privacy_policy.html')
 
 
 # ======================================================================================================================
