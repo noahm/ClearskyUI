@@ -111,8 +111,8 @@ function getGridRowsAndColumns(stats) {
     columns: [
       { field: 'Handle' },
       { field: 'block_count', headerName: 'Count' },
-      { field: 'ProfileURL' },
-      { field: 'did' },
+      { field: 'ProfileURL', headerName: 'Profile URL' },
+      { field: 'did', headerName: 'DID' }
 
     ]
   }
