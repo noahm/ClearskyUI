@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.19d"
+version = "4.1.0d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -41,6 +41,7 @@ db_connected = None
 blocklist_24_failed = asyncio.Event()
 blocklist_failed = asyncio.Event()
 db_pool_acquired = asyncio.Event()
+stats_data = []
 
 
 # ======================================================================================================================
@@ -187,6 +188,19 @@ async def get_internal_status():
     logger.info(f">> System status result returned: {session_ip} - {api_key} - {session['session_number']}")
 
     return jsonify(status)
+
+
+@rate_limit(1, timedelta(seconds=1))
+@app.route('/api/v1/base/reporting/stats-cache', methods=['POST'])
+async def push_json():
+    global stats_data
+
+    stats_data = []
+
+    # Get JSON data from the request
+    data = request.json
+
+    stats_data.append(data)
 
 
 # ======================================================================================================================
