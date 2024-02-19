@@ -18,7 +18,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.2.0d"
+version = "4.2.1d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -69,12 +69,12 @@ async def get_ip():  # Get IP address of session request
     return ip
 
 
-async def get_api_keys(api_environment, key_type):
+async def get_api_keys(api_environment, key_type, key_value):
     logger.info(f"fetching API key for {api_environment} environment for {key_type} key type.")
 
     if api_key:
         try:
-            fetch_api = f"{api_server_endpoint}/api/v1/base/internal/api-check?api_environment={api_environment}?key_type={key_type}"
+            fetch_api = f"{api_server_endpoint}/api/v1/base/internal/api-check?api_environment={api_environment}?key_type={key_type}?key_value={key_value}"
 
             headers = {'X-API-Key': f'{api_key}'}
 
@@ -162,8 +162,8 @@ def api_key_required(key_type):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
             api_environment = get_api_var()
-            api_keys = await get_api_keys(api_environment, key_type)
             provided_api_key = request.headers.get("X-API-Key")
+            api_keys = await get_api_keys(api_environment, key_type, provided_api_key)
             if provided_api_key not in api_keys:
                 ip = await get_ip()
                 logger.warning(f"<< {ip}: Unauthorized API access.")
