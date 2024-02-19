@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.1.2d"
+version = "4.1.3d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -194,7 +194,7 @@ async def get_internal_status():
 
 @rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/base/reporting/stats-cache/top-blocked', methods=['POST'])
-async def push_json():
+async def blocked_push_json():
     global blocked_data
 
     blocked_data = []
@@ -209,7 +209,7 @@ async def push_json():
 
 @rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/base/reporting/stats-cache/top-24-blocked', methods=['POST'])
-async def push_json():
+async def blocked24_push_json():
     global blocked24_data
 
     blocked24_data = []
@@ -224,7 +224,7 @@ async def push_json():
 
 @rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/base/reporting/stats-cache/block-stats', methods=['POST'])
-async def push_json():
+async def stats_push_json():
     global stats_data
 
     stats_data = []
