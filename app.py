@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.1.4d"
+version = "4.1.5d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -200,7 +200,7 @@ async def blocked_push_json():
     blocked_data = []
 
     # Get JSON data from the request
-    data = request.json
+    data = await request.json
 
     blocked_data.append(data)
 
@@ -218,7 +218,7 @@ async def blocked24_push_json():
     blocked24_data = []
 
     # Get JSON data from the request
-    data = request.json
+    data = await request.json
 
     blocked24_data.append(data)
 
@@ -236,7 +236,7 @@ async def stats_push_json():
     stats_data = []
 
     # Get JSON data from the request
-    data = request.json
+    data = await request.json
 
     stats_data.append(data)
 
