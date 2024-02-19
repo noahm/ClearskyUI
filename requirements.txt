@@ -1,2 +1,3 @@
 quart>=0.18.4
 quart_rate_limiter>=0.9.0
+aiohttp~=3.9.3

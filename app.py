@@ -9,13 +9,16 @@ import asyncio
 from quart_rate_limiter import RateLimiter, rate_limit
 import config_helper
 from config_helper import logger
+import functools
+from environment import get_api_var, api_key, api_server_endpoint
+import aiohttp
 # ======================================================================================================================
 # ======================================== global variables // Set up logging ==========================================
 config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.1.5d"
+version = "4.2.0d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -64,6 +67,32 @@ async def get_ip():  # Get IP address of session request
         ip = request.remote_addr
 
     return ip
+
+
+async def get_api_keys(api_environment, key_type):
+    logger.info(f"fetching API key for {api_environment} environment for {key_type} key type.")
+
+    if api_key:
+        try:
+            fetch_api = f"{api_server_endpoint}/api/v1/base/internal/api-check?api_environment={api_environment}?key_type={key_type}"
+
+            headers = {'X-API-Key': f'{api_key}'}
+
+            async with aiohttp.ClientSession(headers=headers) as session:
+                logger.info(f"Fetching data from {api_server_endpoint} API")
+
+                async with session.get(fetch_api) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                    else:
+                        logger.error(f"Failed to fetch data from {fetch_api}")
+                        data = None
+        except Exception as e:
+            logger.error(f"An error occurred: {e}")
+    else:
+        logger.error("PUSH not executed, no API key configured.")
+
+    return data
 
 
 async def get_time_since(time):
@@ -128,6 +157,26 @@ def ratelimit_error(e):
     return jsonify(error="ratelimit exceeded", message=str(e.description)), 429
 
 
+def api_key_required(key_type):
+    def decorator(func):
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs):
+            api_environment = get_api_var()
+            api_keys = await get_api_keys(api_environment, key_type)
+            provided_api_key = request.headers.get("X-API-Key")
+            if provided_api_key not in api_keys:
+                ip = await get_ip()
+                logger.warning(f"<< {ip}: Unauthorized API access.")
+
+                return "Unauthorized", 401  # Return an error response if the API key is not valid
+
+            else:
+                return await func(*args, **kwargs)
+
+        return wrapper
+    return decorator
+
+
 # ======================================================================================================================
 # ================================================== HTML Pages ========================================================
 @app.route('/<path:path>', methods=['GET'])
@@ -167,6 +216,7 @@ async def always_200():
 # ======================================================================================================================
 # ============================================= API Endpoints ==========================================================
 @app.route('/api/v1/base/internal/status/process-status', methods=['GET'])
+@api_key_required("UI")
 @rate_limit(1, timedelta(seconds=1))
 async def get_internal_status():
     api_key = request.headers.get('X-API-Key')
@@ -193,6 +243,7 @@ async def get_internal_status():
 
 
 @rate_limit(1, timedelta(seconds=1))
+@api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/top-blocked', methods=['POST'])
 async def blocked_push_json():
     global blocked_data
@@ -211,6 +262,7 @@ async def blocked_push_json():
 
 
 @rate_limit(1, timedelta(seconds=1))
+@api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/top-24-blocked', methods=['POST'])
 async def blocked24_push_json():
     global blocked24_data
@@ -229,6 +281,7 @@ async def blocked24_push_json():
 
 
 @rate_limit(1, timedelta(seconds=1))
+@api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/block-stats', methods=['POST'])
 async def stats_push_json():
     global stats_data
