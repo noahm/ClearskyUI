@@ -15,7 +15,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.1.0d"
+version = "4.1.1d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -201,6 +201,8 @@ async def push_json():
     data = request.json
 
     stats_data.append(data)
+
+    return jsonify({'message': 'Data received successfully'}), 200
 
 
 # ======================================================================================================================
