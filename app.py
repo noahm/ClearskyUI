@@ -12,13 +12,14 @@ from config_helper import logger
 import functools
 from environment import get_api_var, api_key, api_server_endpoint
 import aiohttp
+import json
 # ======================================================================================================================
 # ======================================== global variables // Set up logging ==========================================
 config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.2.1d"
+version = "4.2.2d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -44,9 +45,6 @@ db_connected = None
 blocklist_24_failed = asyncio.Event()
 blocklist_failed = asyncio.Event()
 db_pool_acquired = asyncio.Event()
-blocked_data = []
-blocked24_data = []
-stats_data = []
 
 
 # ======================================================================================================================
@@ -246,17 +244,17 @@ async def get_internal_status():
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/top-blocked', methods=['POST'])
 async def blocked_push_json():
-    global blocked_data
-
-    blocked_data = []
-
     # Get JSON data from the request
     data = await request.json
 
-    blocked_data.append(data)
+    # Write JSON data to a file
+    file_path = 'blocked_data.json'
+    with open(file_path, 'w') as file:
+        json.dump(data, file)
+        file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
 
     logger.info("Blocked data received")
-    logger.info(blocked_data)
+    logger.info(data)
 
     return jsonify({'message': 'Data received successfully'}), 200
 
@@ -265,17 +263,17 @@ async def blocked_push_json():
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/top-24-blocked', methods=['POST'])
 async def blocked24_push_json():
-    global blocked24_data
-
-    blocked24_data = []
-
     # Get JSON data from the request
     data = await request.json
 
-    blocked24_data.append(data)
+    # Write JSON data to a file
+    file_path = 'blocked24_data.json'
+    with open(file_path, 'w') as file:
+        json.dump(data, file)
+        file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
 
     logger.info("Blocked24 data received")
-    logger.info(blocked24_data)
+    logger.info(data)
 
     return jsonify({'message': 'Data received successfully'}), 200
 
@@ -284,17 +282,17 @@ async def blocked24_push_json():
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/block-stats', methods=['POST'])
 async def stats_push_json():
-    global stats_data
-
-    stats_data = []
-
     # Get JSON data from the request
     data = await request.json
 
-    stats_data.append(data)
+    # Write JSON data to a file
+    file_path = 'stats_data.json'
+    with open(file_path, 'w') as file:
+        json.dump(data, file)
+        file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
 
     logger.info("Stats data received")
-    logger.info(stats_data)
+    logger.info(data)
 
     return jsonify({'message': 'Data received successfully'}), 200
 
