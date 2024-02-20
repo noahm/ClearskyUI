@@ -9456,6 +9456,11 @@ li.blocking-list-entry:nth-child(even) {
   padding-top: 0.5em;
   border-right: none;
 }
+@media (max-width: 800px) {
+  .tab-selector-root {
+    top: 7.5em;
+  }
+}
 .tab-selector-root .MuiTab-root {
   min-width: 0;
   padding: 2em 0.8em;
