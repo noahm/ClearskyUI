@@ -7,6 +7,18 @@
 .about .text {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
+  line-height: 1.6;
+}
+
+.about .text .legalese {
+  float: right;
+  font-size: 80%;
+  color: gray;
+}
+
+.about .text .legalese a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .about .corner-buttons {

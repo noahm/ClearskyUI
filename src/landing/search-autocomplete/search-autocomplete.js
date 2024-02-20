@@ -173,7 +173,7 @@ function Resolving({ ...rest }) {
   return (
     <li {...rest} className="resolving-item">
       <span className='at-sign'>@</span>
-      <span className='resolving-handle'>Resolving...</span>
+      <span className='resolving-handle'>{localise('Resolving...', { uk: 'Пошук...' })}</span>
     </li>
   );
 }

@@ -20,19 +20,21 @@ export function About({ onToggleAbout }) {
         </Button>
       </span>
       <div className='text'>
-        {localise('Version', { uk: 'Версія' })}: 4.2.2d <br />
-        {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
+        <span className='legalese'>
+          <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-and-conditions.html">Terms and Conditions</a>
+        </span>
+
+        {localise('Version', { uk: 'Версія' })}: 4.2.3d <br />
+        &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'
           accountTooltipPanel={true}
         /> <br />
-        {localise('Implementation developer', { uk: 'Програміст-артист' })}: <AccountShortEntry
+        &nbsp; {localise('Implementation developer', { uk: 'Програміст-артист' })}: <AccountShortEntry
           account='oyin.bo'
           link='https://bsky.app/profile/oyin.bo'
-          accountTooltipPanel={localise('User experience and interaction beauty.', {uk: 'Майстер намалювати та втілити.'})}
+          accountTooltipPanel={localise('User experience and interaction beauty.', { uk: 'Майстер намалювати та втілити.' })}
         />
-        <br />
-        <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-and-conditions.html">Terms and Conditions</a>
       </div>
     </div>
   );

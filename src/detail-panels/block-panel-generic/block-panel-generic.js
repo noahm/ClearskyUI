@@ -55,7 +55,7 @@ export function BlockPanelGeneric({
     }}>
       <SearchHeaderDebounced
         style={showSearch ? undefined : { display: 'none' }}
-        label={localise('Search', {uk: 'Пошук'})}
+        label={' ' + localise('Search', {uk: 'Пошук'})}
         setQ />
       <PanelHeader
         count={count}

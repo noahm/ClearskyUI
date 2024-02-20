@@ -8600,7 +8600,7 @@ input[class^=ag-][type=range]:disabled {
     transition: transform 0.5s ease-in-out;
   }
   .home.about-open {
-    transform: translateY(5em);
+    transform: translateY(7em);
   }
   .home-header-logo {
     grid-column: 1 / 2;
@@ -8615,7 +8615,7 @@ input[class^=ag-][type=range]:disabled {
     grid-row: 1 / 2;
   }
   .home .about .text {
-    transform: translateY(-5em);
+    transform: translateY(-7em);
   }
   .home .about .corner-buttons {
     display: block;
@@ -8978,6 +8978,16 @@ table.stats-table th {
 .about .text {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
+  line-height: 1.6;
+}
+.about .text .legalese {
+  float: right;
+  font-size: 80%;
+  color: gray;
+}
+.about .text .legalese a {
+  color: inherit;
+  text-decoration: none;
 }
 .about .corner-buttons {
   grid-column: 1 / 2;
@@ -9177,8 +9187,8 @@ table.stats-table th {
     0 0 12px white,
     0 0 12px white,
     0 0 12px white;
-  padding: 0.5em;
-  padding-left: 1em;
+  border-top: solid 1px #ededed;
+  padding-top: 0.5em;
 }
 .account-info-panel-blocked-timestamp-full {
   zoom: 80%;
@@ -9239,9 +9249,6 @@ li.blocking-list-entry:nth-child(even) {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: auto 1fr;
-}
-.blocking-list-entry .account-short-entry-content .account-short-entry-handle {
-  min-width: 19em;
 }
 .blocking-list-entry .account-short-entry-content .account-short-entry-handle .account-short-entry-display-name {
   opacity: 0.7;
@@ -9757,13 +9764,13 @@ li.blocking-list-entry:nth-child(even) {
 /* src/app.css */
 .bluethernal-llc-watermark {
   position: fixed;
-  bottom: 1.4em;
-  right: 0.8em;
-  font-size: 113%;
+  bottom: 0.5em;
+  right: -0.2em;
+  font-size: 97%;
   opacity: 0.1;
   pointer-events: none;
   writing-mode: vertical-rl;
-  font-weight: 900;
+  font-weight: bold;
   text-shadow: 0 0 1px currentColor;
 }
 /*# sourceMappingURL=index.css.map */

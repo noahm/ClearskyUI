@@ -72,7 +72,7 @@ function ListViewEntry({ account, blocked_date, handle, className, ...rest }) {
       <AccountShortEntry
         className='blocking-account-link'
         withDisplayName
-        accountTooltipBanner={
+        accountTooltipPanel={
           !blocked_date ? undefined :
             <div className='account-info-panel-blocked-timestamp'>
               {localise('blocked', { uk: 'заблоковано' })}

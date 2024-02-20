@@ -73,7 +73,7 @@
   }
 
   .home.about-open {
-    transform: translateY(5em);
+    transform: translateY(7em);
   }
 
   .home-header-logo {
@@ -91,7 +91,7 @@
   }
 
   .home .about .text {
-    transform: translateY(-5em);
+    transform: translateY(-7em);
   }
 
   .home .about .corner-buttons {

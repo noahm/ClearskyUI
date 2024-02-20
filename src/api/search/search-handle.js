@@ -51,12 +51,9 @@ export function searchHandle(searchText) {
       searchText,
       /** @type {IndexedBucket[]} */(bucketsOrPromises));
 
-    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolvesOrPromises)
-      .filter(account =>
-        !!account &&
-        !searchMatches.some(match => match.shortDID === account.shortDID));
+    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolvesOrPromises);
 
-    searchMatches = exactMatches.concat(searchMatches);
+    searchMatches = combineAndLimit(exactMatches, searchMatches);
 
     cachedSearches[searchText] = searchMatches;
     return searchMatches;
@@ -67,11 +64,8 @@ export function searchHandle(searchText) {
     const directResolves = await Promise.all(directResolvesOrPromises);
     let searchMatches = performSearchOverBuckets(searchText, buckets);
 
-    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolves)
-      .filter(account =>
-        !!account &&
-        !searchMatches.some(match => match.shortDID === account.shortDID));
-    searchMatches = exactMatches.concat(searchMatches);
+    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolves);
+    searchMatches = combineAndLimit(exactMatches, searchMatches);
 
     cachedSearches[searchText] = searchMatches;
     return searchMatches;
@@ -94,6 +88,27 @@ function getWordStartsLowerCase(str, count, wordStarts) {
     return match;
   });
   return wordStarts;
+}
+
+/**
+ * @param {SearchMatch[]} exactMatches
+ * @param {SearchMatch[]} searchMatches
+ */
+function combineAndLimit(exactMatches, searchMatches) {
+  const result = [];
+  const resultShortDIDs = new Set();
+  for (const ex of exactMatches) {
+    if (resultShortDIDs.has(ex.shortDID)) continue;
+    result.push(ex);
+    resultShortDIDs.add(ex.shortDID);
+  }
+  for (const sm of searchMatches) {
+    if (resultShortDIDs.has(sm.shortDID)) continue;
+    result.push(sm);
+    resultShortDIDs.add(sm.shortDID);
+  }
+
+  return result.slice(0,60);
 }
 
 /** @type {{ [threeLetterPrefix: string]: Promise<IndexedBucket> | IndexedBucket }} */

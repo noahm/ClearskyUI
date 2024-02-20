@@ -1,8 +1,8 @@
 .account-info-panel-blocked-timestamp {
   font-size: 80%;
   text-shadow: 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 1px white, 0 0 12px white, 0 0 12px white, 0 0 12px white, 0 0 12px white;
-  padding: 0.5em;
-  padding-left: 1em;
+  border-top: solid 1px #ededed;
+  padding-top: 0.5em;
 }
 
 .account-info-panel-blocked-timestamp-full {
@@ -68,10 +68,6 @@ li.blocking-list-entry:nth-child(even) {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: auto 1fr;
-}
-
-.blocking-list-entry .account-short-entry-content .account-short-entry-handle {
-  min-width: 19em;
 }
 
 .blocking-list-entry .account-short-entry-content .account-short-entry-handle .account-short-entry-display-name {
