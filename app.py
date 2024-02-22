@@ -88,7 +88,7 @@ async def get_api_keys(api_environment, key_type, key_value):
         except Exception as e:
             logger.error(f"An error occurred: {e}")
     else:
-        logger.error("PUSH not executed, no API key configured.")
+        logger.error("no API key configured.")
 
     return data
 
@@ -162,12 +162,19 @@ def api_key_required(key_type):
             api_environment = get_api_var()
             provided_api_key = request.headers.get("X-API-Key")
             api_keys = await get_api_keys(api_environment, key_type, provided_api_key)
-            if provided_api_key not in api_keys:
+
+            # Check if the provided API key matches the key in the dictionary
+            key_value = api_keys.get("api key")
+            api_key_status = api_keys.get("api_status")
+
+            if key_value != provided_api_key:
                 ip = await get_ip()
+
                 logger.warning(f"<< {ip}: Unauthorized API access.")
 
                 return "Unauthorized", 401  # Return an error response if the API key is not valid
-
+            elif "valid" not in api_key_status:  # Check if the api_status is valid
+                return "Unauthorized", 401  # Return an error response if the API status is not valid
             else:
                 return await func(*args, **kwargs)
 
