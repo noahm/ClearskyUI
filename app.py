@@ -19,7 +19,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.2.2d"
+version = "4.2.5d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -72,7 +72,7 @@ async def get_api_keys(api_environment, key_type, key_value):
 
     if api_key:
         try:
-            fetch_api = f"{api_server_endpoint}/api/v1/base/internal/api-check?api_environment={api_environment}?key_type={key_type}?key_value={key_value}"
+            fetch_api = f"{api_server_endpoint}/api/v1/auth/base/internal/api-check?api_environment={api_environment}?key_type={key_type}?key_value={key_value}"
 
             headers = {'X-API-Key': f'{api_key}'}
 
