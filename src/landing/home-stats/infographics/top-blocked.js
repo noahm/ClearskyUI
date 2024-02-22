@@ -18,8 +18,8 @@ export function TopBlocked({ blocked, blocked24, limit }) {
     <TopList
       className='top-blocked'
       header={(list) =>
-        localise(`Top ${list.length || undefined} Blocked`,
-          { uk: `Топ ${list.length || undefined} заблокованих` })}
+        localise(`Top ${list.length || ''} Blocked`,
+          { uk: `Топ ${list.length || ''} заблокованих` })}
       list={blocked}
       list24={blocked24}
       limit={limit} />

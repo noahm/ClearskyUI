@@ -75,9 +75,11 @@ export function TopList({
  * @param {DashboardBlockListEntry[]} list
  */
 function defaultHeader(list) {
-  return <>
+  return (
+    <>
     Top {list?.length || undefined} Blocked
-  </>;
+    </>
+  );
 }
 
 /** @param {{ entry: DashboardBlockListEntry }} _ */

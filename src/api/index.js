@@ -9,6 +9,8 @@ export { singleBlocklist, blocklist } from './blocklist';
 
 export const xAPIKey = 'CLEARSKYtest90asdfghjklqwerr2345';
 
+export const v1APIPrefix = '/api/v1/';
+
 export function getProfileBlobUrl(did, cid) {
   if (!did || !cid) return undefined;
   return `https://cdn.bsky.app/img/avatar/plain/${unwrapShortDID(did)}/${cid}@jpeg`;

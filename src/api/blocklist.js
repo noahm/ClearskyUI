@@ -1,6 +1,6 @@
 // @ts-check
 
-import { unwrapShortHandle, xAPIKey } from '.';
+import { unwrapShortHandle, v1APIPrefix, xAPIKey } from '.';
 import { parseNumberWithCommas, unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 
@@ -43,7 +43,7 @@ async function* blocklistCall(handleOrDID, api) {
    * }} SingleBlocklistResponse */
 
   const handleURL =
-    unwrapClearSkyURL('/api/v1/' + api + '/') +
+    unwrapClearSkyURL(v1APIPrefix + api + '/') +
     unwrapShortHandle(resolved.shortHandle);
 
   /** @type {SingleBlocklistResponse} */

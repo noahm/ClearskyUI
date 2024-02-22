@@ -1,6 +1,6 @@
 // @ts-check
 
-import { unwrapShortDID, xAPIKey } from '.';
+import { unwrapShortDID, v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
 
@@ -42,7 +42,7 @@ export function getHandleHistory(handleOrDID) {
 /** @param {string} handleOrDID */
 async function getHandleHistoryRaw(handleOrDID) {
   const json = await fetch(
-    unwrapClearSkyURL('/api/v1/get-handle-history/') + unwrapShortDID(handleOrDID),
+    unwrapClearSkyURL(v1APIPrefix + 'get-handle-history/') + unwrapShortDID(handleOrDID),
     { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
   return json.data;
 }

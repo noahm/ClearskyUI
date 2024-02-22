@@ -1,6 +1,6 @@
 // @ts-check
 
-import { unwrapShortHandle, xAPIKey } from '.';
+import { unwrapShortHandle, v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 import { throttledAsyncCache } from './throttled-async-cache';
@@ -14,7 +14,7 @@ export async function getList(handleOrDID) {
   if (!resolved) throw new Error('Could not resolve handle or DID: ' + handleOrDID);
 
   const handleURL =
-    unwrapClearSkyURL('/api/v1/get-list/') +
+    unwrapClearSkyURL(v1APIPrefix + 'get-list/') +
     unwrapShortHandle(resolved.shortHandle);
 
   /** @type {{ data: { lists: AccountListEntry[] } }} */

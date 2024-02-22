@@ -2,7 +2,7 @@
 /// <reference path="../types.d.ts" />
 
 import Dexie from 'dexie';
-import { xAPIKey } from '.';
+import { v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
 
 import dashboardStatsBase from './dashboard-stats-base.json';
@@ -60,9 +60,9 @@ function dashboardStatsApi() {
   const now = new Date();
 
   const apiURL =
-    unwrapClearSkyURL('/api/v1/lists/');
+    unwrapClearSkyURL(v1APIPrefix + 'lists/');
   const apiURL2 =
-    unwrapClearSkyURL('/api/v1/');
+    unwrapClearSkyURL(v1APIPrefix);
   const headers = { 'X-API-Key': xAPIKey };
 
   const asof = now.toISOString();
