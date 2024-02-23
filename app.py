@@ -19,7 +19,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.2.7d"
+version = "4.2.8d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -299,6 +299,25 @@ async def stats_push_json():
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
 
     logger.info("Stats data received")
+    logger.info(data)
+
+    return jsonify({'message': 'Data received successfully'}), 200
+
+
+@rate_limit(1, timedelta(seconds=1))
+@api_key_required("UIPUSH")
+@app.route('/api/v1/base/reporting/stats-cache/total-users', methods=['POST'])
+async def total_users_push_json():
+    # Get JSON data from the request
+    data = await request.json
+
+    # Write JSON data to a file
+    file_path = 'total_users_data.json'
+    with open(file_path, 'w') as file:
+        json.dump(data, file)
+        file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
+
+    logger.info("total users data received")
     logger.info(data)
 
     return jsonify({'message': 'Data received successfully'}), 200
