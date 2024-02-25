@@ -50,6 +50,14 @@ export function RenderPost({ post, className, disableEmbedQT, level, textHighlig
                   isPromise(accountOrPromise) ? postUri?.shortDID : accountOrPromise?.shortHandle,
                   postUri?.postID)}
                 target='_blank'
+                tooltipExtra={
+                  <div className='post-timestamp-tooltip'>
+                    <div className='post-timestamp-tooltip-post-uri'>
+                      {post.uri}
+                    </div>
+                    {localise('Open in new tab', { uk: 'Відкрити в новій вкладці' })}
+                  </div>
+                }
               />
             </>
         }

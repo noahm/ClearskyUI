@@ -156,3 +156,12 @@
   color: black;
   font-size: 80%;
 }
+
+.post-timestamp-tooltip {
+  padding-top: 0.5em;
+}
+
+.post-timestamp-tooltip-post-uri {
+  color: gray;
+  font-size: 80%;
+}
