@@ -1,7 +1,6 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import Dexie from 'dexie';
 import { v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
 
@@ -36,7 +35,7 @@ function dashboardStatsApi() {
     unwrapClearSkyURL(v1APIPrefix);
   const headers = { 'X-API-Key': xAPIKey };
 
-  const asof = now.toISOString();
+  let asof = now.toISOString();
 
   const totalUsersPromise = fetch(
     apiURL2 + 'total-users', { headers }).then(x => x.json())
@@ -70,6 +69,8 @@ function dashboardStatsApi() {
 
     for (const res of fetchResultList) {
       if (res?.data && !res.data.timeLeft) {
+        if (typeof res?.asof === 'string') asof = res.asof;
+        if (typeof res?.['as of'] === 'string') asof = res['as of'];
         Object.assign(result, res?.data || res);
       }
     }
