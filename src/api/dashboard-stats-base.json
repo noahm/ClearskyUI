@@ -1,296 +1,308 @@
 {
-  "asof": "2024-01-02T21:31:11.073Z",
-  "active_count": {"value":"2,184,281"},
-  "deleted_count": {"value":"21,467"},
-  "total_count": {"value":"21,467"},
-  "blocked": [
-    {
-      "Handle": "jordanbpeterson.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:aeuetvb7vac3xay76nkphbks",
-      "block_count": 17342,
-      "did": "did:plc:aeuetvb7vac3xay76nkphbks"
+  "asof": "2024-02-25T16:24:36.272449",
+      "active_count": {
+        "displayname": "Active Users",
+        "value": "5,041,681"
+      },
+      "deleted_count": {
+        "displayname": "Deleted Users",
+        "value": "358,084"
+      },
+      "total_count": {
+        "displayname": "Total Users",
+        "value": "5,399,765"
+      },
+
+
+    "blocked": [
+      {
+        "Handle": "jordanbpeterson.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:aeuetvb7vac3xay76nkphbks",
+        "block_count": 17390,
+        "did": "did:plc:aeuetvb7vac3xay76nkphbks"
+      },
+      {
+        "Handle": "aify.co",
+        "ProfileURL": "https://bsky.app/profile/did:plc:s3kgjpyoec2fd7ztruqiaxwx",
+        "block_count": 13646,
+        "did": "did:plc:s3kgjpyoec2fd7ztruqiaxwx"
+      },
+      {
+        "Handle": "endwokeness.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:byet53dwfmr5at7xk56zwmxv",
+        "block_count": 12078,
+        "did": "did:plc:byet53dwfmr5at7xk56zwmxv"
+      },
+      {
+        "Handle": "shortcovid.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:rjlu6npi554qkz2jcvdt7mc3",
+        "block_count": 9815,
+        "did": "did:plc:rjlu6npi554qkz2jcvdt7mc3"
+      },
+      {
+        "Handle": "anonymous.expectus.fyi",
+        "ProfileURL": "https://bsky.app/profile/did:plc:xfqcsi7wuwedeqaa5m7aih44",
+        "block_count": 8890,
+        "did": "did:plc:xfqcsi7wuwedeqaa5m7aih44"
+      },
+      {
+        "Handle": "90sanime.pics",
+        "ProfileURL": "https://bsky.app/profile/did:plc:5krm4pb5gecb5uawvgr7uxuu",
+        "block_count": 8542,
+        "did": "did:plc:5krm4pb5gecb5uawvgr7uxuu"
+      },
+      {
+        "Handle": "mdbreathe.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:cmo3ypyyvybcgyi2tg2x4sge",
+        "block_count": 8339,
+        "did": "did:plc:cmo3ypyyvybcgyi2tg2x4sge"
+      },
+      {
+        "Handle": "thedevil.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:k2weqoffrljoi7d45jjhjaqk",
+        "block_count": 7927,
+        "did": "did:plc:k2weqoffrljoi7d45jjhjaqk"
+      },
+      {
+        "Handle": "catswithaura.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:wwakmfq74pvducx2pbbdxhlg",
+        "block_count": 7521,
+        "did": "did:plc:wwakmfq74pvducx2pbbdxhlg"
+      },
+      {
+        "Handle": "9gag.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:56eikwlvdd4htq727624spkg",
+        "block_count": 7369,
+        "did": "did:plc:56eikwlvdd4htq727624spkg"
+      },
+      {
+        "Handle": "afdberlin.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:vzakzcxo3dqgjvlgmqlakcb5",
+        "block_count": 7184,
+        "did": "did:plc:vzakzcxo3dqgjvlgmqlakcb5"
+      },
+      {
+        "Handle": "womensart1.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:jfpub26kfrtponcqzi7i7udl",
+        "block_count": 6361,
+        "did": "did:plc:jfpub26kfrtponcqzi7i7udl"
+      },
+      {
+        "Handle": "artificial.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:gr3zsqab63cfvv7nao4mrh7v",
+        "block_count": 6016,
+        "did": "did:plc:gr3zsqab63cfvv7nao4mrh7v"
+      },
+      {
+        "Handle": "ewerickson.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:2gwoe546lp565vxmzzy2emsl",
+        "block_count": 5993,
+        "did": "did:plc:2gwoe546lp565vxmzzy2emsl"
+      },
+      {
+        "Handle": "poeticalphotos.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:ha5tvry6kkxiujam6kyjgagg",
+        "block_count": 5871,
+        "did": "did:plc:ha5tvry6kkxiujam6kyjgagg"
+      },
+      {
+        "Handle": "julianreichelt.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:hwbjiajbxxij27fzdxwgp7h7",
+        "block_count": 5867,
+        "did": "did:plc:hwbjiajbxxij27fzdxwgp7h7"
+      },
+      {
+        "Handle": "funnyordie.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:m4wkkbc4k5e46hus7zy3tijd",
+        "block_count": 5773,
+        "did": "did:plc:m4wkkbc4k5e46hus7zy3tijd"
+      },
+      {
+        "Handle": "culture-crit.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:uvsztbhnf2gcplblz5hitxc7",
+        "block_count": 5700,
+        "did": "did:plc:uvsztbhnf2gcplblz5hitxc7"
+      },
+      {
+        "Handle": "aisky.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:kazwkrel3bvgeqm3wdiydwdf",
+        "block_count": 5615,
+        "did": "did:plc:kazwkrel3bvgeqm3wdiydwdf"
+      },
+      {
+        "Handle": "othingstodo.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:i6r2cszqypv2qkp5wvppkndo",
+        "block_count": 5601,
+        "did": "did:plc:i6r2cszqypv2qkp5wvppkndo"
+      }
+    ],
+    "blocked_aid": {
+      "did:plc:2gwoe546lp565vxmzzy2emsl": "bafkreigkyri2ge24a2gjvbyfqhpv72ean3kqdr5im6e3njdgfcosgtaly4",
+      "did:plc:56eikwlvdd4htq727624spkg": "bafkreic2xkbo646nxl44z3zk2zeighlvsgltoqjoolc3ihc26p4sdxityu",
+      "did:plc:5krm4pb5gecb5uawvgr7uxuu": "bafkreie6vz5gykxxdf777yiirarw3eyvycbg46to6dknynbxwqrcsl5mfu",
+      "did:plc:aeuetvb7vac3xay76nkphbks": "bafkreibnus2odyijekzkiarrthjwwjjaxbqor5ueopfsa3ezk3doyd3t2a",
+      "did:plc:byet53dwfmr5at7xk56zwmxv": "bafkreie5wkm74v6kewoeukcla2hdvzfcfsmqvtm5mhnxdvabgjd2fc2jvm",
+      "did:plc:cmo3ypyyvybcgyi2tg2x4sge": "bafkreicvorlfinnmygp5ibd65wjvr6tq526fkaksgsrls7v4bw3caluko4",
+      "did:plc:gr3zsqab63cfvv7nao4mrh7v": "bafkreias26vb2aujzaktxnnzgkqkydf3unkdu4qd6l765fdvqbt5xe6hma",
+      "did:plc:ha5tvry6kkxiujam6kyjgagg": "bafkreigdoleeclxuwukhhqwqsftrofuazhqhvab377v3tyk4jazkvn2ixi",
+      "did:plc:hwbjiajbxxij27fzdxwgp7h7": "bafkreidsd5niiokjiqkrgi3ko444rne6t2qhaeyvyhvz7ahjgyyih3xzie",
+      "did:plc:i6r2cszqypv2qkp5wvppkndo": "bafkreia6amuooyaq4uk5smuyhks6wqdipso4yjsv46fszxq6zuvkzkjhqy",
+      "did:plc:jfpub26kfrtponcqzi7i7udl": "bafkreib35vtob7wsqhye4t3tgkoprye5qeqv4fauedcqomfm3yj6oae52i",
+      "did:plc:k2weqoffrljoi7d45jjhjaqk": "bafkreiamm5zsg4fs5gt3qv6ljam57a45ulb2ova5zk2f7sagr4cvowiroq",
+      "did:plc:kazwkrel3bvgeqm3wdiydwdf": "bafkreieihktyf7lcy3votcdxkvahtzyyroak34uf42zae4i2be76fnupkm",
+      "did:plc:m4wkkbc4k5e46hus7zy3tijd": "bafkreibxjsxyd452tupsqjw252jjnsaqaooyqdhvrdafsu3rhprtcsktfi",
+      "did:plc:rjlu6npi554qkz2jcvdt7mc3": "bafkreia7nn5zcs7eftzihvaqhcqd2wge2s4xyel2rebpvtk7p4sjwwae3y",
+      "did:plc:s3kgjpyoec2fd7ztruqiaxwx": "bafkreigstp5o3tazxxln47estmi3fvq52wvl3ktnn4bldxnw4mueb5wppa",
+      "did:plc:uvsztbhnf2gcplblz5hitxc7": "bafkreieximiueazfy7vqej35sea7477l75tweiipvthjicwqzxz3njy52u",
+      "did:plc:vzakzcxo3dqgjvlgmqlakcb5": "bafkreibcalpe4ceeh27wuu42irlkgb3rm6dcxyk3bqcfe7xnjpxxiqojsy",
+      "did:plc:wwakmfq74pvducx2pbbdxhlg": "bafkreieeqwlz7l4lk6eztvyfnowockjstvksrqsfveb7hk2rv5rkfuihtm",
+      "did:plc:xfqcsi7wuwedeqaa5m7aih44": "bafkreic6auduax3rkmtm6xgaetan5osdm454a4y5wc5ryfcjkg5gnfqhmu"
     },
-    {
-      "Handle": "aify.co",
-      "ProfileURL": "https://bsky.app/profile/did:plc:s3kgjpyoec2fd7ztruqiaxwx",
-      "block_count": 13458,
-      "did": "did:plc:s3kgjpyoec2fd7ztruqiaxwx"
+    "blockers": [
+      {
+        "Handle": "godemperorof.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:aaelnwlxvflllswegmearbwo",
+        "block_count": 538414,
+        "did": "did:plc:aaelnwlxvflllswegmearbwo"
+      },
+      {
+        "Handle": "chiefkeef.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:e4fsmjcj33khuqi6prspceiy",
+        "block_count": 32919,
+        "did": "did:plc:e4fsmjcj33khuqi6prspceiy"
+      },
+      {
+        "Handle": "joshuajoy.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:vvzu3m7xgl6nldqjbp25pitj",
+        "block_count": 11337,
+        "did": "did:plc:vvzu3m7xgl6nldqjbp25pitj"
+      },
+      {
+        "Handle": "reishoku.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:yjxotndhnf4jsldpzh3dbbhe",
+        "block_count": 8618,
+        "did": "did:plc:yjxotndhnf4jsldpzh3dbbhe"
+      },
+      {
+        "Handle": "benclombardo.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:4plzygasgydhuirdrlflqbjo",
+        "block_count": 8353,
+        "did": "did:plc:4plzygasgydhuirdrlflqbjo"
+      },
+      {
+        "Handle": "populuxe.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:cgxxlxuypmkdqdcpioqny5r6",
+        "block_count": 7787,
+        "did": "did:plc:cgxxlxuypmkdqdcpioqny5r6"
+      },
+      {
+        "Handle": "thewrittentevs.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:mauk6khnlclkr5k2hnezgmja",
+        "block_count": 5400,
+        "did": "did:plc:mauk6khnlclkr5k2hnezgmja"
+      },
+      {
+        "Handle": "likeamilkdud.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:d2c3m3xnz4e3x774bq7w43pc",
+        "block_count": 5251,
+        "did": "did:plc:d2c3m3xnz4e3x774bq7w43pc"
+      },
+      {
+        "Handle": "csam.okconfirmed.com",
+        "ProfileURL": "https://bsky.app/profile/did:plc:o6p7fbjv2xyijweh5uexdeun",
+        "block_count": 4569,
+        "did": "did:plc:o6p7fbjv2xyijweh5uexdeun"
+      },
+      {
+        "Handle": "fresh-newlook.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:6odst3452scxthx7w3v2tiav",
+        "block_count": 4346,
+        "did": "did:plc:6odst3452scxthx7w3v2tiav"
+      },
+      {
+        "Handle": "sunsetsnow.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:axrs65zc6hj3m5axp3fth6pw",
+        "block_count": 4263,
+        "did": "did:plc:axrs65zc6hj3m5axp3fth6pw"
+      },
+      {
+        "Handle": "pupgamer.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:mafslxu4vgugbybjzsuqxdqr",
+        "block_count": 4243,
+        "did": "did:plc:mafslxu4vgugbybjzsuqxdqr"
+      },
+      {
+        "Handle": "itwont.run",
+        "ProfileURL": "https://bsky.app/profile/did:plc:nyykk5p7laar725gdnypopsh",
+        "block_count": 4160,
+        "did": "did:plc:nyykk5p7laar725gdnypopsh"
+      },
+      {
+        "Handle": "sunagimochan.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:lsoslz2tnl5rudrd7toaxly3",
+        "block_count": 3554,
+        "did": "did:plc:lsoslz2tnl5rudrd7toaxly3"
+      },
+      {
+        "Handle": "hamandegger.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:wgiw4zvjhfhhubf6dtocjern",
+        "block_count": 3462,
+        "did": "did:plc:wgiw4zvjhfhhubf6dtocjern"
+      },
+      {
+        "Handle": "blueotter.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:yq6oqday6xtoqcgigdotnglw",
+        "block_count": 3376,
+        "did": "did:plc:yq6oqday6xtoqcgigdotnglw"
+      },
+      {
+        "Handle": "palomar.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:2col443nxnlr3qxmlh53u2oi",
+        "block_count": 3321,
+        "did": "did:plc:2col443nxnlr3qxmlh53u2oi"
+      },
+      {
+        "Handle": "nanamiasari.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:ptlddkaqekq5xj4icqh3btu3",
+        "block_count": 3320,
+        "did": "did:plc:ptlddkaqekq5xj4icqh3btu3"
+      },
+      {
+        "Handle": "elaxor.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:ofca62ov5uoae3j772j5vxkx",
+        "block_count": 3210,
+        "did": "did:plc:ofca62ov5uoae3j772j5vxkx"
+      },
+      {
+        "Handle": "john88.bsky.social",
+        "ProfileURL": "https://bsky.app/profile/did:plc:nhfzuw3qpspigcbhopyjyoxg",
+        "block_count": 2987,
+        "did": "did:plc:nhfzuw3qpspigcbhopyjyoxg"
+      }
+    ],
+    "blockers_aid": {
+      "did:plc:2col443nxnlr3qxmlh53u2oi": "",
+      "did:plc:4plzygasgydhuirdrlflqbjo": "bafkreidmvofs6nmkoqadp4vkvh26jzh73bzvf5s2ajvt5ztnkqxneyayvq",
+      "did:plc:6odst3452scxthx7w3v2tiav": "bafkreid4znwozgnn5vz7jhk5wsub73dkwnqf3hu4cs7u5njewqiixugi4q",
+      "did:plc:aaelnwlxvflllswegmearbwo": "bafkreicekc6sdf7i5aibzo6yhmuvykwj43gruxmyc5wsmgkahflswwez6a",
+      "did:plc:axrs65zc6hj3m5axp3fth6pw": "bafkreicqwvuqqhzi6vzexyi7c5arfov4cqr26hkxggameqmd3nkldovud4",
+      "did:plc:cgxxlxuypmkdqdcpioqny5r6": "bafkreiaaaksgtbfk7wvuwrzgyrssvfqm7gzxmilsf6w4jz33eiz6auwyo4",
+      "did:plc:d2c3m3xnz4e3x774bq7w43pc": "bafkreig672aogrqgj6hj3fhilgetxrfty4pf3vv2q25sjzm4uicnvs3wru",
+      "did:plc:e4fsmjcj33khuqi6prspceiy": "bafkreifykraakgmpblk7q574amv23yffetp43fmxubja4vnhu74rob3ida",
+      "did:plc:lsoslz2tnl5rudrd7toaxly3": "bafkreicqe2lokrhlmxi2zvygqeq2wycap6fsfq3ljy5l7n36kxggyzghee",
+      "did:plc:mafslxu4vgugbybjzsuqxdqr": "bafkreicmimmf727toysnirqlrngcr3dtdcqq76dklzdqhsz7gkaz6enpli",
+      "did:plc:mauk6khnlclkr5k2hnezgmja": "bafkreigbmijkhof4qsutjttodry4h33euthlu6xcvezzxlie2aejuhteaq",
+      "did:plc:nhfzuw3qpspigcbhopyjyoxg": "",
+      "did:plc:nyykk5p7laar725gdnypopsh": "bafkreidao55d575zbvdekot3zvtqq63lj4ebdj2ydodjy4n7o4vr3dkstm",
+      "did:plc:o6p7fbjv2xyijweh5uexdeun": "bafkreiepeuh6mz4pc2mzmjyysizxz47zcm454tednxk5ntrmu5miuvjgr4",
+      "did:plc:ofca62ov5uoae3j772j5vxkx": "bafkreiezuxscejajajbivlygsbfmeqkbquwugp7hltxcetcbzyjydhjroe",
+      "did:plc:ptlddkaqekq5xj4icqh3btu3": "bafkreidrkrwvnj5kvnyyhgmbvcqrytwjuxh2kcogfhv7ipnj6qjqpbicdu",
+      "did:plc:vvzu3m7xgl6nldqjbp25pitj": "bafkreifjxjfheaynu5cvf4zxqkw3jhr5urwkqykklq64bggdghhmeddfji",
+      "did:plc:wgiw4zvjhfhhubf6dtocjern": "bafkreibkkfry5co2opt3itgcx3y2dkuqwpy3kzwkmf5b6b7q6i76qutduu",
+      "did:plc:yjxotndhnf4jsldpzh3dbbhe": "bafkreifomfskzqebqe2h7as2m2e3g6tmnmzintulxgw7gdvvdmhesdbq4u",
+      "did:plc:yq6oqday6xtoqcgigdotnglw": "bafkreif7yd74dsurrjboyvrqwmwdbhpqs3w4eku36gmcw2vfqk4vncrnyq"
     },
-    {
-      "Handle": "endwokeness.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:byet53dwfmr5at7xk56zwmxv",
-      "block_count": 9085,
-      "did": "did:plc:byet53dwfmr5at7xk56zwmxv"
-    },
-    {
-      "Handle": "90sanime.pics",
-      "ProfileURL": "https://bsky.app/profile/did:plc:5krm4pb5gecb5uawvgr7uxuu",
-      "block_count": 8407,
-      "did": "did:plc:5krm4pb5gecb5uawvgr7uxuu"
-    },
-    {
-      "Handle": "mdbreathe.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:cmo3ypyyvybcgyi2tg2x4sge",
-      "block_count": 8223,
-      "did": "did:plc:cmo3ypyyvybcgyi2tg2x4sge"
-    },
-    {
-      "Handle": "anonymous.expectus.fyi",
-      "ProfileURL": "https://bsky.app/profile/did:plc:xfqcsi7wuwedeqaa5m7aih44",
-      "block_count": 8132,
-      "did": "did:plc:xfqcsi7wuwedeqaa5m7aih44"
-    },
-    {
-      "Handle": "thedevil.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:k2weqoffrljoi7d45jjhjaqk",
-      "block_count": 7689,
-      "did": "did:plc:k2weqoffrljoi7d45jjhjaqk"
-    },
-    {
-      "Handle": "catswithaura.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:wwakmfq74pvducx2pbbdxhlg",
-      "block_count": 7495,
-      "did": "did:plc:wwakmfq74pvducx2pbbdxhlg"
-    },
-    {
-      "Handle": "9gag.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:56eikwlvdd4htq727624spkg",
-      "block_count": 7328,
-      "did": "did:plc:56eikwlvdd4htq727624spkg"
-    },
-    {
-      "Handle": "afdberlin.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:vzakzcxo3dqgjvlgmqlakcb5",
-      "block_count": 6503,
-      "did": "did:plc:vzakzcxo3dqgjvlgmqlakcb5"
-    },
-    {
-      "Handle": "artificial.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:gr3zsqab63cfvv7nao4mrh7v",
-      "block_count": 5923,
-      "did": "did:plc:gr3zsqab63cfvv7nao4mrh7v"
-    },
-    {
-      "Handle": "shortcovid.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:rjlu6npi554qkz2jcvdt7mc3",
-      "block_count": 5882,
-      "did": "did:plc:rjlu6npi554qkz2jcvdt7mc3"
-    },
-    {
-      "Handle": "ewerickson.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:2gwoe546lp565vxmzzy2emsl",
-      "block_count": 5877,
-      "did": "did:plc:2gwoe546lp565vxmzzy2emsl"
-    },
-    {
-      "Handle": "poeticalphotos.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:ha5tvry6kkxiujam6kyjgagg",
-      "block_count": 5747,
-      "did": "did:plc:ha5tvry6kkxiujam6kyjgagg"
-    },
-    {
-      "Handle": "julianreichelt.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:hwbjiajbxxij27fzdxwgp7h7",
-      "block_count": 5684,
-      "did": "did:plc:hwbjiajbxxij27fzdxwgp7h7"
-    },
-    {
-      "Handle": "funnyordie.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:m4wkkbc4k5e46hus7zy3tijd",
-      "block_count": 5665,
-      "did": "did:plc:m4wkkbc4k5e46hus7zy3tijd"
-    },
-    {
-      "Handle": "othingstodo.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:i6r2cszqypv2qkp5wvppkndo",
-      "block_count": 5575,
-      "did": "did:plc:i6r2cszqypv2qkp5wvppkndo"
-    },
-    {
-      "Handle": "aisky.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:kazwkrel3bvgeqm3wdiydwdf",
-      "block_count": 5565,
-      "did": "did:plc:kazwkrel3bvgeqm3wdiydwdf"
-    },
-    {
-      "Handle": "aschneider.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:vxguxtzbebifimoh76rpwfjj",
-      "block_count": 5529,
-      "did": "did:plc:vxguxtzbebifimoh76rpwfjj"
-    },
-    {
-      "Handle": "ulfposhist.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:ll63netgr6j366hbajr7zljx",
-      "block_count": 5439,
-      "did": "did:plc:ll63netgr6j366hbajr7zljx"
-    }
-  ],
-  "blocked_aid": {
-    "did:plc:3j6zhuwhlaq6ce3whn6psuzf": "",
-    "did:plc:3le6pwxcgwunzz6o77x2z7ar": "bafkreid4db3uamksa7ioj4zos7ywi3k7skmniz7txjjtbtxsimkdd26gmq",
-    "did:plc:3w6lqhoiwb4oyxkq4vkezmoh": "bafkreigtetilb4jwgk3w3zjno4zskxfeduhsaap47jhep4mjvd7exqwloq",
-    "did:plc:4mbllyfo5h6macrye35rg2dv": "bafkreidhwbutdtw2hhy76cgda56kb66oidxdnphncewmoskezjb5rm7c5q",
-    "did:plc:6m3d4kvetsgyuv63fal2nfeh": "bafkreiecwncg75nncwzrijicprpkk57hz3l2ndn56rl726sjdbwilavkvu",
-    "did:plc:7hdkruwu4o5ctjvgasmoq7kz": "bafkreida6sk5yc4qgy6zd3pe2cd7gpx7oi2o3a4b7qmrvd3rzlvmyzdeke",
-    "did:plc:7umvpuxe2vbrc3zrzuquzniu": "bafkreihd7gqbzaz44oicf3b3k325zqia4a54hq3y6xog3xxjxt4cxstusa",
-    "did:plc:aev34tr3qek5p4xpgkqte7ve": "bafkreicsjpwpir37cbr57n7o2e3uw744l44w475yq7saiyxnnmf7u7mafa",
-    "did:plc:cnjc3bgo6werfibdv7ztbwbs": "",
-    "did:plc:gvgcih7d6m3e2hvyq46igazf": "bafkreih6ltiywkzujbq34jf2wkjalraaccw3xp5zcdej7ooy3isjwxp3ui",
-    "did:plc:inbqnvflb7h2yiiaz7csx3wc": "bafkreidsu5mi4qzbxtux7tmrw7mxosis7s7juclvc7dhoelwj5d76vwi4u",
-    "did:plc:izwkrpapa4baoz4cfxkyri3t": "bafkreihnvzjrtwzy6r7qgxj3a3hm4qgcohr4sjwo4272mn2imjgpouam2q",
-    "did:plc:jq6adp6xpuywzmkkq5xhgsli": "bafkreiagzyrkfahyftmgibyolfd23ivaoexvxqzvfrrpkeuglfwlnqouzm",
-    "did:plc:k5igcriqmplffxazxux36dk3": "bafkreiccqsmkrtz2nybfbwmaykyefmnxd2d6bgw7ao626gmokzugsxa4na",
-    "did:plc:kkwgudwujvnik2wwohuxr36q": "bafkreicwfiq5qu2dzk6jyxxbabvxobpjm4yg3g3sdz4updlyd5wgpyomli",
-    "did:plc:l4yavyh246boe7uzo4cua2ns": "bafkreigu76b5z26fxwrzw4lnsuk2s3zzfx3p5urjcmeivl2fs4f3hwq2om",
-    "did:plc:lq27lgik3ku2qg6zfxmil5xo": "bafkreifofevnp3f7on62g4b4qio5xlsej5asmriiknjp6yukgleboh7f5u",
-    "did:plc:pbeh735amil4zwnwfidbwawx": "bafkreice3gnes5ubgbxtwuyjqwlpw3yrvnvblk6g5s5hm5q6xlvra7dfsu",
-    "did:plc:qdriunexx3nobe5kpltycouy": "bafkreieo735yp7ah2g5bluxsnseqom2mtobbpurxsptb6iopphtkdsemoa",
-    "did:plc:srszfyoy7rnvbayspnvo6gzk": null
-  },
-  "blockers": [
-    {
-      "Handle": "godemperorof.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:aaelnwlxvflllswegmearbwo",
-      "block_count": 50999,
-      "did": "did:plc:aaelnwlxvflllswegmearbwo"
-    },
-    {
-      "Handle": "jpegxl.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:pz7bbehnhhfl2y43kvgsc47j",
-      "block_count": 37164,
-      "did": "did:plc:pz7bbehnhhfl2y43kvgsc47j"
-    },
-    {
-      "Handle": "tw1nk.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:2np6uovyvjnbgh4l4en5t44a",
-      "block_count": 36331,
-      "did": "did:plc:2np6uovyvjnbgh4l4en5t44a"
-    },
-    {
-      "Handle": "chiefkeef2.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:e4fsmjcj33khuqi6prspceiy",
-      "block_count": 33150,
-      "did": "did:plc:e4fsmjcj33khuqi6prspceiy"
-    },
-    {
-      "Handle": "thewrittentevs.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:mauk6khnlclkr5k2hnezgmja",
-      "block_count": 5474,
-      "did": "did:plc:mauk6khnlclkr5k2hnezgmja"
-    },
-    {
-      "Handle": "veeisme.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:fz5zpei6ssxqz3gzfesemrqy",
-      "block_count": 5327,
-      "did": "did:plc:fz5zpei6ssxqz3gzfesemrqy"
-    },
-    {
-      "Handle": "nationalist.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:vpaoviy4grvnajgaze6642tf",
-      "block_count": 4858,
-      "did": "did:plc:vpaoviy4grvnajgaze6642tf"
-    },
-    {
-      "Handle": "psclrss.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:sooetmdocsdc7so3dxgf7zac",
-      "block_count": 3857,
-      "did": "did:plc:sooetmdocsdc7so3dxgf7zac"
-    },
-    {
-      "Handle": "articulatemadness.com",
-      "ProfileURL": "https://bsky.app/profile/did:plc:if6lbbt7vjduzzfdlgea4m4n",
-      "block_count": 3495,
-      "did": "did:plc:if6lbbt7vjduzzfdlgea4m4n"
-    },
-    {
-      "Handle": "666naberius666.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:kyj73ifujf6tnhe7s5wpoam4",
-      "block_count": 3222,
-      "did": "did:plc:kyj73ifujf6tnhe7s5wpoam4"
-    },
-    {
-      "Handle": "whydoilikethis.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:g2xshwj4o33b5wzxs3xspfxk",
-      "block_count": 2541,
-      "did": "did:plc:g2xshwj4o33b5wzxs3xspfxk"
-    },
-    {
-      "Handle": "blobjectfish.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:e7xy5ur56iza32jdhsczw6oe",
-      "block_count": 2372,
-      "did": "did:plc:e7xy5ur56iza32jdhsczw6oe"
-    },
-    {
-      "Handle": "likeamilkdud.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:xft3mxwpcbhrzora4xc23nph",
-      "block_count": 2326,
-      "did": "did:plc:xft3mxwpcbhrzora4xc23nph"
-    },
-    {
-      "Handle": "x03v.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:tlx4c7chic27a2yug4w7mwa3",
-      "block_count": 2326,
-      "did": "did:plc:tlx4c7chic27a2yug4w7mwa3"
-    },
-    {
-      "Handle": "joshaustin.tech",
-      "ProfileURL": "https://bsky.app/profile/did:plc:ejn42lyctdwfin3ymjoenebs",
-      "block_count": 2240,
-      "did": "did:plc:ejn42lyctdwfin3ymjoenebs"
-    },
-    {
-      "Handle": "asares-prade.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:25gjrl4ybzmdxxopfpk47mpy",
-      "block_count": 2114,
-      "did": "did:plc:25gjrl4ybzmdxxopfpk47mpy"
-    },
-    {
-      "Handle": "northrax.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:o6dfdlenwvg3rhvvi27ai7sq",
-      "block_count": 2024,
-      "did": "did:plc:o6dfdlenwvg3rhvvi27ai7sq"
-    },
-    {
-      "Handle": "jerrybuchko.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:m2sds432e3fp3xk2q5m2f344",
-      "block_count": 1958,
-      "did": "did:plc:m2sds432e3fp3xk2q5m2f344"
-    },
-    {
-      "Handle": "shisuiten.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:afiyi64xi7t2jppwbfwujvrl",
-      "block_count": 1902,
-      "did": "did:plc:afiyi64xi7t2jppwbfwujvrl"
-    },
-    {
-      "Handle": "larisa-labrant.bsky.social",
-      "ProfileURL": "https://bsky.app/profile/did:plc:r5y7zsf3ywpsr74roq5t6ape",
-      "block_count": 1741,
-      "did": "did:plc:r5y7zsf3ywpsr74roq5t6ape"
-    }
-  ],
-  "blockers_aid": {
-    "did:plc:3tahovyvo3t2cp5rshxalw33": "bafkreicmcy5x25c6vcfrnzeze6pwrgp5gspb2un3nreupjpceih4x3xuy4",
-    "did:plc:5gspcix3gh6xlpq7cpud3igc": "bafkreicpzkz7zwxq3ojmpo47evezkzzmk3imc2azpgemkphydhrudjbqo4",
-    "did:plc:6icr4tipspgctwsl24lv5r3y": "bafkreicwyqtjayi35oy56ovfohl6wvpfkk6tw6op4ar3xf2peqdxp4s3fy",
-    "did:plc:aaelnwlxvflllswegmearbwo": "bafkreicekc6sdf7i5aibzo6yhmuvykwj43gruxmyc5wsmgkahflswwez6a",
-    "did:plc:afiyi64xi7t2jppwbfwujvrl": "bafkreierkz4guipzubqj24nsug24zfeea5l7rd4ju7lkvsyworztlhakwi",
-    "did:plc:aui4nwz642bg4edbkvexogcw": "bafkreid2sgnhp6fwfnqo5rmklnckxcbozcopgzzogtvvfbq6bym6mjpzq4",
-    "did:plc:bsfkrvkgspgv7nx7yyvn6kfy": "bafkreiassm2dugqm7be3lvwlxynytvnhgthbyi6766nnazogr27nirnjsm",
-    "did:plc:d7pkd2naqqxa6eutobyokvp5": "bafkreicfflicd6ii4wwgkaof4mazjxkxvwxfxoqikhvoy26e3v2jxt6hli",
-    "did:plc:ejn42lyctdwfin3ymjoenebs": "bafkreicb6xkqlwuphhseo3jzgxflo2s5gfne53sb2vrdfpaqspuqtmvf54",
-    "did:plc:g2xshwj4o33b5wzxs3xspfxk": "bafkreiabzguv3uvpth3a3w2fvgwhvl7qzmvcqn63sodk4ds5lp5v3g2y34",
-    "did:plc:j5azar2i2m33clf4gx6s3q5l": "bafkreie54ckd2eitfcokeeu7ax4rdzy7c4d6ywbi4jfppprcqlsbabapgq",
-    "did:plc:kc6b7l5qnaylgnrkpo4apnms": "bafkreieizr7tgo4ntszwy4mm5syhrvo2ucbvubcg7fbb5kcswsc67fevra",
-    "did:plc:kyj73ifujf6tnhe7s5wpoam4": "bafkreibvbrizalppubyntdgw2zxd4bjflsb544klf75yjfg42k5uixpghy",
-    "did:plc:laox4youuo2r5bw2nxlfkxla": "bafkreiah4nvrqjtmmldbxyjbhzdcpislpqvyo6afhihz5jj2jwobnf7hde",
-    "did:plc:mjllre6n522jmm6wfaguifuw": "bafkreigqs3moa4h4xuf453byq4uv76abudekkferbijnbxvc226e3wj7ae",
-    "did:plc:nhfzuw3qpspigcbhopyjyoxg": "",
-    "did:plc:ni3wjvylk76d5q7mk665bgac": "bafkreifn3vp5fnyw6afcioys46o66u3ffgwevvwvotswiwvucabvdozanu",
-    "did:plc:nsf5dhzypf4e3j4ujlxsw6mj": "bafkreigjuzq5zbedp6utvo35mwkamrkz6uhmel3sat3zuyx4xfuf4j2jmu",
-    "did:plc:rcpdouakmhwfitbxf4wlf73g": "bafkreifq4m26xp6uirw7p7da2wevozbi77lbdjf5uof7jjkafbxneyfnam",
-    "did:plc:vpaoviy4grvnajgaze6642tf": null
-  },
+
   "blocked24": [
     {
       "Handle": "william1ng.bsky.social",
@@ -535,28 +547,101 @@
       "did": "did:plc:6icr4tipspgctwsl24lv5r3y"
     }
   ],
-  "averageNumberOfBlocked": {"value": 5.97},
-  "averageNumberOfBlocks": {"value": "11.85"},
-  "numberBlock1": {"value": "123,253"},
-  "numberBlocked1": {"value": "375,005"},
-  "numberBlocked101and1000": {"value": "3,488"},
-  "numberBlocked2and100": {"value": "230,205"},
-  "numberBlockedGreaterThan1000": {"value": "410"},
-  "numberBlocking101and1000": {"value": "5,959"},
-  "numberBlocking2and100": {"value": "177,828"},
-  "numberBlockingGreaterThan1000": {"value": "42"},
-  "numberOfTotalBlocks": {"value": "3,647,241"},
-  "numberOfUniqueUsersBlocked": {"value": "609,108"},
-  "numberOfUniqueUsersBlocking": {"value": "307,082"},
-  "percentNumberBlocked1": {"value": 61.57},
-  "percentNumberBlocked101and1000": {"value": 0.57},
-  "percentNumberBlocked2and100": {"value": 37.79},
-  "percentNumberBlockedGreaterThan1000": {"value": 0.07},
-  "percentNumberBlocking1": {"value": 40.14},
-  "percentNumberBlocking101and1000": {"value": 1.94},
-  "percentNumberBlocking2and100": {"value": 57.91},
-  "percentNumberBlockingGreaterThan1000": {"value": 0.01},
-  "percentUsersBlocked": {"value": 27.61},
-  "percentUsersBlocking": {"value": 13.92},
-  "totalUsers": {"value": "2,205,748"}
+
+    "averageNumberOfBlocked": {
+      "displayname": "Average Number of Users Blocked",
+      "value": 5.29
+    },
+    "averageNumberOfBlocks": {
+      "displayname": "Average Number of Blocks",
+      "value": "12.83"
+    },
+    "numberBlock1": {
+      "displayname": "Number of Users Blocking 1 User",
+      "value": "188,265"
+    },
+    "numberBlocked1": {
+      "displayname": "Number of Users Blocked by 1 User",
+      "value": "602,973"
+    },
+    "numberBlocked101and1000": {
+      "displayname": "Number of Users Blocked by 101-1000 Users",
+      "value": "5,551"
+    },
+    "numberBlocked2and100": {
+      "displayname": "Number of Users Blocked by 2-100 Users",
+      "value": "450,770"
+    },
+    "numberBlockedGreaterThan1000": {
+      "displayname": "Number of Users Blocked by More than 1000 Users",
+      "value": "525"
+    },
+    "numberBlocking101and1000": {
+      "displayname": "Number of Users Blocking 101-1000 Users",
+      "value": "9,224"
+    },
+    "numberBlocking2and100": {
+      "displayname": "Number of Users Blocking 2-100 Users",
+      "value": "239,335"
+    },
+    "numberBlockingGreaterThan1000": {
+      "displayname": "Number of Users Blocking More than 1000 Users",
+      "value": "124"
+    },
+    "numberOfTotalBlocks": {
+      "displayname": "Number of Total Blocks",
+      "value": "5,606,317"
+    },
+    "numberOfUniqueUsersBlocked": {
+      "displayname": "Number of Unique Users Blocked",
+      "value": "1,059,819"
+    },
+    "numberOfUniqueUsersBlocking": {
+      "displayname": "Number of Unique Users Blocking",
+      "value": "436,948"
+    },
+    "percentNumberBlocked1": {
+      "displayname": "Percent of Users Blocked by 1 User",
+      "value": 56.89
+    },
+    "percentNumberBlocked101and1000": {
+      "displayname": "Percent of Users Blocked by 101-1000 Users",
+      "value": 0.52
+    },
+    "percentNumberBlocked2and100": {
+      "displayname": "Percent of Users Blocked by 2-100 Users",
+      "value": 42.53
+    },
+    "percentNumberBlockedGreaterThan1000": {
+      "displayname": "Percent of Users Blocked by More than 1000 Users",
+      "value": 0.05
+    },
+    "percentNumberBlocking1": {
+      "displayname": "Percent of Users Blocking 1 User",
+      "value": 43.09
+    },
+    "percentNumberBlocking101and1000": {
+      "displayname": "Percent of Users Blocking 101-1000 Users",
+      "value": 2.11
+    },
+    "percentNumberBlocking2and100": {
+      "displayname": "Percent of Users Blocking 2-100 Users",
+      "value": 54.77
+    },
+    "percentNumberBlockingGreaterThan1000": {
+      "displayname": "Percent of Users Blocking More than 1000 Users",
+      "value": 0.03
+    },
+    "percentUsersBlocked": {
+      "displayname": "Percent Users Blocked",
+      "value": 19.63
+    },
+    "percentUsersBlocking": {
+      "displayname": "Percent Users Blocking",
+      "value": 8.09
+    },
+    "totalUsers": {
+      "displayname": "Total Users",
+      "value": "5,399,765"
+    }
 }
