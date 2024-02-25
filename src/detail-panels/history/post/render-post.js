@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { breakFeedUri, isPromise, likelyDID, resolveHandleOrDID, unwrapShortDID, unwrapShortHandle } from '../../../api';
-import { getPost } from '../../../api/post-history';
+import { getPost, getPostThread } from '../../../api/post-history';
 
 import { Tooltip } from '@mui/material';
 import { AccountShortEntry } from '../../../common-components/account-short-entry';
@@ -34,7 +34,16 @@ export function RenderPost({ post, className, disableEmbedQT, level, textHighlig
   const accountOrPromise = postUri?.shortDID && resolveHandleOrDID(postUri?.shortDID) || undefined;
 
   return (
-    <div {...rest} className={'post-with-content ' + (className || '')} onClick={() => { console.log('clicked post', post) }}>
+    <div {...rest} className={'post-with-content ' + (className || '')}
+      onClick={(e) => {
+        e.preventDefault();
+        (async () => {
+          console.log('clicked post', post);
+          for await (const p of getPostThread(post.uri)) {
+            console.log('thread post', p);
+          }
+        });
+      }}>
       <h4 className='post-header'>
         {
           !postUri?.shortDID ? <UnknownAccountHeader post={post} /> :

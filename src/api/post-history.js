@@ -2,7 +2,7 @@
 /// <reference path="../types.d.ts" />
 
 import { breakFeedUri, isPromise, unwrapShortDID } from '.';
-import { atClient } from './core';
+import { atClient, publicAtClient } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 import { throttledAsyncCache } from './throttled-async-cache';
 
@@ -76,12 +76,8 @@ export function postHistory(shortHandleOrShortDid) {
 }
 
 /**
- * @typedef {{
- *  uri: string;
- *  rootPost: ThreadedPostDetails
- * }} ThreadStructure
- * 
  * @typedef {PostDetails & {
+ *  leading?: boolean;
  *  replies?: ThreadedPostDetails[];
  *  repliesLoaded?: boolean;
  *  speculativeRepliesBelow?: ThreadedPostDetails[];
@@ -90,10 +86,16 @@ export function postHistory(shortHandleOrShortDid) {
 
 /**
  * @param {string} uri
- * @returns {AsyncIterable<ThreadStructure>}
+ * @returns {AsyncIterable<ThreadedPostDetails>}
  */
 export async function* getPostThread(uri) {
-  atClient.app.bsky.feed.getPostThread({ uri });
+  const originalThread = await publicAtClient.app.bsky.feed.getPostThread({
+    uri,
+    depth: 400,
+    parentHeight: 900
+  });
+  console.log(originalThread);
+  return;
 }
 
 const throttledPostGet = throttledAsyncCache(async (uri) => {

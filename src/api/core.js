@@ -4,10 +4,14 @@
 import { BskyAgent } from '@atproto/api';
 
 const oldXrpc = 'https://bsky.social/xrpc';
-// const newXrpc = 'https://bsky.network/xrpc';
+const newXrpc = 'https://bsky.network/xrpc';
+const publicXrpc = 'https://public.api.bsky.app/xrpc';
 
 export const atClient = new BskyAgent({ service: oldXrpc });
 patchBskyAgent(atClient);
+
+export const publicAtClient = new BskyAgent({ service: publicXrpc });
+patchBskyAgent(publicAtClient);
 
 /** @param {import('@atproto/api').BskyAgent} atClient */
 function patchBskyAgent(atClient) {
