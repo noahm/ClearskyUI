@@ -75,6 +75,27 @@ export function postHistory(shortHandleOrShortDid) {
   })();
 }
 
+/**
+ * @typedef {{
+ *  uri: string;
+ *  rootPost: ThreadedPostDetails
+ * }} ThreadStructure
+ * 
+ * @typedef {PostDetails & {
+ *  replies?: ThreadedPostDetails[];
+ *  repliesLoaded?: boolean;
+ *  speculativeRepliesBelow?: ThreadedPostDetails[];
+ * }} ThreadedPostDetails
+ */
+
+/**
+ * @param {string} uri
+ * @returns {AsyncIterable<ThreadStructure>}
+ */
+export async function* getPostThread(uri) {
+  atClient.app.bsky.feed.getPostThread({ uri });
+}
+
 const throttledPostGet = throttledAsyncCache(async (uri) => {
   const uriEntity = breakFeedUri(uri);
   if (!uriEntity) throw new Error('Invalid post URI: ' + uri);

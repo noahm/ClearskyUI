@@ -10,13 +10,15 @@ import { localise } from '../localisation';
  *  className?: string,
  *  timestamp: number | string | Date,
  *  Component?: React.ElementType,
- *  noTooltip?: boolean
+ *  noTooltip?: boolean,
+ *  tooltipExtra?: import('react').ReactNode
  * }} _ 
  */
 export function FormatTimestamp({
   timestamp,
   Component = 'span',
   noTooltip,
+  tooltipExtra,
   ...props }) {
   const [_, setState] = useState(0);
 
@@ -66,7 +68,14 @@ export function FormatTimestamp({
     return core;
 
   return (
-    <Tooltip title={date.toString()}>
+    <Tooltip title={
+      tooltipExtra ?
+        <>
+          {date.toString()}
+          {tooltipExtra}
+        </> :
+        date.toString()
+    }>
       {core}
     </Tooltip>
   );
