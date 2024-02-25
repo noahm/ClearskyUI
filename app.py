@@ -1,7 +1,7 @@
 # app.py
 
 import sys
-from quart import Quart, request, session, jsonify, send_from_directory
+from quart import Quart, request, session, jsonify, send_from_directory, send_file
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -19,7 +19,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.2.8d"
+version = "4.2.14d"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -321,6 +321,12 @@ async def total_users_push_json():
     logger.info(data)
 
     return jsonify({'message': 'Data received successfully'}), 200
+
+
+@rate_limit(30, timedelta(seconds=1))
+@app.route('/api/v1/serve/lists/stats/<path:filename>', methods=['GET'])
+def serve_file(filename):
+    return send_file(filename)
 
 
 # ======================================================================================================================
