@@ -71,7 +71,7 @@ function getGridRowsAndColumns(stats) {
   const specialStats = ['asof', 'blocked', 'blocked24', 'blockers', 'blockers24', 'blocked_aid', 'blockers_aid'];
   for (const key in stats) {
     if (specialStats.indexOf(key) >= 0 || stats[key] == null || Array.isArray(stats[key])) continue;
-    rows.push({ Handle: key, block_count: stats[key] });
+    rows.push({ Handle: stats[key]?.displayname || key, block_count: stats[key]?.value });
   }
 
   if (stats.blocked?.length) {

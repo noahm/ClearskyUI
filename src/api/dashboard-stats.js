@@ -10,6 +10,9 @@ import dashboardStatsBase from './dashboard-stats-base.json';
 /** @type {DashboardStats | Promise<DashboardStats> & { asof: string }} */
 var prevDashboardStats;
 
+/**
+ * @returns {AsyncGenerator<DashboardStats>}
+ */
 export async function* dashboardStats() {
   if (prevDashboardStats) {
     const now = new Date();
@@ -19,41 +22,9 @@ export async function* dashboardStats() {
   }
 
   yield dashboardStatsBase;
-  const dashboardStatsIndexedDBPromise = dashboardStatsIndexedDB();
   const dashboardStatsApiPromise = dashboardStatsApi();
-  try {
-    const dashboardStatsIndexedDB = await dashboardStatsIndexedDBPromise;
-    if (dashboardStatsIndexedDB?.asof)
-      yield { ...dashboardStatsIndexedDB, loading: true };
-  } catch (indexedDbError) {
-    console.warn(indexedDbError);
-  }
-
-  {
-    const dashboardStatsApiData = await dashboardStatsApiPromise;
-    storeDashboardStatsIndexedDB(dashboardStatsApiData);
-    yield dashboardStatsApiData;
-  }
-}
-
-function indexedDBStore() {
-  const db = new Dexie('local');
-  db.version(1).stores({
-    dashboardStats: 'key'
-  });
-
-  return /** @type {typeof db & { dashboardStats: import('dexie').Table }} */(db);
-}
-
-async function dashboardStatsIndexedDB() {
-  const db = indexedDBStore();
-  const dashboardStatsArray = await db.dashboardStats.toArray();
-  return dashboardStatsArray?.[0]?.stats;
-}
-
-async function storeDashboardStatsIndexedDB(dashboardStats) {
-  const db = indexedDBStore();
-  await db.dashboardStats.put({ key: 'stats', stats: dashboardStats });
+  const dashboardStatsApiData = await dashboardStatsApiPromise;
+  yield dashboardStatsApiData;
 }
 
 function dashboardStatsApi() {
@@ -98,7 +69,9 @@ function dashboardStatsApi() {
     };
 
     for (const res of fetchResultList) {
-      Object.assign(result, res?.data || res);
+      if (res?.data && !res.data.timeLeft) {
+        Object.assign(result, res?.data || res);
+      }
     }
 
     prevDashboardStats = result;

@@ -30,6 +30,7 @@ import { HomeStatsTable } from './home-stats-table';
 export function HomeStats({ className }) {
   const [asTable, setAsTable] = useState(false);
 
+  /** @type {DashboardStats | undefined} */
   const stats = forAwait(undefined, () => dashboardStats());
 
   const asofFormatted = stats?.asof && new Date(stats.asof) + '';
@@ -40,10 +41,10 @@ export function HomeStats({ className }) {
   let percentNumberBlocking1 = undefined;
   let loading = true;
   if (!isPromise(stats)) {
-    activeAccounts = parseNumberWithCommas(stats?.active_count);
-    deletedAccounts = parseNumberWithCommas(stats?.deleted_count);
-    percentNumberBlocked1 = parseNumberWithCommas(stats?.percentNumberBlocked1);
-    percentNumberBlocking1 = parseNumberWithCommas(stats?.percentNumberBlocking1);
+    activeAccounts = parseNumberWithCommas(stats?.active_count?.value);
+    deletedAccounts = parseNumberWithCommas(stats?.deleted_count?.value);
+    percentNumberBlocked1 = parseNumberWithCommas(stats?.percentNumberBlocked1?.value);
+    percentNumberBlocking1 = parseNumberWithCommas(stats?.percentNumberBlocking1?.value);
     loading = false;
   }
 

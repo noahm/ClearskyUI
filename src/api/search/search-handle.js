@@ -61,7 +61,7 @@ export function searchHandle(searchText) {
 
   return (async () => {
     const buckets = await Promise.all(bucketsOrPromises);
-    const directResolves = await Promise.all(directResolvesOrPromises);
+    const directResolves = (await Promise.all(directResolvesOrPromises)).filter(Boolean);
     let searchMatches = performSearchOverBuckets(searchText, buckets);
 
     const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolves);
