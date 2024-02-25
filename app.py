@@ -329,7 +329,7 @@ async def serve_file(filename):
     try:
         return await send_file(filename)
     except FileNotFoundError:
-        return jsonify({'message': 'File not found'}), 404
+        return "error", 404
 
 
 # ======================================================================================================================
