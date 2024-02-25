@@ -325,7 +325,7 @@ async def total_users_push_json():
 
 @rate_limit(30, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/<path:filename>', methods=['GET'])
-def serve_file(filename):
+async def serve_file(filename):
     return send_file(filename)
 
 
