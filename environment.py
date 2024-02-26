@@ -4,7 +4,7 @@ from config_helper import config, logger
 import os
 
 
-default_api_server = "https://api.clearsky.services"
+default_api_server = "https://api.staging.clearsky.services"
 
 
 def get_api_var():

@@ -20,7 +20,7 @@ function patchBskyAgent(atClient) {
   };
 }
 
-let baseURL = 'https://api.clearsky.services/';
+let baseURL = 'https://api.staging.clearsky.services/';
 
 export function unwrapClearSkyURL(apiURL) {
   return baseURL + apiURL.replace(/^\//, '');
