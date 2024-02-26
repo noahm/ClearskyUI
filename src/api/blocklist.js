@@ -1,6 +1,6 @@
 // @ts-check
 
-import { unwrapShortHandle, v1APIPrefix } from '.';
+import { unwrapShortHandle, v1APIPrefix, xAPIKey } from '.';
 import { parseNumberWithCommas, unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 
