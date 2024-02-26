@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-import { v1APIPrefix, xAPIKey } from '.';
+import { v1APIPrefix } from '.';
 import { unwrapClearSkyURL } from './core';
 
 import dashboardStatsBase from './dashboard-stats-base.json';

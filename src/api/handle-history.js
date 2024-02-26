@@ -1,6 +1,6 @@
 // @ts-check
 
-import { unwrapShortDID, v1APIPrefix, xAPIKey } from '.';
+import { unwrapShortDID, v1APIPrefix } from '.';
 import { unwrapClearSkyURL } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
 

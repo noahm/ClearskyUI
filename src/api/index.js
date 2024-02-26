@@ -7,8 +7,6 @@ export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
 export { singleBlocklist, blocklist } from './blocklist';
 
-export const xAPIKey = 'CLEARSKYtest90asdfghjklqwerr2345';
-
 export const v1APIPrefix = '/api/v1/anon/';
 
 export function getProfileBlobUrl(did, cid) {
