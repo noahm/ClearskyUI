@@ -9,7 +9,7 @@ import { throttledAsyncCache } from './throttled-async-cache';
 /** 
  * @typedef {{
  *  identifier: string,
- *  handle_history: [handle: string, date: string][]
+ *  handle_history: [handle: string, date: string, pds: string][]
  * }} HandleHistoryResponse
  */
 

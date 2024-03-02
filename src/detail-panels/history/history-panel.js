@@ -2,12 +2,16 @@
 /// <reference path="../../types.d.ts" />
 
 import React, { Component } from 'react';
-import { isPromise, postHistory } from '../../api';
+import { useSearchParams } from 'react-router-dom';
+import { isPromise, postHistory, unwrapShortHandle } from '../../api';
+import { localise } from '../../localisation';
 import { HistoryLoading } from './history-loading';
 import { HistoryScrollableList } from './history-scrollable-list';
 import { SearchHeaderDebounced } from './search-header';
-import { useSearchParams } from 'react-router-dom';
-import { localise } from '../../localisation';
+
+import './history-panel.css';
+import { AccountShortEntry } from '../../common-components/account-short-entry';
+import { Button, Link } from '@mui/material';
 
 /**
  * @extends {Component<
@@ -62,12 +66,52 @@ export class HistoryPanel extends Component {
               <SearchHeaderDebounced
                 label={localise('Search history', { uk: 'Шукати в історії' })}
                 setQ />
-              <div style={{
-                // background: 'tomato',
-                // backgroundColor: '#fffcf5',
-                // backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
-                minHeight: '100%'
-              }}>
+              {
+                this.props.account?.obscurePublicRecords &&
+                (
+                  <div className='obscure-public-records-overlay'>
+                    <div className='obscure-public-records-overlay-content'>
+                      <AccountShortEntry
+                        account={this.props.account}
+                        withDisplayName
+                        link={false}
+                      />
+                      <div className='obscure-public-records-caption'>
+                        {
+                          localise(
+                            'has requested to obscure their records from unauthenticated users',
+                            {
+                              uk: 'просить приховати свої повідомлення від неавтентифікованих користувачів'
+                            })
+                        }
+                      </div>
+                      <Button
+                        variant='outlined'
+                        target='_blank'
+                        href={`https://bsky.app/profile/${unwrapShortHandle(this.props.account.shortHandle)}`}
+                      >
+                        {localise(
+                          'Authenticate', 
+                          {
+                            uk: 'Автентифікація'
+                          }
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )
+              }
+              <div
+                className={
+                  this.props.account?.obscurePublicRecords ?
+                    'history-panel-container history-panel-container-obscurePublicRecords' :
+                    'history-panel-container'
+                }
+                style={{
+                  // background: 'tomato',
+                  // backgroundColor: '#fffcf5',
+                  // backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
+                }}>
                 {
                   isPromise(this.accountPostHistory) ?
                     <HistoryLoading account={this.props.account} /> :

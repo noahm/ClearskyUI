@@ -1,0 +1,36 @@
+.history-panel-container {
+  height: 100%;
+  position: relative;
+}
+
+.history-panel-container-obscurePublicRecords {
+  filter: blur(5px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.history-panel-container-obscurePublicRecords .post-content-embed-image-with-alt, .history-panel-container-obscurePublicRecords .post-embed-external-thumb {
+  opacity: 0.2;
+}
+
+.obscure-public-records-overlay {
+  text-align: center;
+  position: fixed;
+  padding-top: 1em;
+  z-index: 1;
+}
+
+.obscure-public-records-overlay-content {
+  display: inline-block;
+  width: 50%;
+  background: white;
+  border: solid 1px #cccccc;
+  border-radius: 0.5em;
+  box-shadow: 5px 4px 9px #0000003d;
+  padding: 1em 1em;
+}
+
+.obscure-public-records-caption {
+  padding-top: 0.3em;
+  padding-bottom: 1em;
+}
