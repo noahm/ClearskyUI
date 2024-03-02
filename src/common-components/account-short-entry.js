@@ -22,7 +22,7 @@ import './account-short-entry.css';
  *  className?: string,
  *  contentClassName?: string,
  *  handleClassName?: string,
- *  link?: string,
+ *  link?: string | false,
  *  children?: React.ReactNode,
  *  customTooltip?: React.ReactNode,
  *  accountTooltipPanel?: boolean | React.ReactNode,
@@ -110,6 +110,13 @@ function ResolvedAccount({
           </FlushBackgroundTooltip>
         ) :
         handleWithContent;
+  
+  if (link === false) return (
+    <span
+      className={'account-short-entry ' + (className || '')}>
+      {linkContent}
+    </span>
+  );
 
   return (
     <Link
