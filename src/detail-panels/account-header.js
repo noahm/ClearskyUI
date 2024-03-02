@@ -3,21 +3,20 @@
 
 import React, { useState } from 'react';
 
-import { ContentCopy, HistoryToggleOff } from '@mui/icons-material';
-import { Button, Tooltip } from '@mui/material';
-
 import { unwrapShortDID, unwrapShortHandle } from '../api';
 import { FormatTimestamp } from '../common-components/format-timestamp';
 import { FullDID, FullHandle } from '../common-components/full-short';
 
 import './account-header.css';
 import { localise } from '../localisation';
+import { Button } from '@mui/material';
 
 /**
  * @param {{
  *  className?: string,
  *  account: Partial<AccountInfo> & { loading?: boolean },
  *  handleHistory?: [handle: string, date: string][],
+ *  onInfoClick?: () => void,
  *  onCloseClick?: () => void
  * }} _ 
  */
@@ -25,6 +24,7 @@ export function AccountHeader({
   className,
   account,
   handleHistory,
+  onInfoClick,
   onCloseClick }) {
   const [isCopied, setIsCopied] = useState(false);
   const [handleHistoryExpanded, setHandleHistoryExpanded] = useState(false);
@@ -84,41 +84,15 @@ export function AccountHeader({
                 </a>
               </span>
           }
-          {
-            !account.shortDID ? undefined :
-              <Tooltip
-                title={
-                  isCopied ?
-                    localise('DID: copied to Clipboard', { uk: 'DID-код: скопійовано в буфер обміну' }) :
-                    <HandleHistory handleHistory={handleHistory} />
-                }
-                placement='bottom-start'
-                open={!!isCopied || ((handleHistory?.length || 0) > 1 && handleHistoryExpanded)}>
-                <span className='account-did'>
-                  <span className='history-toggle'>
-                    {
-                      !handleHistory?.length ? undefined :
-                        handleHistory.length === 1 ?
-                          <FormatTimestamp timestamp={handleHistory[handleHistory.length - 1][1]} /> :
-                          <Button
-                            title={localise('Handle history', { uk: 'Показати історію nickname' })}
-                            size='small' onClick={() => setHandleHistoryExpanded(!handleHistoryExpanded)}>
-                            <HistoryToggleOff />
-                            <FormatTimestamp timestamp={handleHistory[handleHistory.length - 1][1]} noTooltip />
-                          </Button>
-                    }
-                  </span>
-
-                  <Button
-                    className='copy-account-did'
-                    size='small'
-                    onClick={handleShortDIDClick}>
-                    <ContentCopy />
-                  </Button>
-                  <FullDID className='did' shortDID={account.shortDID} />
-                </span>
-              </Tooltip>
-          }
+          <Button className='history-toggle' variant='text' onClick={onInfoClick}>
+            {
+              !handleHistory?.length ? undefined :
+                <FormatTimestamp
+                  timestamp={handleHistory[handleHistory.length - 1][1]}
+                  noTooltip />
+            }
+            <span className='info-icon'></span>
+          </Button>
         </span>
       </h1>
       <div>
