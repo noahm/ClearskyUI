@@ -7,6 +7,7 @@ type AccountInfo = {
   description?: string;
   avatarUrl?: string;
   bannerUrl?: string;
+  obscurePublicRecords?: boolean;
 }
 
 type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {

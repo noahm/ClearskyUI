@@ -39,6 +39,7 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
   const bannerUrl = getProfileBlobUrl(fullDID, profileRec?.banner?.ref?.toString());
   const displayName = profileRec?.displayName;
   const description = profileRec?.description;
+  const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRec);
 
   const profileDetails = {
     shortDID,
@@ -48,10 +49,23 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
     displayName,
     description
   };
+  if (typeof obscurePublicRecords !== 'undefined')
+    profileDetails.obscurePublicRecords = obscurePublicRecords;
 
   resolveHandleCache.prepopulate(shortDID, shortHandle);
   return profileDetails;
 });
+
+function detectObscurePublicRecordsFlag(profileRec) {
+  const labels = profileRec?.labels;
+  if (labels?.$type === 'com.atproto.label.defs#selfLabels') {
+    if (labels.values?.length) {
+      for (const value of labels.values) {
+        if (value?.val === '!no-unauthenticated') return true;
+      }
+    }
+  }
+}
 
 /**
  * @param {string} handleOrDid
