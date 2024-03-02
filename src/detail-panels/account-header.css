@@ -101,9 +101,19 @@
 }
 
 .account-avatar-and-displayName-line .account-did .copy-account-did {
-  zoom: 0.7;
+  position: relative;
+  top: -0.1em;
+  zoom: 0.6;
   margin-right: -1em;
+  margin-left: -1em;
   z-index: 2;
+  transition: opacity 400ms;
+  color: silver;
+  opacity: 0;
+}
+
+.account-avatar-and-displayName-line .account-did:hover .copy-account-did {
+  opacity: 1;
 }
 
 .account-avatar-and-displayName-line .account-did .history-toggle {
