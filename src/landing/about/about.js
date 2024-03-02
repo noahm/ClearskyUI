@@ -24,7 +24,7 @@ export function About({ onToggleAbout }) {
           <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-and-conditions.html">Terms and Conditions</a> | <a href="mailto:support@clearsky.app">Contact Us</a>
         </span>
 
-        {localise('Version', { uk: 'Версія' })}: 4.0.2 <br />
+        {localise('Version', { uk: 'Версія' })}: 4.0.3 <br />
         &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'

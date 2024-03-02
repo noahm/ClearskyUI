@@ -65,8 +65,6 @@ export class AccountLayoutCore extends Component {
   render() {
 
     const selectedTab = this.props.selectedTab;
-    const expandHandleHistory =
-      this.props.handleHistory?.length > 1 && this.state?.expandHandleHistory;
 
     let anyTabsBehind = false;
     const result = (
@@ -77,9 +75,13 @@ export class AccountLayoutCore extends Component {
             account={this.props.account}
             className='account-header'
             handleHistory={this.props.handleHistory}
-            onCloseClick={this.props.onCloseClick} />
+            onCloseClick={this.props.onCloseClick}
+            onInfoClick={this.handleInfoClick}
+          />
           
           <AccountExtraInfo
+            className={this.state?.revealInfo ? 'account-extra-info-reveal' : ''}
+            handleHistory={this.props.handleHistory}
             account={this.props.account} />
 
           <TabSelector
@@ -121,6 +123,12 @@ export class AccountLayoutCore extends Component {
 
     return result;
   }
+
+  handleInfoClick = () => {
+    this.setState({
+      revealInfo: !this.state?.revealInfo
+    });
+  };
 
   clearOldTabs = () => {
     let anyTabsCleared = false;

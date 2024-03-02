@@ -9095,32 +9095,45 @@ table.stats-table th {
 .account-avatar-and-displayName-line .account-handle .account-handle-suffix {
   color: #979797;
 }
-.account-avatar-and-displayName-line .account-did {
-  grid-row: 2/3;
-  grid-column: 3/4;
+.account-avatar-and-displayName-line .history-toggle {
+  grid-row: 2 / 3;
+  grid-column: 3 / 4;
   justify-self: end;
   font-size: 37%;
   font-weight: normal;
-  margin-right: 0.5em;
   text-align: right;
+  color: inherit;
+  margin-top: -1.2em;
+  margin-right: 0;
+  padding-right: 1em;
 }
-.account-avatar-and-displayName-line .account-did .did {
-  color: gray;
-  transform: scaleY(1.2) translateY(0.21em);
+.account-avatar-and-displayName-line .history-toggle .info-icon {
+  position: relative;
+  text-align: center;
+  margin-left: 0.5em;
 }
-.account-avatar-and-displayName-line .account-did .account-did-prefix {
-  opacity: 0.6;
+.account-avatar-and-displayName-line .history-toggle .info-icon:before {
+  content: " ";
+  background: #969696;
+  border: solid 1px #8a8a8a;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 200%;
+  position: absolute;
+  top: 0.3em;
+  right: 0;
 }
-.account-avatar-and-displayName-line .account-did .copy-account-did {
-  zoom: 0.7;
-  margin-right: -1em;
-  z-index: 2;
-}
-.account-avatar-and-displayName-line .account-did .history-toggle {
-  zoom: 0.8;
-}
-.account-bio {
-  padding-left: 0.5em;
+.account-avatar-and-displayName-line .history-toggle .info-icon:after {
+  position: relative;
+  content: "i";
+  color: white;
+  display: inline-block;
+  font-family: serif;
+  text-transform: none;
+  font-weight: bold;
+  width: 1em;
+  top: -0.07em;
 }
 
 /* src/detail-panels/history/search-header.css */
@@ -9140,7 +9153,7 @@ table.stats-table th {
 }
 @media (max-width: 800px) {
   .history-header {
-    top: 4em;
+    top: 5em;
     padding-top: 0;
   }
 }
@@ -9594,6 +9607,45 @@ li.blocking-list-entry:nth-child(even) {
   grid-row: 1 / 2;
   align-self: end;
 }
+.account-header .info-icon {
+  display: none;
+}
+.account-extra-info {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-rows: 1fr;
+  padding-bottom: 1em;
+}
+.account-extra-info .did-section {
+  margin-top: 1em;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-bottom: 1em;
+}
+.account-extra-info .did-section .copy-did {
+  color: #b8b8b8;
+  zoom: 0.6;
+  margin-left: -1em;
+  margin-right: -0.4em;
+  transition: opacity 400ms, pointer-events 300ms;
+  opacity: 0;
+  pointer-events: none;
+}
+.account-extra-info .did-section:hover .copy-did {
+  pointer-events: all;
+  opacity: 1;
+}
+.account-extra-info .handle-history-section .handle-history-timestamp {
+  min-width: 5.8em;
+  display: inline-block;
+  text-align: right;
+  padding-right: 0.3em;
+}
+.account-extra-info .handle-history-section .handle-history-pds {
+  color: cornflowerblue;
+  padding-left: 1em;
+}
 .account-tabs-handles {
   grid-row: 1 / 3;
   grid-column: 3 / 4;
@@ -9687,6 +9739,7 @@ li.blocking-list-entry:nth-child(even) {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  border-left: solid 1px #ececec;
 }
 .account-tabs-content .account-tab {
   grid-row: 1 / 2;
@@ -9723,13 +9776,46 @@ li.blocking-list-entry:nth-child(even) {
     z-index: 20;
     background: white;
   }
+  .account-header .info-icon {
+    display: inline;
+  }
   .account-extra-info {
     grid-column: 1 / 3;
     grid-row: 2 / 3;
+    display: block;
+    padding-bottom: 0;
+  }
+  .account-extra-info.account-extra-info-reveal {
+    background: #f6f6f6;
+    border-top: solid 1px #ececec;
+    border-bottom: solid 1px #ececec;
+    font-size: 90%;
+    padding-bottom: 0.6em;
+    padding-top: 0.4em;
+  }
+  .account-extra-info .did-section {
+    display: none;
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 0;
+    float: right;
+  }
+  .account-extra-info .handle-history-section {
+    display: none;
+  }
+  .account-extra-info.account-extra-info-reveal .bio-section {
+    display: none;
+  }
+  .account-extra-info.account-extra-info-reveal .did-section {
+    display: block;
+  }
+  .account-extra-info.account-extra-info-reveal .handle-history-section {
+    display: block;
   }
   .account-tabs-content {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
+    border-left: none;
   }
   .account-tabs-handles {
     grid-column: 2 / 3;
