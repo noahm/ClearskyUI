@@ -110,7 +110,9 @@ export function AccountHeader({
                   </span>
 
                   <Button
-                    size='small' className='copy-account-did' onClick={handleShortDIDClick}>
+                    className='copy-account-did'
+                    size='small'
+                    onClick={handleShortDIDClick}>
                     <ContentCopy />
                   </Button>
                   <FullDID className='did' shortDID={account.shortDID} />
