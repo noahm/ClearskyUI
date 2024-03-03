@@ -3,16 +3,17 @@
 import React from 'react';
 
 import './account-extra-info.css';
-import { FullDID, FullHandle } from '../common-components/full-short';
-import { FormatTimestamp } from '../common-components/format-timestamp';
+import { FullDID } from '../../common-components/full-short';
 import { Button } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
-import { unwrapShortDID } from '../api';
+import { unwrapShortDID } from '../../api';
+import { HandleHistory } from './handle-history';
+import { PDSName } from './handle-history/pds-name';
 
 /**
  * @param {{
  *  account: AccountInfo,
- *  handleHistory?: import('../api/handle-history').HandleHistoryResponse['handle_history'],
+ *  handleHistory?: import('../../api/handle-history').HandleHistoryResponse['handle_history'],
  *  className?: string
  * }} _
  */
@@ -26,7 +27,7 @@ export function AccountExtraInfo({ className, account, handleHistory, ...rest })
         }
       </div>
       <div className='did-section'>
-        <DidWithCopyButton account={account} />
+        <DidWithCopyButton account={account} handleHistory={handleHistory} />
       </div>
       <div className='handle-history-section'>
         {
@@ -38,8 +39,16 @@ export function AccountExtraInfo({ className, account, handleHistory, ...rest })
   );
 }
 
-function DidWithCopyButton({ account }) {
+/**
+ * @param {{
+ *  account: AccountInfo,
+ *  handleHistory?: import('../../api/handle-history').HandleHistoryResponse['handle_history'],
+ * }} _
+ */
+function DidWithCopyButton({ account, handleHistory }) {
   const [isCopied, setIsCopied] = React.useState(false);
+
+  const currentPds = handleHistory?.map(entry => entry[2]).filter(Boolean)[0];
 
   return (
     <>
@@ -49,6 +58,12 @@ function DidWithCopyButton({ account }) {
         <Button className='copy-did' onClick={() => handleCopyDid(account)}>
           <ContentCopy />
         </Button>
+      }
+      {
+        !currentPds ? undefined :
+        <div className='current-pds-line'>
+            <PDSName pds={currentPds} />
+        </div>
       }
     </>
   );
@@ -89,51 +104,4 @@ function MultilineFormatted({ text, lineClassName = 'text-multi-line' }) {
 function Line({ text, className }) {
   const textWithSpaces = text.replace(/  /g, ' \u00a0');
   return <div className={className}>{textWithSpaces}</div>
-}
-
-/**
- * @param {{
- *  handleHistory: import('../api/handle-history').HandleHistoryResponse['handle_history'],
- * }} _
- */
-function HandleHistory({ handleHistory }) {
-  /** @type {string | undefined} */
-  let lastHandle;
-  /** @type {string | undefined} */
-  let lastPds;
-  const entries = handleHistory.slice().reverse().map(([handle, date, pds], i) => {
-    const entryLayout = (
-      <div key={date + '\n' + i} className='handle-history-entry'>
-        <FormatTimestamp className='handle-history-timestamp' timestamp={date} noTooltip />
-        {
-          handle && (handle !== lastHandle) ?
-            <FullHandle className='handle-history-handle' shortHandle={handle} /> : undefined
-        }
-        {
-          pds && (pds !== lastPds) ?
-            <span className='handle-history-pds'>
-              <span className='handle-history-pds-icon'>
-                {
-                  pds.endsWith('bsky.network') ? '🍄' :
-                    pds.endsWith('bsky.social') ? '🏠' :
-                      '✨'
-                }
-              </span>
-              {pds.replace(/^https:\/\//, '')}
-            </span> : undefined
-        }
-        {
-          handle === lastHandle && pds === lastPds ?
-            <span className='handle-history-same'>recycled</span>
-          : undefined
-        }
-      </div>
-    );
-
-    if (handle) lastHandle = handle;
-    if (pds) lastPds = pds;
-    return entryLayout;
-  });
-
-  return <>{entries}</>;
 }

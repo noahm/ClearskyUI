@@ -2,7 +2,7 @@
 // <reference path="../types.d.ts" />
 
 import React from 'react';
-import { likelyDID, unwrapShortDID, unwrapShortHandle } from '../api';
+import { likelyDID, shortenHandle, unwrapShortDID, unwrapShortHandle } from '../api';
 
 /**
  * @param {{
@@ -14,6 +14,7 @@ export function FullHandle({ shortHandle, ...rest }) {
   if (!shortHandle) return undefined;
   if (likelyDID(shortHandle)) return <FullDID shortDID={shortHandle} {...rest} />;
   const fullHandle = unwrapShortHandle(shortHandle);
+  shortHandle = shortenHandle(shortHandle);
   if (shortHandle === fullHandle) return <span {...rest}>{shortHandle}</span>;
   else return (
     <span {...rest}>

@@ -3,12 +3,12 @@
 
 import React, { useState } from 'react';
 
-import { unwrapShortDID, unwrapShortHandle } from '../api';
-import { FormatTimestamp } from '../common-components/format-timestamp';
-import { FullDID, FullHandle } from '../common-components/full-short';
+import { unwrapShortDID, unwrapShortHandle } from '../../api';
+import { FormatTimestamp } from '../../common-components/format-timestamp';
+import { FullDID, FullHandle } from '../../common-components/full-short';
 
 import './account-header.css';
-import { localise } from '../localisation';
+import { localise } from '../../localisation';
 import { Button } from '@mui/material';
 
 /**
