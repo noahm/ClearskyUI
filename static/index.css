@@ -9798,7 +9798,6 @@ li.blocking-list-entry:nth-child(even) {
     padding-top: 0;
     margin-top: 0;
     border-top: 0;
-    float: right;
   }
   .account-extra-info .handle-history-section {
     display: none;
