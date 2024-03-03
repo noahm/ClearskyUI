@@ -30,35 +30,21 @@ const AUTOCOMPLETE_POPULATE_BATCH = 20;
  *    postID?: string
  * }[] }>}
  */
-
 export class SearchAutoComplete extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      placeholder: 'Enter handle or DID',
-      max: 20,
-      options: []
-    };
-    this.highlight = null;
-    this.renderedBefore = false;
-    this.resolveTimeout = null;
-  }
+
+  highlight;
 
   render() {
-    const { className } = this.props;
-    const { searchText } = this.state;
-
-    if (!this.renderedBefore && searchText) {
-      this.debouncedTextChange(searchText);
+    const { className, searchText, onAccountSelected } = this.props;
+    if (!this.renderedBefore) {
       this.renderedBefore = true;
+      if (searchText) this.debouncedTextChange(searchText);
     }
 
-    const { options, max } = this.state;
-    const showMax = max || 20;
-    const first20Options = options?.slice(0, showMax) || [];
+    const showMax = this.state?.max || 20;
 
-    if (first20Options.length < options?.length) {
+    const first20Options = this.state?.options?.slice(0, showMax) || [];
+    if (first20Options.length < this.state?.options?.length) {
       first20Options.push({
         label: '...',
         render: (props) => (
@@ -76,18 +62,22 @@ export class SearchAutoComplete extends Component {
       });
     }
 
+    if (searchText !== this.highlight?.searchText)
+      this.highlight = undefined;
+
     return (
       <Autocomplete
         freeSolo
         className={'search-autocomplete ' + (className || '')}
         options={first20Options}
-        value={searchText}
+        value={searchText || ''}
         filterOptions={options => options}
         onChange={(event, newValue) => {
-          if (typeof newValue !== 'string' && newValue?.account && typeof this.props.onAccountSelected === 'function') {
-            if (newValue?.account) {
-              this.props.onAccountSelected(newValue.postID ? { ...newValue.account, postID: newValue.postID } : newValue.account);
-            }
+          if (typeof newValue !== 'string' && newValue?.account && typeof onAccountSelected === 'function') {
+            if (newValue?.account)
+              onAccountSelected(
+                newValue.postID ? { ...newValue.account, postID: newValue.postID } :
+                  newValue.account);
           }
         }}
         onHighlightChange={(event, newValue) => {
@@ -101,14 +91,27 @@ export class SearchAutoComplete extends Component {
           return option.label || String(option) || '';
         }}
         renderOption={(params, option) =>
-          first20Options &&
+          [first20Options] &&
           option.render(params, option)}
         renderInput={(params) =>
           <TextField
             {...params}
             onChange={event => this.handleTextChange(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && this.state?.options?.[0].account && typeof onAccountSelected === 'function') {
+                event.preventDefault();
+                event.stopPropagation();
+                const account =
+                  this.props.searchText &&
+                  this.highlight?.searchText === this.props.searchText &&
+                  this.highlight?.value?.account ||
+                  this.state?.options?.[0].account;
+
+                if (account)
+                  onAccountSelected(account);
+              }
+            }}
             label={localise('Find an account:', { uk: 'Кого шукаємо?' })}
-            placeholder={this.state.placeholder}
             variant="standard" />}
       />
     );
@@ -126,10 +129,7 @@ export class SearchAutoComplete extends Component {
       onSearchTextChanged(newValue || '');
     }
 
-    const placeholder = newValue ? 'Find an account:' : 'Enter handle or DID';
     this.setState({
-      searchText: newValue,
-      placeholder,
       options: !newValue ? [] : [{
         label: newValue,
         render: (props) => <Resolving {...props} key='resolving' />
@@ -158,7 +158,7 @@ export class SearchAutoComplete extends Component {
         })
       });
     } catch (err) {
-      console.log('resolving did/handle ', err);
+      console.log('reslving did/handle ', err);
       this.setState({
         options: [{
           label: newValue, render:
@@ -178,6 +178,7 @@ function Resolving({ ...rest }) {
   );
 }
 
+  /** @param {{ entry: SearchMatch, error: Error }} _ */
 function ResolvingFailure({ error, ...rest }) {
   return (
     <div className='resolve-failure-item'>
@@ -190,3 +191,4 @@ function ResolvingFailure({ error, ...rest }) {
     </div>
   );
 }
+
