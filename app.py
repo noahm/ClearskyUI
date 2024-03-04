@@ -19,7 +19,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.1"
+version = "4.0.5"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -255,7 +255,7 @@ async def blocked_push_json():
     data = await request.json
 
     # Write JSON data to a file
-    file_path = 'blocked_data.json'
+    file_path = os.path.join(app.static_folder, 'blocked_data.json')
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
@@ -274,7 +274,7 @@ async def blocked24_push_json():
     data = await request.json
 
     # Write JSON data to a file
-    file_path = 'blocked24_data.json'
+    file_path = os.path.join(app.static_folder, 'blocked24_data.json')
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
@@ -293,7 +293,7 @@ async def stats_push_json():
     data = await request.json
 
     # Write JSON data to a file
-    file_path = 'stats_data.json'
+    file_path = os.path.join(app.static_folder, 'stats_data.json')
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
@@ -312,7 +312,8 @@ async def total_users_push_json():
     data = await request.json
 
     # Write JSON data to a file
-    file_path = 'total_users_data.json'
+    file_path = os.path.join(app.static_folder, 'total_users_data.json')
+
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
@@ -327,7 +328,7 @@ async def total_users_push_json():
 @app.route('/api/v1/serve/lists/stats/<path:filename>', methods=['GET'])
 async def serve_file(filename):
     try:
-        return await send_file(filename)
+        return await send_from_directory(app.static_folder, filename)
     except FileNotFoundError:
         return "error", 404
 
