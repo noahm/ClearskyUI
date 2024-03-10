@@ -4,6 +4,7 @@ import React from 'react';
 
 import './pds-name.css';
 import { getPdsMushroom } from './mushrooms';
+import { Home } from '@mui/icons-material';
 
 /**
  * @param {{
@@ -17,7 +18,7 @@ export function PDSName({ className, pds }) {
   const type =
     mushroom ? <span className={'pds-image-icon ' + mushroom} /> :
       pds.endsWith('bsky.network') ? '🍄' :
-        pds.endsWith('bsky.social') ? '🏠' :
+        pds.endsWith('bsky.social') ? <Home className='pds-home-icon' fontSize='small' /> :
           <img className='pds-image-icon' src={'https://icon.horse/icon/' + pds.replace(/^https:\/\//, '')} />;
 
   const leadLength = /^https:\/\//.exec(pds)?.[0]?.length || 0;

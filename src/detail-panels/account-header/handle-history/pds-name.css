@@ -23,6 +23,7 @@
 
 .pds-image-icon.agaric { background-image: url(mushrooms/agaric.png) }
 .pds-image-icon.enoki { background-image: url(mushrooms/enoki.png) }
+.pds-image-icon.inkcap { background-image: url(mushrooms/inkcap.png) }
 .pds-image-icon.porcini { background-image: url(mushrooms/porcini.png) }
 .pds-image-icon.morel { background-image: url(mushrooms/morel.png) }
 .pds-image-icon.shimeji { background-image: url(mushrooms/shimeji.png) }
@@ -44,4 +45,10 @@
 
 .pds-name-and-icon {
   white-space: nowrap;
+}
+
+.pds-home-icon {
+  position: relative;
+  top: 0.19em;
+  color: #ae542e;
 }

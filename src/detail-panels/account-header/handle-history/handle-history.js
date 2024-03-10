@@ -69,7 +69,7 @@ function ChangeEntry({ date, handle, pds, lastHandle, lastPds, isCreated }) {
     <div className='event-entry'>
       <FormatTimestamp className='event-timestamp' timestamp={date} noTooltip />
       <span className='event-label event-label-registered'>
-        {localise('registered', { uk: 'зареєстровано ' })}
+        {localise('registered ', { uk: 'зареєстровано ' })}
       </span>
       {
         !handle ? undefined :
