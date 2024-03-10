@@ -1,0 +1,40 @@
+.event-entry {
+  text-indent: -9em;
+  padding-left: 9em;
+  padding-bottom: 0.6em;
+}
+
+.event-entry * {
+  text-indent: 0;
+  padding-left: 0;
+}
+
+.event-timestamp {
+  min-width: 5.8em;
+  display: inline-block;
+  text-align: right;
+  padding-right: 0.3em;
+}
+
+.handle-history-handle {
+  color: cornflowerblue;
+}
+
+.handle-history-handle .handle-at-sign {
+  display: inline-block;
+  text-align: center;
+  color: cornflowerblue;
+  transform: scale(1.5);
+  padding: 0.2em;
+  margin: -1em 0;
+}
+
+.handle-domain-icon {
+  width: 1.4em;
+  height: 1.4em;
+  position: relative;
+  top: -0.6em;
+  padding: 0.1em;
+  border-radius: 200%;
+  margin: -1em 0;
+}

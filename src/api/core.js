@@ -21,9 +21,13 @@ function patchBskyAgent(atClient) {
 }
 
 let baseURL = 'https://api.clearsky.services/';
+let baseStagingURL = 'https://api.staging.clearsky.services/';
 
 export function unwrapClearSkyURL(apiURL) {
-  return baseURL + apiURL.replace(/^\//, '');
+  const runStaging = typeof location !== 'undefined' && /staging/i.test(location?.hostname || '');
+  const useBaseURL = runStaging ? baseStagingURL : baseURL;
+    
+  return useBaseURL + apiURL.replace(/^\//, '');
 }
 
 /** @param {number | string | null | undefined} value */

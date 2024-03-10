@@ -51,16 +51,7 @@
   opacity: 1;
 }
 
-.account-extra-info .handle-history-section .handle-history-timestamp {
-  min-width: 5.8em;
-  display: inline-block;
-  text-align: right;
-  padding-right: 0.3em;
-}
-
-.account-extra-info .handle-history-section .handle-history-pds {
-  color: cornflowerblue;
-  padding-left: 1em;
+.account-extra-info .handle-history-section {
 }
 
 .account-tabs-handles {

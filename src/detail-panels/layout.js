@@ -13,7 +13,7 @@ import { TabSelector } from './tab-selector';
 import { AccountResolver } from './account-resolver';
 
 import './layout.css';
-import { AccountExtraInfo } from './account-extra-info';
+import { AccountExtraInfo } from './account-header';
 import { Lists } from './lists';
 import { getHandleHistory } from '../api/handle-history';
 import { forAwait } from '../common-components/for-await';

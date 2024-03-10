@@ -1,7 +1,7 @@
 # app.py
 
 import sys
-from quart import Quart, request, session, jsonify, send_from_directory, send_file
+from quart import Quart, request, session, jsonify, send_from_directory
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -19,7 +19,7 @@ config = config_helper.read_config()
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.5"
+version = "4.0.6"
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
