@@ -3,6 +3,7 @@
 import React from 'react';
 
 import './pds-name.css';
+import { getPdsMushroom } from './mushrooms';
 
 /**
  * @param {{
@@ -11,10 +12,13 @@ import './pds-name.css';
  * }} _
  */
 export function PDSName({ className, pds }) {
+  const mushroom = getPdsMushroom(pds);
+
   const type =
-    pds.endsWith('bsky.network') ? '🍄' :
-      pds.endsWith('bsky.social') ? '🏠' :
-        <img className='pds-image-icon' src={'https://icon.horse/icon/' + pds.replace(/^https:\/\//, '')} />;
+    mushroom ? <span className={'pds-image-icon ' + mushroom} /> :
+      pds.endsWith('bsky.network') ? '🍄' :
+        pds.endsWith('bsky.social') ? '🏠' :
+          <img className='pds-image-icon' src={'https://icon.horse/icon/' + pds.replace(/^https:\/\//, '')} />;
 
   const leadLength = /^https:\/\//.exec(pds)?.[0]?.length || 0;
   const tailLength = /(\.host\.)?bsky\.network$/.exec(pds)?.[0]?.length || 0;
@@ -23,11 +27,15 @@ export function PDSName({ className, pds }) {
   const tail = pds.slice(pds.length - tailLength);
   const middle = pds.slice(leadLength, pds.length - tailLength);
 
+  const pdsIconClassName = !mushroom ?
+    'pds-icon' :
+    'pds-icon ' + mushroom;
+
   return (
     <span className={'handle-history-pds ' + (className || '')}>
       <span className='pds-prefix'>PDS: </span>
       <span className='pds-name-and-icon'>
-        <span className='pds-icon'>
+        <span className={pdsIconClassName}>
           {type}
         </span>
         <span className='pds-name'>
