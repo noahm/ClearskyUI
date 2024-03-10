@@ -26,19 +26,21 @@ export function PDSName({ className, pds }) {
   return (
     <span className={'handle-history-pds ' + (className || '')}>
       <span className='pds-prefix'>PDS: </span>
-      <span className='pds-icon'>
-        {type}
-      </span>
-      <span className='pds-name'>
-        {
-          !lead ? undefined :
-            <span className='pds-name-lead'>{lead}</span>
-        }
-        {middle}
-        {
-          !tail ? undefined :
-            <span className='pds-name-tail'>{tail}</span>
-        }
+      <span className='pds-name-and-icon'>
+        <span className='pds-icon'>
+          {type}
+        </span>
+        <span className='pds-name'>
+          {
+            !lead ? undefined :
+              <span className='pds-name-lead'>{lead}</span>
+          }
+          {middle}
+          {
+            !tail ? undefined :
+              <span className='pds-name-tail'>{tail}</span>
+          }
+        </span>
       </span>
     </span>
   );

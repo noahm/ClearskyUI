@@ -13,3 +13,7 @@
   top: 0.1em;
   padding: 0.1em;
 }
+
+.pds-name-and-icon {
+  white-space: nowrap;
+}
