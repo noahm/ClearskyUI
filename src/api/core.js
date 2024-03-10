@@ -21,7 +21,7 @@ function patchBskyAgent(atClient) {
 }
 
 let baseURL = 'https://api.clearsky.services/';
-let baseStagingURL = 'https://staging.api.clearsky.services/';
+let baseStagingURL = 'https://api.staging.clearsky.services/';
 
 export function unwrapClearSkyURL(apiURL) {
   const runStaging = typeof location !== 'undefined' && /staging/i.test(location?.hostname || '');
