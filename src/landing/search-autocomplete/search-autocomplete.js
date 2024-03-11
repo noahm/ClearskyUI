@@ -36,7 +36,7 @@ export class SearchAutoComplete extends Component {
     super(props);
     this.state = {
       searchText: '',
-      placeholder: 'Enter handle or DID',
+      placeholder: localise('Enter handle or DID', { uk: ' ' }),
       max: 20,
       options: []
     };
