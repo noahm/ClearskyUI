@@ -41,6 +41,12 @@ export function searchHandle(searchText) {
   const wordStarts = getWordStartsLowerCase(searchText, 3);
   if (!wordStarts.length) return [];
 
+  const wordPublicSearchPromises = wordStarts.map(w =>
+    fetch('https://public.api.bsky.app/xrpc/app.bsky.actor.searchActors?term=' + encodeURIComponent(w))
+      .then(x => x.json())
+      .catch(x => { })
+  );
+
   const bucketsOrPromises = wordStarts.map(wordStart => getBucket(wordStart));
   const allStaticallyResolved =
     !directResolvesOrPromises.some(accountOrPromise => isPromise(accountOrPromise)) &&
@@ -60,9 +66,22 @@ export function searchHandle(searchText) {
   }
 
   return (async () => {
+    const wordPublicSearches = await Promise.all(wordPublicSearchPromises);
+
     const buckets = await Promise.all(bucketsOrPromises);
     const directResolves = (await Promise.all(directResolvesOrPromises)).filter(Boolean);
     let searchMatches = performSearchOverBuckets(searchText, buckets);
+    for (let searchWordResult of wordPublicSearches) {
+      if (searchWordResult?.actors?.length) {
+        for (const ac of searchWordResult.actors) {
+          searchMatches.push({
+            ...ac,
+            shortDID: shortenDID(ac.did),
+            shortHandle: shortenHandle(ac.handle)
+          });
+        }
+      }
+    }
 
     const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolves);
     searchMatches = combineAndLimit(exactMatches, searchMatches);

@@ -5,6 +5,28 @@ import { getProfileBlobUrl, isPromise, likelyDID, shortenDID, shortenHandle, unw
 import { atClient } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
 
+/**
+ * 
+ * @typedef {{
+ *  did: string,
+ *  handle: string,
+ *  displayName: string,
+ *  avatar: string,
+ *  banner: string,
+ *  labels: any[],
+ *  description: string,
+ *  indexedAt: string,
+ *  followersCount: number,
+ *  followsCount: number,
+ *  postsCount: number,
+ *  associated: {
+ *    lists: number,
+ *    feedgens: number,
+ *    labeler: boolean
+ *  }
+ * }} ProfileRecord
+ */
+
 const resolveHandleCache = throttledAsyncCache(async (handle) => {
   const resolved = await atClient.com.atproto.identity.resolveHandle({
     handle: unwrapShortHandle(handle)
@@ -18,28 +40,41 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
   const fullDID = unwrapShortDID(did);
   const shortDID = shortenDID(did);
 
-  const describePromise = atClient.com.atproto.repo.describeRepo({
-    repo: fullDID
-  });
+  const resolveHandlePublicApi = fetch(
+    'https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=' + fullDID
+  ).then(x => x.json());
 
-  const profilePromise = atClient.com.atproto.repo.listRecords({
-    collection: 'app.bsky.actor.profile',
-    repo: fullDID
-  });
+  // const describePromise = atClient.com.atproto.repo.describeRepo({
+  //   repo: fullDID
+  // });
 
-  const [describe, profile] = await Promise.all([describePromise, profilePromise]);
+  // const profilePromise = atClient.com.atproto.repo.listRecords({
+  //   collection: 'app.bsky.actor.profile',
+  //   repo: fullDID
+  // });
 
-  if (!describe.data.handle) throw new Error('DID does not have a handle: ' + did);
+  /** @type {ProfileRecord} */
+  const profileRecord = await resolveHandlePublicApi;
 
-  const shortHandle = shortenHandle(describe.data.handle);
+  //const [describe, profile] = await Promise.all([describePromise, profilePromise]);
 
-  /** @type {*} */
-  const profileRec = profile.data.records?.filter(rec => rec.value)[0]?.value;
-  const avatarUrl = getProfileBlobUrl(fullDID, profileRec?.avatar?.ref?.toString());
-  const bannerUrl = getProfileBlobUrl(fullDID, profileRec?.banner?.ref?.toString());
-  const displayName = profileRec?.displayName;
-  const description = profileRec?.description;
-  const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRec);
+  // if (!describe.data.handle) throw new Error('DID does not have a handle: ' + did);
+
+  const shortHandle = shortenHandle(profileRecord.handle) || '*' + fullDID + '*';
+
+  /* @type {*} */
+  //const profileRec = profile.data.records?.filter(rec => rec.value)[0]?.value;
+  // const avatarUrl = getProfileBlobUrl(fullDID, profileRec?.avatar?.ref?.toString());
+  // const bannerUrl = getProfileBlobUrl(fullDID, profileRec?.banner?.ref?.toString());
+  // const displayName = profileRec?.displayName;
+  // const description = profileRec?.description;
+  // const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRec);
+
+  const avatarUrl = profileRecord.avatar;
+  const bannerUrl = profileRecord.banner;
+  const displayName = profileRecord.displayName;
+  const description = profileRecord.description;
+  const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRecord);
 
   const profileDetails = {
     shortDID,
@@ -56,7 +91,19 @@ const resolveDIDCache = throttledAsyncCache(async (did) => {
   return profileDetails;
 });
 
-function detectObscurePublicRecordsFlag(profileRec) {
+function detectObscurePublicRecordsFlag(profileRecord) {
+  if (profileRecord?.labels?.length) {
+
+    for (const label of profileRecord.labels) {
+      if (label?.val === '!no-unauthenticated' &&
+        !label.neg) {
+        return true;
+      }
+    }
+  }
+}
+
+function detectObscurePublicRecordsFlagOld(profileRec) {
   const labels = profileRec?.labels;
   if (labels?.$type === 'com.atproto.label.defs#selfLabels') {
     if (labels.values?.length) {
