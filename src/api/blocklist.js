@@ -8,6 +8,9 @@ import { resolveHandleOrDID } from './resolve-handle-or-did';
  * @param {string} handleOrDID
  */
 export function blocklist(handleOrDID) {
+  clearTimeout(debounceOtherSideFetch);
+  debounceOtherSideFetch = setTimeout(() => singleBlocklist(handleOrDID).next(), 600);
+
   return blocklistCall(handleOrDID, 'blocklist');
 }
 
@@ -15,8 +18,13 @@ export function blocklist(handleOrDID) {
  * @param {string} handleOrDID
  */
 export function singleBlocklist(handleOrDID) {
+  clearTimeout(debounceOtherSideFetch);
+  debounceOtherSideFetch = setTimeout(() => blocklist(handleOrDID).next(), 600);
+
   return blocklistCall(handleOrDID, 'single-blocklist');
 }
+
+let debounceOtherSideFetch = 0;
 
 /**
  * @typedef {{
@@ -74,12 +82,12 @@ async function* blocklistCall(handleOrDID, api) {
     unwrapClearSkyURL(v1APIPrefix + api + '/') +
     unwrapShortHandle(resolved.shortHandle);
   
-  let nextPageNumber = cacheEntry?.nextPage || 0;
+  let nextPageNumber = cacheEntry?.nextPage || 1;
   while (true) {
 
     /** @type {SingleBlocklistResponse} */
     const pageResponse = await fetch(
-      nextPageNumber === 0 ? handleURL : handleURL + '/' + nextPageNumber,
+      nextPageNumber === 1 ? handleURL : handleURL + '/' + nextPageNumber,
       { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
 
     let pages = parseNumberWithCommas(pageResponse.data.pages) || 1;
@@ -99,31 +107,14 @@ async function* blocklistCall(handleOrDID, api) {
       };
     }
     cacheEntry.count = count;
-    cacheEntry.nextPage = nextPageNumber >= pages ? 0 : nextPageNumber + 1;
+    cacheEntry.nextPage = nextPageNumber = nextPageNumber >= pages ? 0 : nextPageNumber + 1;
 
     yield {
       count,
-      nextPage: pages > 1 ? 1 : 0,
-      blocklist
+      nextPage: cacheEntry.nextPage,
+      blocklist: cacheEntry.blocklist
     };
 
-    if (pages <= 1) return;
-
-    for (let i = 2; i <= pages; i++) {
-      /** @type {SingleBlocklistResponse} */
-      const nextPage = await fetch(
-        handleURL + '/' + i,
-        { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
-
-      pages = parseNumberWithCommas(nextPage.data.pages) || 1;
-      count = parseNumberWithCommas(nextPage.data.count) || 0;
-      blocklist = blocklist.concat(nextPage.data.blocklist);
-
-      yield {
-        count,
-        nextPage: i >= pages ? 0 : i + 1,
-        blocklist
-      };
-    }
+    if (!cacheEntry.nextPage) break;
   }
 }
