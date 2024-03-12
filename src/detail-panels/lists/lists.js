@@ -59,7 +59,7 @@ export function Lists({ account }) {
               <>
                 {
                   localise(
-                    'Member in ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('lists', list.lists.length) + ':',
+                    'Member in ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('list', list.lists.length) + ':',
                     {
                       uk: 'Входить до ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('списку', list.lists.length) + ':'
                     })
