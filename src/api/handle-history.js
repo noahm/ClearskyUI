@@ -26,6 +26,7 @@ export function getHandleHistory(handleOrDID) {
   return (handleHistoryCache[handleOrDID] = getHandleHistoryRaw(handleOrDID)
     .then(
       data => {
+        if (!data) return { identifier: 'failed', handle_history: [] };
         const { identifier } = data;
         resolved = true;
         return handleHistoryCache[handleOrDID] =

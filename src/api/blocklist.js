@@ -22,7 +22,8 @@ export function singleBlocklist(handleOrDID) {
  * @param {string} handleOrDID
  * @param {string} api
  * @returns {AsyncGenerator<{
- *    pages: number, count: number,
+ *    count: number,
+ *    nextPage: number,
  *    blocklist: BlockedByRecord[]
  * }>}
  */
@@ -34,7 +35,7 @@ async function* blocklistCall(handleOrDID, api) {
   /**
    * @typedef {{
    *  data: {
-   *    block_list: { blocked_date: string, handle: string, status: boolean }[],
+   *    blocklist: BlockedByRecord[],
    *    count: string,
    *    pages: number
    *  },
@@ -51,19 +52,31 @@ async function* blocklistCall(handleOrDID, api) {
     handleURL,
     { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
 
-
-  const pages = Number(firstPage.data.pages) || 1;
-  const count = parseNumberWithCommas(firstPage.data.count) || 0;
-  const firstPageEntry = /** @type {*} */({ ...firstPage, ...firstPage.data, pages, count });
-  yield firstPageEntry;
+  let pages = parseNumberWithCommas(firstPage.data.pages) || 1;
+  let count = parseNumberWithCommas(firstPage.data.count) || 0;
+  let blocklist = firstPage.data.blocklist; 
+  yield {
+    count,
+    nextPage: pages > 1 ? 1 : 0,
+    blocklist
+  };
 
   if (pages <= 1) return;
 
   for (let i = 2; i <= pages; i++) {
+    /** @type {SingleBlocklistResponse} */
     const nextPage = await fetch(
       handleURL + '/' + i,
       { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
-    
-    yield { ...nextPage, ...nextPage.data, pages, count };
+
+    pages = parseNumberWithCommas(nextPage.data.pages) || 1;
+    count = parseNumberWithCommas(nextPage.data.count) || 0;
+    blocklist = blocklist.concat(nextPage.data.blocklist);
+
+    yield {
+      count,
+      nextPage: i >= pages ? 0 : i + 1,
+      blocklist
+    };
   }
 }
