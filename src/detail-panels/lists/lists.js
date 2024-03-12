@@ -54,12 +54,12 @@ export function Lists({ account }) {
 
       <h3 className='lists-header'>
         {
-          list?.loading ? localise('Member in lists:', { uk: 'Входить до списків:' }) :
+          list?.loading ? localise('Member of lists:', { uk: 'Входить до списків:' }) :
           list?.lists?.length ? 
               <>
                 {
                   localise(
-                    'Member in ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('list', list.lists.length) + ':',
+                    'Member of ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('list', list.lists.length) + ':',
                     {
                       uk: 'Входить до ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('списку', list.lists.length) + ':'
                     })
