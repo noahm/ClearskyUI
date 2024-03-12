@@ -31,7 +31,7 @@ export function BlockPanelGeneric({
   account,
   header
 }) {
-  const { count, blocklist, loading } =
+  const { count, blocklist, nextPage } =
     forAwait(account?.shortHandle, (shortHandle) => fetchAccountBlocking(shortHandle, fetch)) ||
     { loading: true };
 
@@ -43,7 +43,7 @@ export function BlockPanelGeneric({
 
   const [showSearch, setShowSearch] = useState(!!search);
 
-  const filteredBlocklist = !search || !blocklist ? blocklist :
+  const filteredBlocklist = !search || !blocklist ? blocklist || [] :
     matchSearch(blocklist, search, () => setTick(tick + 1));
 
 
@@ -66,7 +66,7 @@ export function BlockPanelGeneric({
         onShowSearch={() => setShowSearch(true)}
         onToggleView={() => setTableView(!tableView)} />
       {
-        loading && !blocklist?.length ?
+        nextPage && !blocklist?.length ?
           <p style={{ padding: '0.5em', opacity: '0.5' }}>Loading...</p> :
           tableView ?
             <TableView
@@ -128,23 +128,9 @@ class PanelHeader extends React.Component {
 /** @param {typeof singleBlocklist} fetch */
 async function* fetchAccountBlocking(shortHandle, fetch) {
   try {
-  let blocklist = [];
     for await (const block of fetch(unwrapShortHandle(shortHandle))) {
-      if (block.blocklist)
-        blocklist = blocklist.concat(block.blocklist);
-
-      yield {
-        count: block.count,
-        blocklist,
-        loading: true
-      };
-  }
-
-  yield {
-    count: blocklist.length,
-    blocklist,
-    loading: false
-  };
+      yield block;
+    }
   } finally {
     console.log('fetch account blocking finished');
   }

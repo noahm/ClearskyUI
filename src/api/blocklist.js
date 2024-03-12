@@ -8,6 +8,9 @@ import { resolveHandleOrDID } from './resolve-handle-or-did';
  * @param {string} handleOrDID
  */
 export function blocklist(handleOrDID) {
+  clearTimeout(debounceOtherSideFetch);
+  debounceOtherSideFetch = setTimeout(() => singleBlocklist(handleOrDID).next(), 600);
+
   return blocklistCall(handleOrDID, 'blocklist');
 }
 
@@ -15,14 +18,35 @@ export function blocklist(handleOrDID) {
  * @param {string} handleOrDID
  */
 export function singleBlocklist(handleOrDID) {
+  clearTimeout(debounceOtherSideFetch);
+  debounceOtherSideFetch = setTimeout(() => blocklist(handleOrDID).next(), 600);
+
   return blocklistCall(handleOrDID, 'single-blocklist');
 }
+
+let debounceOtherSideFetch = 0;
+
+/**
+ * @typedef {{
+ *  shortDID: string,
+ *  api: string,
+ *  count: number,
+ *  nextPage: number,
+ *  blocklist: BlockedByRecord[]
+ * }} BlockCacheEntry
+ */
+
+/**
+ * @type {{ [key: string]: BlockCacheEntry }}
+ */
+const blockApiResultCache = {};
 
 /**
  * @param {string} handleOrDID
  * @param {string} api
  * @returns {AsyncGenerator<{
- *    pages: number, count: number,
+ *    count: number,
+ *    nextPage: number,
  *    blocklist: BlockedByRecord[]
  * }>}
  */
@@ -31,10 +55,22 @@ async function* blocklistCall(handleOrDID, api) {
 
   if (!resolved) throw new Error('Could not resolve handle or DID: ' + handleOrDID);
 
+  const key = resolved.shortDID + '/' + api;
+  let cacheEntry = blockApiResultCache[key];
+  if (cacheEntry) {
+    yield {
+      count: cacheEntry.count,
+      nextPage: cacheEntry.nextPage,
+      blocklist: cacheEntry.blocklist
+    };
+
+    if (!cacheEntry.nextPage) return;
+  }
+
   /**
    * @typedef {{
    *  data: {
-   *    block_list: { blocked_date: string, handle: string, status: boolean }[],
+   *    blocklist: BlockedByRecord[],
    *    count: string,
    *    pages: number
    *  },
@@ -45,25 +81,40 @@ async function* blocklistCall(handleOrDID, api) {
   const handleURL =
     unwrapClearSkyURL(v1APIPrefix + api + '/') +
     unwrapShortHandle(resolved.shortHandle);
+  
+  let nextPageNumber = cacheEntry?.nextPage || 1;
+  while (true) {
 
-  /** @type {SingleBlocklistResponse} */
-  const firstPage = await fetch(
-    handleURL,
-    { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
-
-
-  const pages = Number(firstPage.data.pages) || 1;
-  const count = parseNumberWithCommas(firstPage.data.count) || 0;
-  const firstPageEntry = /** @type {*} */({ ...firstPage, ...firstPage.data, pages, count });
-  yield firstPageEntry;
-
-  if (pages <= 1) return;
-
-  for (let i = 2; i <= pages; i++) {
-    const nextPage = await fetch(
-      handleURL + '/' + i,
+    /** @type {SingleBlocklistResponse} */
+    const pageResponse = await fetch(
+      nextPageNumber === 1 ? handleURL : handleURL + '/' + nextPageNumber,
       { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
-    
-    yield { ...nextPage, ...nextPage.data, pages, count };
+
+    let pages = parseNumberWithCommas(pageResponse.data.pages) || 1;
+    let count = parseNumberWithCommas(pageResponse.data.count) || 0;
+
+    const chunk = pageResponse.data.blocklist;
+
+    if (cacheEntry) {
+      cacheEntry.blocklist = cacheEntry.blocklist.concat(chunk);
+    } else {
+      blockApiResultCache[key] = cacheEntry = {
+        shortDID: resolved.shortDID,
+        api,
+        count,
+        nextPage: 0,
+        blocklist: chunk
+      };
+    }
+    cacheEntry.count = count;
+    cacheEntry.nextPage = nextPageNumber = nextPageNumber >= pages ? 0 : nextPageNumber + 1;
+
+    yield {
+      count,
+      nextPage: cacheEntry.nextPage,
+      blocklist: cacheEntry.blocklist
+    };
+
+    if (!cacheEntry.nextPage) break;
   }
 }

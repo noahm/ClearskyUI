@@ -17,9 +17,13 @@ import json
 # ======================================== global variables // Set up logging ==========================================
 config = config_helper.read_config()
 
+# Read the package.json file
+with open('package.json') as f:
+    package_data = json.load(f)
+
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.6"
+version = package_data.get("version")
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
@@ -70,7 +74,7 @@ async def get_ip():  # Get IP address of session request
 async def get_api_keys(api_environment, key_type, key_value):
     logger.info(f"fetching API key for {api_environment} environment for {key_type} key type.")
 
-    if api_key:
+    if key_value:
         try:
             fetch_api = f"{api_server_endpoint}/api/v1/auth/base/internal/api-check?api_environment={api_environment}?key_type={key_type}?key_value={key_value}"
 
@@ -89,7 +93,7 @@ async def get_api_keys(api_environment, key_type, key_value):
             logger.error(f"An error occurred: {e}")
     else:
         logger.error("no API key configured.")
-
+        data = None
     return data
 
 
@@ -162,6 +166,11 @@ def api_key_required(key_type):
             api_environment = get_api_var()
             provided_api_key = request.headers.get("X-API-Key")
             api_keys = await get_api_keys(api_environment, key_type, provided_api_key)
+
+            if not api_keys:
+                logger.error("API verification failed.")
+
+                return "Unauthorized", 401
 
             # Check if the provided API key matches the key in the dictionary
             key_value = api_keys.get("api key")
