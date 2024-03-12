@@ -17,9 +17,13 @@ import json
 # ======================================== global variables // Set up logging ==========================================
 config = config_helper.read_config()
 
+# Read the package.json file
+with open('package.json') as f:
+    package_data = json.load(f)
+
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = "4.0.6"
+version = package_data.get('version')
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
