@@ -1,8 +1,9 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
+import { BskyAgent } from '@atproto/api';
 import { breakFeedUri, isPromise, unwrapShortDID } from '.';
-import { atClient, publicAtClient } from './core';
+import { atClient, oldXrpc, patchBskyAgent, publicAtClient } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 import { throttledAsyncCache } from './throttled-async-cache';
 
@@ -38,13 +39,32 @@ export function postHistory(shortHandleOrShortDid) {
     fetchMore();
     return fetcher;
 
+    /** @type {typeof atClient} */
+    var pdsClient;
+
     function fetchMore() {
       if (fetchingMore) return fetchingMore;
       if (reachedEndRepeatAt && Date.now() < reachedEndRepeatAt) return;
 
       return fetchingMore = (async () => {
+        if (!pdsClient) {
+          const pdsData = await fetch(
+            'https://plc.directory/' + unwrapShortDID(accountInfo.shortDID)
+          ).then(x => x.json());
+          var pdsURL = oldXrpc;
+          if (pdsData?.service?.length) {
+            for (const svcEntry of pdsData.service) {
+              if (svcEntry?.type === 'AtprotoPersonalDataServer' && svcEntry.serviceEndpoint)
+                pdsURL = svcEntry.serviceEndpoint;
+            }
+          }
 
-        const history = await atClient.com.atproto.repo.listRecords({
+          pdsClient = new BskyAgent({ service: pdsURL });
+          patchBskyAgent(pdsClient);
+          // TODO: patch CORS!
+        }
+
+        const history = await pdsClient.com.atproto.repo.listRecords({
           collection: 'app.bsky.feed.post',
           repo: unwrapShortDID(accountInfo.shortDID),
           cursor,

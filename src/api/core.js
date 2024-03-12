@@ -3,9 +3,9 @@
 
 import { BskyAgent } from '@atproto/api';
 
-const oldXrpc = 'https://bsky.social/xrpc';
-const newXrpc = 'https://bsky.network/xrpc';
-const publicXrpc = 'https://public.api.bsky.app/xrpc';
+export const oldXrpc = 'https://bsky.social/xrpc';
+export const newXrpc = 'https://bsky.network/xrpc';
+export const publicXrpc = 'https://public.api.bsky.app/xrpc';
 
 export const atClient = new BskyAgent({ service: oldXrpc });
 patchBskyAgent(atClient);
@@ -14,7 +14,7 @@ export const publicAtClient = new BskyAgent({ service: publicXrpc });
 patchBskyAgent(publicAtClient);
 
 /** @param {import('@atproto/api').BskyAgent} atClient */
-function patchBskyAgent(atClient) {
+export function patchBskyAgent(atClient) {
   atClient.com.atproto.sync._service.xrpc.baseClient.lex.assertValidXrpcOutput = function (lexUri, value, ...rest) {
     return true;
   };
