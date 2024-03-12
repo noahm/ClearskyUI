@@ -23,7 +23,7 @@ with open('package.json') as f:
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = package_data.get('version')
+version = package_data.get("version")
 current_dir = os.getcwd()
 log_version = "ClearSky UI Version: " + version
 runtime = datetime.now()
