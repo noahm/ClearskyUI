@@ -2,7 +2,6 @@
 
 import { unwrapShortDID, v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
-import { throttledAsyncCache } from './throttled-async-cache';
 
 // /api/v1/get-handle-history/
 
