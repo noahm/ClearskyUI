@@ -8,8 +8,11 @@ import { resolveHandleOrDID } from './resolve-handle-or-did';
  * @param {string} handleOrDID
  */
 export function blocklist(handleOrDID) {
-  clearTimeout(debounceOtherSideFetch);
-  debounceOtherSideFetch = setTimeout(() => singleBlocklist(handleOrDID).next(), 600);
+  if (!otherSideFetchQueued.has(handleOrDID)) {
+    otherSideFetchQueued.add(handleOrDID)
+    clearTimeout(debounceOtherSideFetch);
+    debounceOtherSideFetch = setTimeout(() => singleBlocklist(handleOrDID).next(), 600);
+  }
 
   return blocklistCall(handleOrDID, 'blocklist');
 }
@@ -18,12 +21,16 @@ export function blocklist(handleOrDID) {
  * @param {string} handleOrDID
  */
 export function singleBlocklist(handleOrDID) {
-  clearTimeout(debounceOtherSideFetch);
-  debounceOtherSideFetch = setTimeout(() => blocklist(handleOrDID).next(), 600);
+  if (!otherSideFetchQueued.has(handleOrDID)) {
+    otherSideFetchQueued.add(handleOrDID)
+    clearTimeout(debounceOtherSideFetch);
+    debounceOtherSideFetch = setTimeout(() => blocklist(handleOrDID).next(), 600);
+  }
 
   return blocklistCall(handleOrDID, 'single-blocklist');
 }
 
+const otherSideFetchQueued = new Set();
 let debounceOtherSideFetch = 0;
 
 /**
