@@ -26,16 +26,6 @@ export function About({ onToggleAbout }) {
         </span>
 
         {localise('Version', { uk: 'Версія' })}: {version} <br />
-        &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
-          account='thieflord.dev'
-          link='https://bsky.app/profile/thieflord.dev'
-          accountTooltipPanel={true}
-        /> <br />
-        &nbsp; {localise('Implementation developer', { uk: 'Програміст-артист' })}: <AccountShortEntry
-          account='oyin.bo'
-          link='https://bsky.app/profile/oyin.bo'
-          accountTooltipPanel={localise('User experience and interaction beauty.', { uk: 'Майстер намалювати та втілити.' })}
-        />
       </div>
     </div>
   );
