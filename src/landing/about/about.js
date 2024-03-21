@@ -26,6 +26,11 @@ export function About({ onToggleAbout }) {
         </span>
 
         {localise('Version', { uk: 'Версія' })}: {version} <br />
+        &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
+          account='thieflord.dev'
+          link='https://bsky.app/profile/thieflord.dev'
+          accountTooltipPanel={true}
+        />
       </div>
     </div>
   );
