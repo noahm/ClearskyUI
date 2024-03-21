@@ -231,6 +231,7 @@ async def always_200():
 async def statement():
     return await send_from_directory(app.static_folder, 'statement.html')
 
+
 # ======================================================================================================================
 # ============================================= API Endpoints ==========================================================
 @app.route('/api/v1/base/internal/status/process-status', methods=['GET'])
