@@ -10,32 +10,39 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            width: 90%;
+            margin-top: 20px;
             padding: 20px;
+            text-align: center;
         }
         .logo {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 200px;
+            width: 250px;
             height: auto;
+            margin-top: 20px;
+        }
+        h1, h2, h3 {
+            margin: 10px 0;
         }
         h3 {
             text-align: right;
         }
         p {
-            line-height: 1.5;
+            line-height: 1.75;
+            margin-bottom: 20px;
+            text-align: justify;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="index.html">
+        <img src="CleardayLarge.png" alt="Logo" class="logo">
+        </a>
         <h1>In regard to the recent events surrounding ClearSky</h1>
         <h2>March 21, 2024</h2>
         <p>While I was away from BlueSky for the last week, I learned that a UX programmer I was working with was harassing another account, and even more unfortunately, the account of someone who has worked tirelessly to increase the safety of marginalized folks on BlueSky, something the site devs have fallen ridiculously short on.
@@ -48,9 +55,6 @@ Because of his continued choice to engage in harassment and racism, I can no lon
 
 Thank you to those who came to me rather than allowing my name to continue to be used in this manner, and to those who continue to show their faith in my work as I pour my energy into building and improving ClearSky.</p>
       <h3>Justin, Creator of ClearSky</h3>
-      <a href="index.html">
-        <img src="CleardayLarge.png" alt="Logo" class="logo">
-      </a>
     </div>
 </body>
 </html>
