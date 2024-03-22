@@ -6,6 +6,7 @@
  */
 export function localise(english, languageMap) {
   if (!langs?.length) return english;
+  else return english;
 
   for (const lang of langs) {
     if (languageMap[lang]) return languageMap[lang];
