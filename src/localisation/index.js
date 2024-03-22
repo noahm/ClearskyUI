@@ -5,44 +5,7 @@
  * @param {{ [lang: string]: string}} languageMap
  */
 export function localise(english, languageMap) {
-  if (!langs?.length) return english;
-  else return english;
-
-  for (const lang of langs) {
-    if (languageMap[lang]) return languageMap[lang];
-  }
-
-  for (const lang of langs) {
-    if (languageMap[lang]) return languageMap[lang];
-  }
-
   return english;
-}
-
-const langSubstitutes = {
-  ru: 'uk', be: 'uk'
-}
-
-const langs = extendDashLeads(
-  !navigator ? undefined :
-    navigator.languages?.length ? navigator.languages.map(lang => lang.toLowerCase()) :
-      navigator.language ? [navigator.language.toLowerCase()] :
-        undefined);
-
-function extendDashLeads(langs) {
-  if (!langs) return langs;
-
-  const result = [];
-  for (const lang of langs) {
-    result.push(langSubstitutes[lang] || lang);
-  }
-
-  for (const lang of langs) {
-    const dashLead = lang.split('-')[0];
-    if (dashLead !== lang) result.push(langSubstitutes[dashLead] || dashLead);
-  }
-
-  return result;
 }
 
 /**
