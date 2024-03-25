@@ -203,7 +203,12 @@ async def index(path):
 
     logger.info(f"<< Incoming request: {session_ip} {session['session_number']} | path: {path}")
 
-    return await send_from_directory(app.static_folder, path)
+    try:
+        return await send_from_directory(app.static_folder, path)
+    except AssertionError as e:
+        logger.error(f"Byte error: {session_ip} {session['session_number']} | path: {path} Error: {e}")
+
+        return await send_from_directory(app.static_folder, 'index.html')
 
 
 @app.errorhandler(404)
