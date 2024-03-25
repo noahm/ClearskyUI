@@ -1,7 +1,7 @@
 # app.py
 
 import sys
-from quart import Quart, request, session, jsonify, send_from_directory
+from quart import Quart, request, session, jsonify, send_from_directory, redirect, url_for
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -196,6 +196,11 @@ def api_key_required(key_type):
 @app.route('/<path:path>', methods=['GET'])
 async def index(path):
     session_ip = await get_ip()
+
+    if request.host == 'bsky.thieflord.dev':
+        redirect_url = f'https://clearsky.app/{path}'
+
+        return redirect(redirect_url)
 
     # Generate a new session number and store it in the session
     if 'session_number' not in session:
