@@ -47,30 +47,30 @@ export function searchHandle(searchText) {
       .catch(x => { })
   );
 
-  const bucketsOrPromises = wordStarts.map(wordStart => getBucket(wordStart));
-  const allStaticallyResolved =
-    !directResolvesOrPromises.some(accountOrPromise => isPromise(accountOrPromise)) &&
-    !bucketsOrPromises.some(bucket => isPromise(bucket));
-
-  if (allStaticallyResolved) {
-    let searchMatches = performSearchOverBuckets(
-      searchText,
-      /** @type {IndexedBucket[]} */(bucketsOrPromises));
-
-    const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolvesOrPromises);
-
-    searchMatches = combineAndLimit(exactMatches, searchMatches);
-
-    cachedSearches[searchText] = searchMatches;
-    return searchMatches;
-  }
+  // const bucketsOrPromises = wordStarts.map(wordStart => getBucket(wordStart));
+  // const allStaticallyResolved =
+  //   !directResolvesOrPromises.some(accountOrPromise => isPromise(accountOrPromise)) &&
+  //   !bucketsOrPromises.some(bucket => isPromise(bucket));
+  //
+  // if (allStaticallyResolved) {
+  //   let searchMatches = performSearchOverBuckets(
+  //     searchText,
+  //     /** @type {IndexedBucket[]} */(bucketsOrPromises));
+  //
+  //   const exactMatches = /** @type {(SearchMatch & AccountInfo)[]} */(directResolvesOrPromises);
+  //
+  //   searchMatches = combineAndLimit(exactMatches, searchMatches);
+  //
+  //   cachedSearches[searchText] = searchMatches;
+  //   return searchMatches;
+  // }
 
   return (async () => {
     const wordPublicSearches = await Promise.all(wordPublicSearchPromises);
 
-    const buckets = await Promise.all(bucketsOrPromises);
+    // const buckets = await Promise.all(bucketsOrPromises);
     const directResolves = (await Promise.all(directResolvesOrPromises)).filter(Boolean);
-    let searchMatches = performSearchOverBuckets(searchText, buckets);
+    let searchMatches = [];
     for (let searchWordResult of wordPublicSearches) {
       if (searchWordResult?.actors?.length) {
         for (const ac of searchWordResult.actors) {
