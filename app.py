@@ -1,7 +1,7 @@
 # app.py
 
 import sys
-from quart import Quart, request, session, jsonify, send_from_directory, redirect, url_for
+from quart import Quart, request, session, jsonify, send_from_directory, redirect
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -199,6 +199,7 @@ async def index(path):
 
     if request.host == 'bsky.thieflord.dev':
         redirect_url = f'https://clearsky.app/{path}'
+        logger.info("Redirecting to clearsky.app")
 
         return redirect(redirect_url)
 
