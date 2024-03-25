@@ -76,7 +76,7 @@ async def get_api_keys(api_environment, key_type, key_value):
 
     if key_value:
         try:
-            fetch_api = f"{api_server_endpoint}/api/v1/auth/base/internal/api-check?api_environment={api_environment}?key_type={key_type}?key_value={key_value}"
+            fetch_api = f"{api_server_endpoint}/api/v1/auth/base/internal/api-check?api_environment={api_environment}&key_type={key_type}&key_value={key_value}"
 
             headers = {'X-API-Key': f'{api_key}'}
 
