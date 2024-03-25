@@ -201,7 +201,7 @@ async def index(path):
         redirect_url = f'https://clearsky.app/{path}'
         logger.info("Redirecting to clearsky.app")
 
-        return redirect(redirect_url)
+        return redirect(redirect_url, code=301)
 
     # Generate a new session number and store it in the session
     if 'session_number' not in session:
