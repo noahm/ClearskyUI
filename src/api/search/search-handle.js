@@ -70,7 +70,7 @@ export function searchHandle(searchText) {
 
     // const buckets = await Promise.all(bucketsOrPromises);
     const directResolves = (await Promise.all(directResolvesOrPromises)).filter(Boolean);
-    let searchMatches = [];
+    let searchMatches = []; // Part of hack to get rid of coldsky
     for (let searchWordResult of wordPublicSearches) {
       if (searchWordResult?.actors?.length) {
         for (const ac of searchWordResult.actors) {
