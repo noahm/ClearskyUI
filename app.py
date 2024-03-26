@@ -212,7 +212,8 @@ async def index(path):
     try:
         return await send_from_directory(app.static_folder, path)
     except AssertionError as e:
-        logger.error(f"Byte error: {session_ip} {session['session_number']} | path: {path} Error: {e}")
+        range_header = request.headers.get('Range')
+        logger.error(f"Byte error: {session_ip} {session['session_number']} | path: {path} | Range: {range_header} Error: {e}")
 
         return await send_from_directory(app.static_folder, 'index.html')
 
