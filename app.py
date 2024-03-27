@@ -202,27 +202,9 @@ def redirect_to_clearsky():
 
 # ======================================================================================================================
 # ================================================== HTML Pages ========================================================
-# @app.route('/', methods=['GET'])
-# async def root_only():
-#     redirect_url = 'https://clearsky.app'
-#
-#     if request.host == 'bsky.thieflord.dev':
-#         logger.info("Redirecting to clearsky.app")
-#
-#         return redirect(redirect_url, code=301)
-#     else:
-#         return await index('')
-
-
 @app.route('/<path:path>', methods=['GET'])
 async def index(path):
     session_ip = await get_ip()
-
-    # if request.host == 'bsky.thieflord.dev':
-    #     redirect_url = f'https://clearsky.app/{path}'
-    #     logger.info("Redirecting to clearsky.app")
-    #
-    #     return redirect(redirect_url, code=301)
 
     # Generate a new session number and store it in the session
     if 'session_number' not in session:
@@ -263,6 +245,16 @@ async def always_200():
 @app.route('/statement', methods=['GET'])
 async def statement():
     return await send_from_directory(app.static_folder, 'statement.html')
+
+
+@app.route('/privacy', methods=['GET'])
+async def statement():
+    return await send_from_directory(app.static_folder, 'privacy-policy.html')
+
+
+@app.route('/terms', methods=['GET'])
+async def statement():
+    return await send_from_directory(app.static_folder, 'terms-and-conditions.html')
 
 
 # ======================================================================================================================
