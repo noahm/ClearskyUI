@@ -265,6 +265,16 @@ async def statement():
     return await send_from_directory(app.static_folder, 'statement.html')
 
 
+@app.route('/privacy', methods=['GET'])
+async def statement():
+    return await send_from_directory(app.static_folder, 'privacy-policy.html')
+
+
+@app.route('/terms', methods=['GET'])
+async def statement():
+    return await send_from_directory(app.static_folder, 'terms-and-conditions.html')
+
+
 # ======================================================================================================================
 # ============================================= API Endpoints ==========================================================
 @app.route('/api/v1/base/internal/status/process-status', methods=['GET'])
