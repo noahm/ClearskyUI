@@ -248,12 +248,12 @@ async def statement():
 
 
 @app.route('/privacy', methods=['GET'])
-async def statement():
+async def privacy():
     return await send_from_directory(app.static_folder, 'privacy-policy.html')
 
 
 @app.route('/terms', methods=['GET'])
-async def statement():
+async def terms():
     return await send_from_directory(app.static_folder, 'terms-and-conditions.html')
 
 
