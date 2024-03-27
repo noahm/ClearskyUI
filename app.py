@@ -193,6 +193,19 @@ def api_key_required(key_type):
 
 # ======================================================================================================================
 # ================================================== HTML Pages ========================================================
+
+@app.route('/', methods=['GET'])
+async def root_only():
+    redirect_url = 'https://clearsky.app'
+
+    if request.host == 'bsky.thieflord.dev':
+        logger.info("Redirecting to clearsky.app")
+
+        return redirect(redirect_url, code=301)
+    else:
+        return await index('')
+
+
 @app.route('/<path:path>', methods=['GET'])
 async def index(path):
     session_ip = await get_ip()
