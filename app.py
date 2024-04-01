@@ -397,6 +397,9 @@ async def serve_file(filename):
         return await send_from_directory(app.static_folder, filename)
     except FileNotFoundError:
         return "error", 404
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        return "error", 404
 
 
 @rate_limit(1, timedelta(seconds=1))
@@ -411,11 +414,14 @@ async def serve_ts_file(name):
     elif name == "blocked_data.json":
         filename = "blocked_data_ts.json"
     else:
-        return "error", 404
+        return "error", 500
 
     try:
         return await send_from_directory(app.static_folder, filename)
     except FileNotFoundError:
+        return "error", 500
+    except Exception as e:
+        logger.error(f"Error: {e}")
         return "error", 404
 
 
