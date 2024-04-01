@@ -401,7 +401,7 @@ async def serve_file(filename):
 
 @rate_limit(30, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/status/<name>', methods=['GET'])
-async def serve_file(name):
+async def serve_ts_file(name):
     if name == "total_users_data":
         filename = "total_users_data_ts.json"
     elif name == "stats_data.json":
