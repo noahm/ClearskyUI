@@ -390,7 +390,7 @@ async def total_users_push_json():
     return jsonify({'message': 'Data received successfully'}), 200
 
 
-@rate_limit(30, timedelta(seconds=1))
+@rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/<path:filename>', methods=['GET'])
 async def serve_file(filename):
     try:
@@ -399,7 +399,7 @@ async def serve_file(filename):
         return "error", 404
 
 
-@rate_limit(30, timedelta(seconds=1))
+@rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/status/<name>', methods=['GET'])
 async def serve_ts_file(name):
     if name == "total_users_data":
