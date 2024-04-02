@@ -23,9 +23,9 @@ with open('package.json') as f:
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = package_data.get("version")
+app_version = package_data.get("version")
 current_dir = os.getcwd()
-log_version = "ClearSky UI Version: " + version
+log_version = "ClearSky UI Version: " + app_version
 runtime = datetime.now()
 current_time = runtime.strftime("%m%d%Y::%H:%M:%S")
 
@@ -276,7 +276,7 @@ async def get_internal_status():
     uptime = now - runtime
 
     status = {
-        "clearsky UI version": version,
+        "clearsky UI version": app_version,
         "uptime": str(uptime),
         "current time": str(datetime.now()),
     }
