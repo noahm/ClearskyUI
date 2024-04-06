@@ -38,11 +38,11 @@ export function searchHandle(searchText) {
       return expandResolvedAccountToSearchMatch(word, accountOrPromise);
   });
 
-  const wordStarts = getWordStartsLowerCase(searchText, 3);
+  const wordStarts = [...new Set([...searchText.split(/\s+/g).filter(chunk=>chunk.length>=3), searchText])]
   if (!wordStarts.length) return [];
 
   const wordPublicSearchPromises = wordStarts.map(w =>
-    fetch('https://public.api.bsky.app/xrpc/app.bsky.actor.searchActors?term=' + encodeURIComponent(w))
+    fetch('https://public.api.bsky.app/xrpc/app.bsky.actor.searchActorsTypeahead?term=' + encodeURIComponent(w))
       .then(x => x.json())
       .catch(x => { })
   );
