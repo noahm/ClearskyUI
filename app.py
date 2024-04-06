@@ -23,9 +23,9 @@ with open('package.json') as f:
 
 title_name = "ClearSky UI"
 os.system("title " + title_name)
-version = package_data.get("version")
+app_version = package_data.get("version")
 current_dir = os.getcwd()
-log_version = "ClearSky UI Version: " + version
+log_version = "ClearSky UI Version: " + app_version
 runtime = datetime.now()
 current_time = runtime.strftime("%m%d%Y::%H:%M:%S")
 
@@ -276,7 +276,7 @@ async def get_internal_status():
     uptime = now - runtime
 
     status = {
-        "clearsky UI version": version,
+        "clearsky UI version": app_version,
         "uptime": str(uptime),
         "current time": str(datetime.now()),
     }
@@ -292,12 +292,19 @@ async def get_internal_status():
 async def blocked_push_json():
     # Get JSON data from the request
     data = await request.json
+    timestamp = datetime.now().timestamp()
 
     # Write JSON data to a file
     file_path = os.path.join(app.static_folder, 'blocked_data.json')
+    file_path_ts = os.path.join(app.static_folder, 'blocked_data_ts.json')
+
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
+
+    with open(file_path_ts, 'w') as file2:
+        json.dump(timestamp, file2)
+        file2.write('\n')
 
     logger.info("Blocked data received")
     logger.info(data)
@@ -311,12 +318,19 @@ async def blocked_push_json():
 async def blocked24_push_json():
     # Get JSON data from the request
     data = await request.json
+    timestamp = datetime.now().timestamp()
 
     # Write JSON data to a file
     file_path = os.path.join(app.static_folder, 'blocked24_data.json')
+    file_path_ts = os.path.join(app.static_folder, 'blocked24_data_ts.json')
+
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
+
+    with open(file_path_ts, 'w') as file2:
+        json.dump(timestamp, file2)
+        file2.write('\n')
 
     logger.info("Blocked24 data received")
     logger.info(data)
@@ -330,12 +344,19 @@ async def blocked24_push_json():
 async def stats_push_json():
     # Get JSON data from the request
     data = await request.json
+    timestamp = datetime.now().timestamp()
 
     # Write JSON data to a file
     file_path = os.path.join(app.static_folder, 'stats_data.json')
+    file_path_ts = os.path.join(app.static_folder, 'stats_data_ts.json')
+
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
+
+    with open(file_path_ts, 'w') as file2:
+        json.dump(timestamp, file2)
+        file2.write('\n')
 
     logger.info("Stats data received")
     logger.info(data)
@@ -349,13 +370,19 @@ async def stats_push_json():
 async def total_users_push_json():
     # Get JSON data from the request
     data = await request.json
+    timestamp = datetime.now().timestamp()
 
     # Write JSON data to a file
     file_path = os.path.join(app.static_folder, 'total_users_data.json')
+    file_path_ts = os.path.join(app.static_folder, 'total_users_data_ts.json')
 
     with open(file_path, 'w') as file:
         json.dump(data, file)
         file.write('\n')  # Add a newline for clarity if appending multiple JSON objects
+
+    with open(file_path_ts, 'w') as file2:
+        json.dump(timestamp, file2)
+        file2.write('\n')
 
     logger.info("total users data received")
     logger.info(data)
@@ -363,12 +390,38 @@ async def total_users_push_json():
     return jsonify({'message': 'Data received successfully'}), 200
 
 
-@rate_limit(30, timedelta(seconds=1))
+@rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/<path:filename>', methods=['GET'])
 async def serve_file(filename):
     try:
         return await send_from_directory(app.static_folder, filename)
     except FileNotFoundError:
+        return "error", 404
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        return "error", 404
+
+
+@rate_limit(1, timedelta(seconds=1))
+@app.route('/api/v1/serve/lists/stats/status/<name>', methods=['GET'])
+async def serve_ts_file(name):
+    if name == "total_users_data":
+        filename = "total_users_data_ts.json"
+    elif name == "stats_data.json":
+        filename = "stats_data_ts.json"
+    elif name == "blocked24_data.json":
+        filename = "blocked24_data_ts.json"
+    elif name == "blocked_data.json":
+        filename = "blocked_data_ts.json"
+    else:
+        return "error", 500
+
+    try:
+        return await send_from_directory(app.static_folder, filename)
+    except FileNotFoundError:
+        return "error", 500
+    except Exception as e:
+        logger.error(f"Error: {e}")
         return "error", 404
 
 
