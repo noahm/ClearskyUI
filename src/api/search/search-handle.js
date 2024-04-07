@@ -130,35 +130,35 @@ function combineAndLimit(exactMatches, searchMatches) {
   return result.slice(0,60);
 }
 
-/** @type {{ [threeLetterPrefix: string]: Promise<IndexedBucket> | IndexedBucket }} */
-const buckets = {};
-
-/**
- * @param {string} threeLetterPrefix
- * @returns {Promise<IndexedBucket> | IndexedBucket}
- */
-function getBucket(threeLetterPrefix) {
-  if (buckets[threeLetterPrefix]) return buckets[threeLetterPrefix];
-
-  // TODO: failover/retry?
-  return buckets[threeLetterPrefix] = (async () => {
-    const bucketPath =
-      'https://accounts.colds.ky/' +
-      threeLetterPrefix[0] + '/' +
-      threeLetterPrefix.slice(0, 2) + '/' +
-      threeLetterPrefix.slice(1) + '.json';
-
-    const bucket = await fetch(bucketPath)
-      .then(r => r.json())
-      .catch(err => {
-        console.warn(
-          'Failed to fetch bucket for ' + threeLetterPrefix,
-          err);
-      });
-
-    return bucket;
-  })();
-}
+// /** @type {{ [threeLetterPrefix: string]: Promise<IndexedBucket> | IndexedBucket }} */
+// const buckets = {};
+//
+// /**
+//  * @param {string} threeLetterPrefix
+//  * @returns {Promise<IndexedBucket> | IndexedBucket}
+//  */
+// function getBucket(threeLetterPrefix) {
+//   if (buckets[threeLetterPrefix]) return buckets[threeLetterPrefix];
+//
+//
+//   return buckets[threeLetterPrefix] = (async () => {
+//     const bucketPath =
+//       'https://accounts.colds.ky/' +
+//       threeLetterPrefix[0] + '/' +
+//       threeLetterPrefix.slice(0, 2) + '/' +
+//       threeLetterPrefix.slice(1) + '.json';
+//
+//     const bucket = await fetch(bucketPath)
+//       .then(r => r.json())
+//       .catch(err => {
+//         console.warn(
+//           'Failed to fetch bucket for ' + threeLetterPrefix,
+//           err);
+//       });
+//
+//     return bucket;
+//   })();
+// }
 
 /**
  * 
