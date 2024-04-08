@@ -194,7 +194,7 @@ def api_key_required(key_type):
 @app.before_request
 def redirect_to_clearsky():
     if request.host == 'bsky.thieflord.dev':
-        logger.info("Redirecting to clearsky.app")
+        logger.debug("Redirecting to clearsky.app")
         redirect_url = request.url.replace('bsky.thieflord.dev', 'clearsky.app', 1)
 
         return redirect(redirect_url, code=301)
