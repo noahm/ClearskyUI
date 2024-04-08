@@ -19,10 +19,10 @@ import { localise } from '../../../localisation';
  * }} _
  */
 export function NetworkCircle({
-  activeAccounts = 2184714,
-  deletedAccounts = 21034,
-  percentNumberBlocked1 = 63.41,
-  percentNumberBlocking1 = 40.05,
+  activeAccounts = 5376230,
+  deletedAccounts = 388614,
+  percentNumberBlocked1 = 48.40,
+  percentNumberBlocking1 = 42.53,
   loading }) {
   return (
     <div className='network-circle'>
