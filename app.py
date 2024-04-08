@@ -1,6 +1,8 @@
 # app.py
 
 import sys
+from typing import Optional
+import quart
 from quart import Quart, request, session, jsonify, send_from_directory, redirect
 from datetime import datetime, timedelta
 import os
@@ -57,7 +59,7 @@ def generate_session_number():
     return str(uuid.uuid4().hex)
 
 
-async def get_ip():  # Get IP address of session request
+async def get_ip() -> str:  # Get IP address of session request
     if 'X-Forwarded-For' in request.headers:
         # Get the client's IP address from the X-Forwarded-For header
         ip = request.headers.get('X-Forwarded-For')
@@ -71,7 +73,7 @@ async def get_ip():  # Get IP address of session request
     return ip
 
 
-async def get_api_keys(api_environment, key_type, key_value):
+async def get_api_keys(api_environment, key_type, key_value) -> dict:
     logger.info(f"fetching API key for {api_environment} environment for {key_type} key type.")
 
     if key_value:
@@ -97,7 +99,7 @@ async def get_api_keys(api_environment, key_type, key_value):
     return data
 
 
-async def get_time_since(time):
+async def get_time_since(time) -> str:
     if time is None:
         return "Not initialized"
     time_difference = datetime.now() - time
@@ -142,7 +144,7 @@ async def get_ip_address():
         return ip_address, port_address
 
 
-async def run_web_server():
+async def run_web_server() -> None:
     ip_address, port_address = await get_ip_address()
 
     if not ip_address or not port_address:
@@ -155,14 +157,14 @@ async def run_web_server():
 
 
 @app.errorhandler(429)
-def ratelimit_error(e):
+def ratelimit_error(e) -> tuple:
     return jsonify(error="ratelimit exceeded", message=str(e.description)), 429
 
 
-def api_key_required(key_type):
-    def decorator(func):
+def api_key_required(key_type) -> callable:
+    def decorator(func) -> callable:
         @functools.wraps(func)
-        async def wrapper(*args, **kwargs):
+        async def wrapper(*args, **kwargs) -> callable:
             api_environment = get_api_var()
             provided_api_key = request.headers.get("X-API-Key")
             api_keys = await get_api_keys(api_environment, key_type, provided_api_key)
@@ -192,9 +194,9 @@ def api_key_required(key_type):
 
 
 @app.before_request
-def redirect_to_clearsky():
+def redirect_to_clearsky() -> quart.redirect:
     if request.host == 'bsky.thieflord.dev':
-        logger.info("Redirecting to clearsky.app")
+        logger.debug("Redirecting to clearsky.app")
         redirect_url = request.url.replace('bsky.thieflord.dev', 'clearsky.app', 1)
 
         return redirect(redirect_url, code=301)
@@ -203,7 +205,7 @@ def redirect_to_clearsky():
 # ======================================================================================================================
 # ================================================== HTML Pages ========================================================
 @app.route('/<path:path>', methods=['GET'])
-async def index(path):
+async def index(path) -> quart.Response:
     session_ip = await get_ip()
 
     # Generate a new session number and store it in the session
@@ -222,7 +224,7 @@ async def index(path):
 
 
 @app.errorhandler(404)
-async def page_not_found(e):
+async def page_not_found(e) -> quart.Response:
     session_ip = await get_ip()
 
     # Generate a new session number and store it in the session
@@ -238,22 +240,22 @@ async def page_not_found(e):
 
 @app.route('/status', methods=['GET'])
 @rate_limit(10, timedelta(seconds=1))
-async def always_200():
+async def always_200() -> tuple:
     return "OK", 200
 
 
 @app.route('/statement', methods=['GET'])
-async def statement():
+async def statement() -> quart.Response:
     return await send_from_directory(app.static_folder, 'statement.html')
 
 
 @app.route('/privacy', methods=['GET'])
-async def privacy():
+async def privacy() -> quart.Response:
     return await send_from_directory(app.static_folder, 'privacy-policy.html')
 
 
 @app.route('/terms', methods=['GET'])
-async def terms():
+async def terms() -> quart.Response:
     return await send_from_directory(app.static_folder, 'terms-and-conditions.html')
 
 
@@ -262,7 +264,7 @@ async def terms():
 @app.route('/api/v1/base/internal/status/process-status', methods=['GET'])
 @api_key_required("UI")
 @rate_limit(1, timedelta(seconds=1))
-async def get_internal_status():
+async def get_internal_status() -> quart.Response:
     api_key = request.headers.get('X-API-Key')
     session_ip = await get_ip()
 
@@ -289,7 +291,7 @@ async def get_internal_status():
 @rate_limit(1, timedelta(seconds=1))
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/top-blocked', methods=['POST'])
-async def blocked_push_json():
+async def blocked_push_json() -> tuple:
     # Get JSON data from the request
     data = await request.json
     timestamp = datetime.now().timestamp()
@@ -315,7 +317,7 @@ async def blocked_push_json():
 @rate_limit(1, timedelta(seconds=1))
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/top-24-blocked', methods=['POST'])
-async def blocked24_push_json():
+async def blocked24_push_json() -> tuple:
     # Get JSON data from the request
     data = await request.json
     timestamp = datetime.now().timestamp()
@@ -341,7 +343,7 @@ async def blocked24_push_json():
 @rate_limit(1, timedelta(seconds=1))
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/block-stats', methods=['POST'])
-async def stats_push_json():
+async def stats_push_json() -> tuple:
     # Get JSON data from the request
     data = await request.json
     timestamp = datetime.now().timestamp()
@@ -367,7 +369,7 @@ async def stats_push_json():
 @rate_limit(1, timedelta(seconds=1))
 @api_key_required("UIPUSH")
 @app.route('/api/v1/base/reporting/stats-cache/total-users', methods=['POST'])
-async def total_users_push_json():
+async def total_users_push_json() -> tuple:
     # Get JSON data from the request
     data = await request.json
     timestamp = datetime.now().timestamp()
@@ -392,7 +394,7 @@ async def total_users_push_json():
 
 @rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/<path:filename>', methods=['GET'])
-async def serve_file(filename):
+async def serve_file(filename) -> Optional[tuple] or quart.Response:
     try:
         return await send_from_directory(app.static_folder, filename)
     except FileNotFoundError:
@@ -404,7 +406,7 @@ async def serve_file(filename):
 
 @rate_limit(1, timedelta(seconds=1))
 @app.route('/api/v1/serve/lists/stats/status/<name>', methods=['GET'])
-async def serve_ts_file(name):
+async def serve_ts_file(name) -> Optional[tuple] or quart.Response:
     if name == "total_users_data":
         filename = "total_users_data_ts.json"
     elif name == "stats_data.json":
