@@ -86,10 +86,9 @@ export function AccountHeader({
           }
           <Button className='history-toggle' variant='text' onClick={onInfoClick}>
             {
-              !handleHistory?.length ? undefined :
-                <FormatTimestamp
-                  timestamp={handleHistory[handleHistory.length - 1][1]}
-                  noTooltip />
+              handleHistory && handleHistory.length > 0 && handleHistory[handleHistory.length - 1][1]
+                ? <FormatTimestamp timestamp={handleHistory[handleHistory.length - 1][1]} noTooltip />
+                : 'Unknown Date'
             }
             <span className='info-icon'></span>
           </Button>
