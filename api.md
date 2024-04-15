@@ -1,14 +1,14 @@
 # API Documentation
 
 ## Response Errors:
+- **400:** Bad Request
+- **404:** Not Found
 - **500:** Internal Server Error
 - **503:** Service Unavailable
-- **404:** Not Found
-- **400:** Bad Request
 
 ## Pagination:
-
-- **value:** integer
+ `<page:int>`
+- **Value:** Integer 
 - This is a parameter that is used to paginate the results. It is used to specify the page number of the results to be returned. The default value is 1.
 
 ## 1.
