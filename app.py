@@ -259,6 +259,11 @@ async def terms() -> quart.Response:
     return await send_from_directory(app.static_folder, 'terms-and-conditions.html')
 
 
+@app.route('/fediverse', methods=['GET'])
+async def fediverse() -> quart.Response:
+    return await send_from_directory(app.static_folder, 'data-transfer.html')
+
+
 # ======================================================================================================================
 # ============================================= API Endpoints ==========================================================
 @app.route('/api/v1/base/internal/status/process-status', methods=['GET'])
