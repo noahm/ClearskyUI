@@ -10,6 +10,12 @@
     <h1>File Upload</h1>
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv">
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+        <label for="appealsProcess">Appeals Process:</label>
+        <textarea id="appealsProcess" name="appealsProcess"></textarea>
         <button type="button" onclick="uploadFile()">Upload File</button>
     </form>
 
