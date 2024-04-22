@@ -39,10 +39,17 @@
 
         // Function to upload file
         function uploadFile() {
-            const formData = new FormData(document.getElementById('uploadForm'));
+            const formData = new FormData();
             const fileInput = document.querySelector('input[type="file"]');
-            const filename = fileInput.files[0].name;
-            fetch(getAPIDomain() + `receive?filename=${filename}`, {
+            const file = fileInput.files[0];
+            const filename = file.name;
+            formData.append('file', file);
+            formData.append('filename', filename);
+            formData.append('author', document.getElementById('author').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('appealsProcess', document.getElementById('appealsProcess').value);
+
+            fetch(getAPIDomain() + 'receive', {
                 method: 'POST',
                 body: formData
             })
