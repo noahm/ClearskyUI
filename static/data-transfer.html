@@ -118,13 +118,13 @@
     <h1>Fediverse Block List Repo</h1>
         <h2>File Upload</h2>
         <form id="uploadForm" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".csv">
-            <label for="author">Author:</label>
-            <input type="text" id="author" name="author">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description"></textarea>
-            <label for="appealsProcess">Appeals Process:</label>
-            <textarea id="appealsProcess" name="appealsProcess"></textarea>
+            <input type="file" name="file" accept=".csv" style="margin-bottom: 10px;">
+            <label for="author">Author:<span id="authorCharsLeft" style="color: gray; font-size: 0.8em;"></span></label>
+            <input type="text" id="author" name="author" maxlength="100" oninput="updateCharsLeft('author', 100)">
+            <label for="description">Description:<span id="descriptionCharsLeft" style="color: gray; font-size: 0.8em;"></span></label>
+            <textarea id="description" name="description" maxlength="300" oninput="updateCharsLeft('description', 300)"></textarea>
+            <label for="appealsProcess">Appeals Process:<span id="appealsProcessCharsLeft" style="color: gray; font-size: 0.8em;"></span></label>
+            <textarea id="appealsProcess" name="appealsProcess" maxlength="500" oninput="updateCharsLeft('appealsProcess', 500)"></textarea>
             <button type="button" onclick="uploadFile()">Upload File</button>
         </form>
 
@@ -229,6 +229,13 @@
                     const fileListDiv = document.getElementById('fileList');
                     fileListDiv.textContent = error.message;
                 });
+        }
+
+        function updateCharsLeft(inputId, maxLength) {
+            const input = document.getElementById(inputId);
+            const charsLeftSpan = document.getElementById(inputId + 'CharsLeft');
+            const charsLeft = maxLength - input.value.length;
+            charsLeftSpan.textContent = charsLeft + ' characters left';
         }
 
         // Function to set the logo based on current time
