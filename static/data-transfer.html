@@ -112,7 +112,7 @@
 <body>
     <div class="logo-container">
         <a href="index.html">
-            <img src="CleardayLarge.png" alt="ClearSky Logo" style="width: 350px; height: auto;">
+            <img id="logoImage" alt="ClearSky Logo" style="width: 350px; height: auto;">
         </a>
     </div>
     <h1>Fediverse Block List Repo</h1>
@@ -230,6 +230,20 @@
                     fileListDiv.textContent = error.message;
                 });
         }
+
+        // Function to set the logo based on current time
+        function setLogo() {
+            const currentTime = new Date().getHours();
+            const logoImage = document.getElementById('logoImage');
+            if (currentTime >= 6 && currentTime < 18) {
+                logoImage.src = 'CleardayLarge.png'; // Daytime logo
+            } else {
+                logoImage.src = 'ClearnightLarge.png'; // Nighttime logo
+            }
+        }
+
+        // Call setLogo function when the page loads
+        setLogo();
     </script>
 </body>
 </html>
