@@ -264,6 +264,15 @@ async def fediverse() -> quart.Response:
     return await send_from_directory(app.static_folder, 'data-transfer.html')
 
 
+@app.route('/fedi-delete-request', methods=['GET'])
+async def fedi_delete_request():
+    # Generate a new session number and store it in the session
+    if 'session_number' not in session:
+        session['session_number'] = generate_session_number()
+
+    return await send_from_directory(app.static_folder, 'fedi-delete-request.html')
+
+
 # ======================================================================================================================
 # ============================================= API Endpoints ==========================================================
 @app.route('/api/v1/base/internal/status/process-status', methods=['GET'])
