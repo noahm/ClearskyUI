@@ -71,6 +71,15 @@
             transition: background-color 0.3s;
         }
 
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
         button:hover {
             background-color: #0056b3;
         }
@@ -119,6 +128,11 @@
         <h2>File Upload</h2>
         <form id="uploadForm" enctype="multipart/form-data">
             <input type="file" name="file" accept=".csv" style="margin-bottom: 10px;">
+            <label for="listType">Type:</label>
+            <select id="listType" name="listType">
+                <option value="user">User</option>
+                <option value="domain">Domain</option>
+            </select>
             <label for="author">Author:<span id="authorCharsLeft" style="color: gray; font-size: 0.8em;"></span></label>
             <input type="text" id="author" name="author" maxlength="100" oninput="updateCharsLeft('author', 100)">
             <label for="description">Description:<span id="descriptionCharsLeft" style="color: gray; font-size: 0.8em;"></span></label>
@@ -135,7 +149,7 @@
 
     <div id="fileList"></div>
 
-    <div class="copyright">&copy; Bluethernal LLC</div>
+    <div class="copyright">&copy; 2024 Bluethernal LLC</div>
 
     <script>
         // Function to get API domain based on server's domain
@@ -154,11 +168,13 @@
             const fileInput = document.querySelector('input[type="file"]');
             const file = fileInput.files[0];
             const filename = file.name;
+            const listType = document.getElementById('listType').value;
             formData.append('file', file);
             formData.append('filename', filename);
             formData.append('author', document.getElementById('author').value);
             formData.append('description', document.getElementById('description').value);
             formData.append('appealsProcess', document.getElementById('appealsProcess').value);
+            formData.append('listType', listType);
 
             fetch(getAPIDomain() + 'receive', {
                 method: 'POST',
@@ -227,18 +243,37 @@
             if (Object.keys(files).length === 0) {
                 fileListDiv.textContent = 'No files available for download.';
             } else {
-                fileListDiv.textContent = 'Select a file to download:';
-                fileListDiv.style.marginBottom = '15px';
                 fileListDiv.style.textAlign = 'center';
+
+                // Group files by list type
+                const groupedFiles = {};
+
                 for (const filename in files) {
                     const file = files[filename];
-                    const button = createDownloadButton(filename);
-                    const fileDiv = document.createElement('div');
-                    fileDiv.appendChild(button);
-                    const descriptionDiv = document.createElement('div');
-                    descriptionDiv.innerHTML = `<strong>Author:</strong> ${file.Author || 'None'} <strong>Description:</strong> ${file.Description || 'None'} <strong>Appeal:</strong> ${file.Appeal || 'None'}`;
-                    fileDiv.appendChild(descriptionDiv);
-                    fileListDiv.appendChild(fileDiv);
+                    const listType = file['List Type'] || 'None';
+                    if (!groupedFiles[listType]) {
+                        groupedFiles[listType] = [];
+                    }
+                    groupedFiles[listType].push({ filename, file });
+                }
+
+                // Display files for each group
+                for (const listType in groupedFiles) {
+                    const filesForType = groupedFiles[listType];
+                    if (filesForType.length > 0) {
+                        const typeHeading = document.createElement('h3');
+                        typeHeading.textContent = `Files for ${listType}`;
+                        fileListDiv.appendChild(typeHeading);
+                        filesForType.forEach(({ filename, file }) => {
+                            const button = createDownloadButton(filename);
+                            const fileDiv = document.createElement('div');
+                            fileDiv.appendChild(button);
+                            const descriptionDiv = document.createElement('div');
+                            descriptionDiv.innerHTML = `<strong>Author:</strong> ${file.Author || 'None'} <strong>Description:</strong> ${file.Description || 'None'} <strong>Appeal:</strong> ${file.Appeal || 'None'} <strong>Type:</strong> ${file['List Type'] || 'None'}`;
+                            fileDiv.appendChild(descriptionDiv);
+                            fileListDiv.appendChild(fileDiv);
+                        });
+                    }
                 }
             }
         }
