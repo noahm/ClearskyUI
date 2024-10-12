@@ -25,7 +25,7 @@ export function About({ onToggleAbout }) {
           <a href="/privacy-policy.html">Privacy Policy</a> | <a
             href="/terms-and-conditions.html">Terms and Conditions </a>
           | <a href="mailto:support@clearsky.app">Contact Us</a> | <a href="https://ko-fi.com/thieflord">Donate</a> | <a
-            href="#" className="termly-display-preferences">Consent Preferences</a>
+            href="#" className="termly-display-preferences">Consent Preferences</a> | <a href="/cookie-policy.html">Cookie Policy</a>
         </span>
 
           {localise('Version', {uk: 'Версія'})}: {version} <br/>
