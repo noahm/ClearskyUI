@@ -1,6 +1,6 @@
 # Clearsky UI
 
-This program provides information from Bluesky using ATProto via Clearsky backend.
+This UI provides information from Bluesky using ATProto via Clearsky backend.
 
 ## Table of contents
 
@@ -10,7 +10,7 @@ This program provides information from Bluesky using ATProto via Clearsky backen
 
 ## Installation
 
-configure IP address in config.ini
+configure IP address in config.ini (127.0.0.1 for local)
 
 configure port in config.ini (8080 for codespaces)
 
