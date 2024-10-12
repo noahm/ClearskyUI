@@ -22,12 +22,14 @@ export function About({ onToggleAbout }) {
       </span>
       <div className='text'>
         <span className='legalese'>
-          <a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-and-conditions.html">Terms and Conditions </a>
-          | <a href="mailto:support@clearsky.app">Contact Us</a> | <a href="https://ko-fi.com/thieflord">Donate</a>
+          <a href="/privacy-policy.html">Privacy Policy</a> | <a
+            href="/terms-and-conditions.html">Terms and Conditions </a>
+          | <a href="mailto:support@clearsky.app">Contact Us</a> | <a href="https://ko-fi.com/thieflord">Donate</a> | <a
+            href="#" className="termly-display-preferences">Consent Preferences</a>
         </span>
 
-        {localise('Version', { uk: 'Версія' })}: {version} <br />
-        &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
+          {localise('Version', {uk: 'Версія'})}: {version} <br/>
+          &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'
           accountTooltipPanel={true}
