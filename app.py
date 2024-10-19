@@ -2,8 +2,9 @@
 
 import sys
 from typing import Optional
+import httpx
 import quart
-from quart import Quart, request, session, jsonify, send_from_directory, redirect
+from quart import Quart, request, session, jsonify, send_from_directory, redirect, render_template
 from datetime import datetime, timedelta
 import os
 import uuid
@@ -272,6 +273,30 @@ async def fedi_delete_request() -> quart.Response:
         session['session_number'] = generate_session_number()
 
     return await send_from_directory(app.static_folder, 'fedi-delete-request.html')
+
+
+@app.route('/cursor', methods=['GET'])
+async def cursor() -> jsonify:
+    data = None
+
+    try:
+        fetch_api = f"{api_server_endpoint}/api/v1/anon/cursor-recall/status"
+
+        async with httpx.AsyncClient() as client:
+            logger.info(f"Fetching cursor data from {api_server_endpoint} API")
+
+            response = await client.get(fetch_api)
+
+            if response.status_code == 200:
+                data = response.json()
+            else:
+                logger.error(f"Failed to cursor fetch data from {fetch_api}")
+
+                return jsonify({"error": "Failed to fetch data"}), 500
+    except Exception as e:
+        logger.error(f"An error occurred getting cursor data: {e}")
+
+    return await render_template('cursor.html', data=data)
 
 
 # ======================================================================================================================
