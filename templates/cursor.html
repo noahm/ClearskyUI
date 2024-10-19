@@ -99,9 +99,10 @@
             const intervals = data.data; // Access the nested 'data' object
 
             const startTableBody = document.getElementById('start-table-body');
-            const initialTableBody = document.getElementById('initial-table-body');
             const currentTableBody = document.getElementById('current-table-body');
             const otherTableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+            const otherIntervals = [];
 
             for (const interval in intervals) {
                 if (intervals.hasOwnProperty(interval)) {
@@ -137,9 +138,32 @@
                         intervalCursorCell.textContent = intervalData['interval cursor'] !== null ? intervalData['interval cursor'] : 'null';
                         row.appendChild(intervalCursorCell);
 
-                        otherTableBody.appendChild(row);
+                        otherIntervals.push({ interval, row });
                     }
                 }
+            }
+
+            // Sort other intervals by min then by hour
+            otherIntervals.sort((a, b) => {
+                const aParts = a.interval.split('_');
+                const bParts = b.interval.split('_');
+                const aValue = parseInt(aParts[0]);
+                const bValue = parseInt(bParts[0]);
+                const aUnit = aParts[1];
+                const bUnit = bParts[1];
+
+                if (aUnit === bUnit) {
+                    return aValue - bValue;
+                } else if (aUnit === 'min') {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+
+            // Append sorted intervals to the table
+            for (const item of otherIntervals) {
+                otherTableBody.appendChild(item.row);
             }
         }
 
