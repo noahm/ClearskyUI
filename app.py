@@ -201,11 +201,6 @@ def redirect_to_clearsky() -> quart.redirect:
         redirect_url = request.url.replace('bsky.thieflord.dev', 'clearsky.app', 1)
 
         return redirect(redirect_url, code=301)
-    elif request.host == 'firehose.ui.staging.clearsky.app':
-        logger.debug("Redirecting to clearsky.app")
-        redirect_url = request.url.replace('firehose.ui.staging.clearsky.app', 'ui.staging.clearsky.app/cursor', 1)
-
-        return redirect(redirect_url, code=301)
 
 
 # ======================================================================================================================
