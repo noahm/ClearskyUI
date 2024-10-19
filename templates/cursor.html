@@ -107,23 +107,23 @@
                     const row = document.createElement('tr');
 
                     if (interval === 'start') {
-                        const commitTimeCell = document.createElement('td');
-                        commitTimeCell.textContent = intervalData['commit time'];
-                        row.appendChild(commitTimeCell);
-
                         const startCursorCell = document.createElement('td');
                         startCursorCell.textContent = intervalData['start cursor'] !== null ? intervalData['start cursor'] : 'null';
                         row.appendChild(startCursorCell);
 
-                        startTableBody.appendChild(row);
-                    } else if (interval === 'current') {
                         const commitTimeCell = document.createElement('td');
                         commitTimeCell.textContent = intervalData['commit time'];
                         row.appendChild(commitTimeCell);
 
+                        startTableBody.appendChild(row);
+                    } else if (interval === 'current') {
                         const currentCursorCell = document.createElement('td');
                         currentCursorCell.textContent = intervalData['current cursor'] !== null ? intervalData['current cursor'] : 'null';
                         row.appendChild(currentCursorCell);
+
+                        const commitTimeCell = document.createElement('td');
+                        commitTimeCell.textContent = intervalData['commit time'];
+                        row.appendChild(commitTimeCell);
 
                         currentTableBody.appendChild(row);
                     } else if (interval !== 'initial') {
