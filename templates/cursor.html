@@ -128,7 +128,7 @@
                         currentTableBody.appendChild(row);
                     } else if (interval !== 'initial') {
                         const intervalCell = document.createElement('td');
-                        intervalCell.textContent = interval;
+                        intervalCell.textContent = interval.replace('_', ' ');
                         row.appendChild(intervalCell);
 
                         const intervalCursorCell = document.createElement('td');
