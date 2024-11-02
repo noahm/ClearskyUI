@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .logo {
+            width: 250px;
+            height: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        .section h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <a href="index.html">
+        <img src="{{ url_for('static', filename='CleardayLarge.png') }}" alt="Clearsky Logo" class="logo">
+        </a>
+    </div>
+    <div class="container">
+        <div class="section" id="time-behind-section">
+            <h2>Clearysky data status</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="time-behind-table-body">
+                    <!-- Data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const jsonData = {{ data|tojson }};
+
+        function displayData(data) {
+            const timeBehindTableBody = document.getElementById('time-behind-table-body');
+            const row = document.createElement('tr');
+            const timeBehindCell = document.createElement('td');
+            const timeBehindValue = data.data['time behind'];
+
+            if (timeBehindValue === 'in sync' || timeBehindValue === 'unknown') {
+                timeBehindCell.textContent = timeBehindValue;
+            } else {
+                timeBehindCell.textContent = `time behind: ${timeBehindValue}`;
+            }
+
+            row.appendChild(timeBehindCell);
+            timeBehindTableBody.appendChild(row);
+        }
+
+        displayData(jsonData);
+    </script>
+</body>
+</html>

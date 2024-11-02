@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .logo {
+            width: 250px;
+            height: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        .section h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <a href="index.html">
+        <img src="{{ url_for('static', filename='CleardayLarge.png') }}" alt="Clearsky Logo" class="logo">
+        </a>
+    </div>
+    <div class="container">
+        <div class="section" id="current-section">
+            <h2>Current Cursor</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Current Cursor</th>
+                        <th>Commit Time</th>
+                    </tr>
+                </thead>
+                <tbody id="current-table-body">
+                    <!-- Data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="section" id="start-section">
+            <h2>Start Cursor</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Start Cursor</th>
+                        <th>Commit Time</th>
+                    </tr>
+                </thead>
+                <tbody id="start-table-body">
+                    <!-- Data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="section" id="other-intervals-section">
+            <h2>Intervals</h2>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>Interval</th>
+                        <th>Cursor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const jsonData = {{ data|tojson }};
+
+        function displayData(data) {
+            const intervals = data.data; // Access the nested 'data' object
+
+            const startTableBody = document.getElementById('start-table-body');
+            const currentTableBody = document.getElementById('current-table-body');
+            const otherTableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+            const otherIntervals = [];
+
+            for (const interval in intervals) {
+                if (intervals.hasOwnProperty(interval)) {
+                    const intervalData = intervals[interval];
+                    const row = document.createElement('tr');
+
+                    if (interval === 'start') {
+                        const startCursorCell = document.createElement('td');
+                        startCursorCell.textContent = intervalData['start cursor'] !== null ? intervalData['start cursor'] : 'null';
+                        row.appendChild(startCursorCell);
+
+                        const commitTimeCell = document.createElement('td');
+                        commitTimeCell.textContent = intervalData['commit time'];
+                        row.appendChild(commitTimeCell);
+
+                        startTableBody.appendChild(row);
+                    } else if (interval === 'current') {
+                        const currentCursorCell = document.createElement('td');
+                        currentCursorCell.textContent = intervalData['current cursor'] !== null ? intervalData['current cursor'] : 'null';
+                        row.appendChild(currentCursorCell);
+
+                        const commitTimeCell = document.createElement('td');
+                        commitTimeCell.textContent = intervalData['commit time'];
+                        row.appendChild(commitTimeCell);
+
+                        currentTableBody.appendChild(row);
+                    } else if (interval !== 'initial') {
+                        const intervalCell = document.createElement('td');
+                        intervalCell.textContent = interval.replace('_', ' ');
+                        row.appendChild(intervalCell);
+
+                        const intervalCursorCell = document.createElement('td');
+                        intervalCursorCell.textContent = intervalData['interval cursor'] !== null ? intervalData['interval cursor'] : 'null';
+                        row.appendChild(intervalCursorCell);
+
+                        otherIntervals.push({ interval, row });
+                    }
+                }
+            }
+
+            // Sort other intervals by min then by hour
+            otherIntervals.sort((a, b) => {
+                const aParts = a.interval.split('_');
+                const bParts = b.interval.split('_');
+                const aValue = parseInt(aParts[0]);
+                const bValue = parseInt(bParts[0]);
+                const aUnit = aParts[1];
+                const bUnit = bParts[1];
+
+                if (aUnit === bUnit) {
+                    return aValue - bValue;
+                } else if (aUnit === 'min') {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+
+            // Append sorted intervals to the table
+            for (const item of otherIntervals) {
+                otherTableBody.appendChild(item.row);
+            }
+        }
+
+        displayData(jsonData);
+    </script>
+</body>
+</html>
