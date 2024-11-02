@@ -83,6 +83,14 @@
         }
 
         displayData(jsonData);
+
+        // Function to refresh the page
+        function refreshPage() {
+            window.location.reload();
+        }
+
+        // Set interval to refresh the page every 5 seconds (5000 milliseconds)
+        setInterval(refreshPage, 5000);
     </script>
 </body>
 </html>
