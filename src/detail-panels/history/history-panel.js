@@ -1,6 +1,3 @@
-// @ts-check
-/// <reference path="../../types.d.ts" />
-
 import React, { Component } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { isPromise, postHistory, unwrapShortHandle } from '../../api';
@@ -8,25 +5,15 @@ import { localise } from '../../localisation';
 import { HistoryLoading } from './history-loading';
 import { HistoryScrollableList } from './history-scrollable-list';
 import { SearchHeaderDebounced } from './search-header';
-
-import './history-panel.css';
 import { AccountShortEntry } from '../../common-components/account-short-entry';
-import { Button, Link } from '@mui/material';
+import { Button, Link, Tooltip, IconButton } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import './history-panel.css';
 
-/**
- * @extends {Component<
- *  { account: AccountInfo },
- *  { error: Error | null, loaded?: number }>}
- */
 export class HistoryPanel extends Component {
-
-  /**
-   * @type {ReturnType<typeof postHistory> & { shortHandle?: string, shortDID?: string } | Awaited<ReturnType<typeof postHistory>> | undefined}
-   */
-  accountPostHistory
+  accountPostHistory;
 
   render() {
-
     if (this.accountPostHistory) {
       if (!this.isRelevant(this.accountPostHistory))
         this.accountPostHistory = undefined;
@@ -44,12 +31,12 @@ export class HistoryPanel extends Component {
           if (!this.isRelevant(postHistory)) return;
 
           this.accountPostHistory = postHistory;
-          this.setState({ error: null, loaded: Date.now() })
+          this.setState({ error: null, loaded: Date.now() });
 
           await this.accountPostHistory?.fetchMore();
           if (!this.isRelevant(postHistory)) return;
 
-          this.setState({ error: null, loaded: Date.now() })
+          this.setState({ error: null, loaded: Date.now() });
         } catch (err) {
           this.setState({ error: err, loaded: Date.now() });
         }
@@ -84,6 +71,11 @@ export class HistoryPanel extends Component {
                               uk: 'просить приховати свої повідомлення від неавтентифікованих користувачів'
                             })
                         }
+                        <Tooltip title="To enable this for your profile you can do it in the bsky app via: Settings > Moderation > Logged-out visibility">
+                          <IconButton>
+                            <InfoIcon />
+                          </IconButton>
+                        </Tooltip>
                       </div>
                       <Button
                         variant='outlined'
@@ -134,7 +126,6 @@ export class HistoryPanel extends Component {
       account.shortHandle === this.props.account.shortHandle
     );
   }
-
 }
 
 function SearchParamsHelper({ children }) {
