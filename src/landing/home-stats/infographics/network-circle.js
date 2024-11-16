@@ -19,8 +19,8 @@ import { localise } from '../../../localisation';
  * }} _
  */
 export function NetworkCircle({
-  activeAccounts = 15000000,
-  deletedAccounts = 900000,
+  activeAccounts = 17000000,
+  deletedAccounts = 990000,
   percentNumberBlocked1 = 48.40,
   percentNumberBlocking1 = 42.53,
   loading }) {
