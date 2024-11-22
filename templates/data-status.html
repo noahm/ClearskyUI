@@ -64,10 +64,26 @@
     </div>
 
     <script>
-        const jsonData = {{ data|tojson }};
+        const apiServerEndpoint = "{{ api_server_endpoint }}";
+
+        async function fetchData() {
+            try {
+                const response = await fetch(`${apiServerEndpoint}/api/v1/anon/status/time-behind`);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    displayData(data);
+                } else {
+                    console.error('Failed to fetch data');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
 
         function displayData(data) {
             const timeBehindTableBody = document.getElementById('time-behind-table-body');
+            timeBehindTableBody.innerHTML = ''; // Clear previous data
             const row = document.createElement('tr');
             const timeBehindCell = document.createElement('td');
             const timeBehindValue = data.data['time behind'];
@@ -82,15 +98,8 @@
             timeBehindTableBody.appendChild(row);
         }
 
-        displayData(jsonData);
-
-        // Function to refresh the page
-        function refreshPage() {
-            window.location.reload();
-        }
-
-        // Set interval to refresh the page every 5 seconds (5000 milliseconds)
-        setInterval(refreshPage, 5000);
+        fetchData(); // Initial call
+        setInterval(fetchData, 10000); // Refresh data every 10 seconds
     </script>
 </body>
 </html>

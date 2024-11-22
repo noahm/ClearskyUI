@@ -301,26 +301,7 @@ async def cursor() -> jsonify:
 
 @app.route('/data-status', methods=['GET'])
 async def data_status() -> jsonify:
-    data = None
-
-    try:
-        fetch_api = f"{api_server_endpoint}/api/v1/anon/status/time-behind"
-
-        async with httpx.AsyncClient() as client:
-            logger.info(f"Fetching data status from {api_server_endpoint} API")
-
-            response = await client.get(fetch_api)
-
-            if response.status_code == 200:
-                data = response.json()
-            else:
-                logger.error(f"Failed to fetch data status from {fetch_api}")
-
-                return jsonify({"error": "Failed to fetch data"}), 500
-    except Exception as e:
-        logger.error(f"An error occurred getting data status: {e}")
-
-    return await render_template('data-status.html', data=data)
+    return await render_template('data-status.html', api_server_endpoint=api_server_endpoint)
 
 
 # ======================================================================================================================
@@ -507,5 +488,4 @@ async def main():
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    asyncio.run(main())
