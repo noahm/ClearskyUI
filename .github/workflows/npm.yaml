@@ -1,3 +1,5 @@
+name: Javascript checks
+
 on:
   push:
     branches: [ main, dev ]
@@ -6,7 +8,7 @@ on:
 
 jobs:
   build_and_test:
-    name: NPM
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
