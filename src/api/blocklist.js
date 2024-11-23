@@ -4,38 +4,41 @@ import { unwrapShortHandle, v1APIPrefix, xAPIKey } from '.';
 import { parseNumberWithCommas, unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 
-const blocklistFetchQueued = new Set();
+const blocklistFetchQueued = new Map();
 let blocklistDebounce = 0;
 
 /**
  * @param {string} handleOrDID
  */
 export function blocklist(handleOrDID) {
-  if (blocklistFetchQueued.has(handleOrDID)) return;
+  if (blocklistFetchQueued.has(handleOrDID)) return blocklistFetchQueued.get(handleOrDID);
 
-  blocklistFetchQueued.add(handleOrDID)
-  clearTimeout(singleBlocklistDebounce);
+  let generator = blocklistCall(handleOrDID, 'blocklist')
+  blocklistFetchQueued.set(handleOrDID, generator)
 
-  singleBlocklistDebounce = setTimeout(() => blocklistFetchQueued.remove(handleOrDID), 1000);
+  clearTimeout(blocklistDebounce);
+  blocklistDebounce = setTimeout(() => blocklistFetchQueued.delete(handleOrDID), 1000);
 
-  return blocklistCall(handleOrDID, 'blocklist');
+  return generator
 }
 
-const singleBlocklistFetchQueued = new Set();
+const singleBlocklistFetchQueued = new Map();
 let singleBlocklistDebounce = 0;
 
 /**
  * @param {string} handleOrDID
  */
 export function singleBlocklist(handleOrDID) {
-  if (singleBlocklistFetchQueued.has(handleOrDID)) return;
+  if (singleBlocklistFetchQueued.has(handleOrDID)) return singleBlocklistFetchQueued.get(handleOrDID);
 
-  singleBlocklistFetchQueued.add(handleOrDID)
+  let generator = blocklistCall(handleOrDID, 'single-blocklist');
+
+  singleBlocklistFetchQueued.set(handleOrDID, generator)
+
   clearTimeout(singleBlocklistDebounce);
+  singleBlocklistDebounce = setTimeout(() => singleBlocklistFetchQueued.delete(handleOrDID), 1000);
 
-  singleBlocklistDebounce = setTimeout(() => singleBlocklistFetchQueued.remove(handleOrDID), 1000);
-
-  return blocklistCall(handleOrDID, 'single-blocklist');
+  return generator
 }
 
 /**
