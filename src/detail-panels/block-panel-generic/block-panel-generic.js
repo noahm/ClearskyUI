@@ -128,6 +128,7 @@ class PanelHeader extends React.Component {
 /** @param {typeof singleBlocklist} fetch */
 async function* fetchAccountBlocking(shortHandle, fetch) {
   try {
+    console.log('fetching account blocking');
     for await (const block of fetch(unwrapShortHandle(shortHandle))) {
       yield block;
     }

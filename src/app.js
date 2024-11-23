@@ -91,7 +91,6 @@ function showApp() {
 
   console.log('React createRoot/render');
   ReactDOM.createRoot(root).render(
-    <React.StrictMode>
       <ThemeProvider theme={theme}>
         <>
           <RouterProvider router={router} />
@@ -100,7 +99,6 @@ function showApp() {
           </div>
         </>
       </ThemeProvider>
-    </React.StrictMode>
   );
 }
 
