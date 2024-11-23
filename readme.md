@@ -23,4 +23,4 @@ Navigate to IP and port in browser (ex. 127.0.0.1:8080)
 
 `npm test` to type check
 
-`npm run` to start a local server with a changer watcher
+`npm start` to start a local server with a changer watcher
