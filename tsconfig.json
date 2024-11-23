@@ -6,7 +6,8 @@
         "moduleResolution": "nodenext",
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "skipLibCheck": true
     },
     "files": [
         "src/app.js",

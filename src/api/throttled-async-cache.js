@@ -4,7 +4,7 @@ import { isPromise } from '.';
 
 /**
  * @template TFunction
- * @param {TFunction as Function} call
+ * @param {Function} call
  * @param {{ maxConcurrency?: number, interval?: number }} _
  * @returns TFunction & { prepopulate: (value: any, ...args: any[]) => void, evict: (...args: any[]) => void }
  */

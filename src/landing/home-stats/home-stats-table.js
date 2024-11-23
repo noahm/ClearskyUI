@@ -46,6 +46,7 @@ export function HomeStatsTable({
             defaultColDef={{
               sortable: false
             }}
+            // @ts-ignore
             columnDefs={columns}
             getRowClass={params => 
               !params?.data?.title ? undefined :
