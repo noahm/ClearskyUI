@@ -4,34 +4,42 @@ import { unwrapShortHandle, v1APIPrefix, xAPIKey } from '.';
 import { parseNumberWithCommas, unwrapClearSkyURL } from './core';
 import { resolveHandleOrDID } from './resolve-handle-or-did';
 
+const blocklistFetchQueued = new Map();
+let blocklistDebounce = 0;
+
 /**
  * @param {string} handleOrDID
  */
 export function blocklist(handleOrDID) {
-  if (!otherSideFetchQueued.has(handleOrDID)) {
-    otherSideFetchQueued.add(handleOrDID)
-    clearTimeout(debounceOtherSideFetch);
-    debounceOtherSideFetch = setTimeout(() => singleBlocklist(handleOrDID).next(), 600);
-  }
+  if (blocklistFetchQueued.has(handleOrDID)) return blocklistFetchQueued.get(handleOrDID);
 
-  return blocklistCall(handleOrDID, 'blocklist');
+  let generator = blocklistCall(handleOrDID, 'blocklist');
+  blocklistFetchQueued.set(handleOrDID, generator);
+
+  clearTimeout(blocklistDebounce);
+  blocklistDebounce = setTimeout(() => blocklistFetchQueued.delete(handleOrDID), 1000);
+
+  return generator;
 }
+
+const singleBlocklistFetchQueued = new Map();
+let singleBlocklistDebounce = 0;
 
 /**
  * @param {string} handleOrDID
  */
 export function singleBlocklist(handleOrDID) {
-  if (!otherSideFetchQueued.has(handleOrDID)) {
-    otherSideFetchQueued.add(handleOrDID)
-    clearTimeout(debounceOtherSideFetch);
-    debounceOtherSideFetch = setTimeout(() => blocklist(handleOrDID).next(), 600);
-  }
+  if (singleBlocklistFetchQueued.has(handleOrDID)) return singleBlocklistFetchQueued.get(handleOrDID);
 
-  return blocklistCall(handleOrDID, 'single-blocklist');
+  let generator = blocklistCall(handleOrDID, 'single-blocklist');
+
+  singleBlocklistFetchQueued.set(handleOrDID, generator);
+
+  clearTimeout(singleBlocklistDebounce);
+  singleBlocklistDebounce = setTimeout(() => singleBlocklistFetchQueued.delete(handleOrDID), 1000);
+
+  return generator;
 }
-
-const otherSideFetchQueued = new Set();
-let debounceOtherSideFetch = 0;
 
 /**
  * @typedef {{
