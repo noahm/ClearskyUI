@@ -66,14 +66,13 @@ export async function blocklistCall(handleOrDID, api, currentPage = 1) {
     { headers: { 'X-API-Key': xAPIKey } }
   ).then((x) => x.json());
 
-  let pages = parseNumberWithCommas(pageResponse.data.pages) || 1;
   let count = parseNumberWithCommas(pageResponse.data.count) || 0;
 
   const chunk = pageResponse.data.blocklist;
 
   return {
     count,
-    nextPage: pages === currentPage ? null : currentPage + 1,
+    nextPage: chunk.length >= 100 ? currentPage + 1 : null,
     blocklist: chunk,
   };
 }

@@ -10,6 +10,6 @@ export function BlockingPanel({ account }) {
       className='blocking-panel'
       useBlocklistQuery={useBlocklist}
       account={account}
-      header={({ count }) => <>{localise('Blocking', { uk: 'Блокує' })} <span>{count.toLocaleString()}:</span></>} />
+      header={({ count }) => <>{localise('Blocking', { uk: 'Блокує' })}</>} />
   );
 }
