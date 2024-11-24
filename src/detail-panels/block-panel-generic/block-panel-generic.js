@@ -45,7 +45,7 @@ export function BlockPanelGeneric({
 
   const blocklist = blocklistPages?.flatMap((page) => {
     return page.blocklist;
-  });
+  }) || [];
   const count = blocklistPages?.[0]?.count;
 
   // const [searchParams, setSearchParams] = useSearchParams();
