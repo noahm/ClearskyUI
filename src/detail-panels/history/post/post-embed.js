@@ -24,9 +24,13 @@ export function PostEmbed({ post, embed, disableEmbedQT, level }) {
   if (typeof disableEmbedQT === 'function' && disableEmbedQT(level || 0, post)) return null;
 
   switch (embed.$type) {
+    // @ts-ignore
     case 'app.bsky.embed.record': return <PostEmbedRecord post={post} embed={embed} disableEmbedQT={disableEmbedQT} level={(level || 0) + 1} />;
+    // @ts-ignore
     case 'app.bsky.embed.images': return <PostEmbedImages post={post} embed={embed} />;
+    // @ts-ignore
     case 'app.bsky.embed.recordWithMedia': return <PostEmbedRecordWithMedia post={post} embed={embed} />;
+    // @ts-ignore
     case 'app.bsky.embed.external': return <PostEmbedExternal post={post} embed={embed} />;
     default: return (
       <pre style={{ font: 'inherit', border: 'solid 1px silver', borderRadius: '1em' }}>
@@ -97,6 +101,7 @@ function ImageWithAlt({ className, Component = 'span', imageClassName, altClassN
   const [expanded, setExpanded] = useState(/** @type {boolean | undefined} */(undefined));
 
   return (
+    // @ts-ignore
     <Component {...rest} className={className}>
       <img src={src} className={imageClassName} />
       {

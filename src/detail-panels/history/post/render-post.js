@@ -55,6 +55,7 @@ export function RenderPost({ post, className, disableEmbedQT, level, textHighlig
                 className='post-timestamp'
                 timestamp={post.createdAt}
                 Component='a'
+                // @ts-ignore
                 href={createPostHref(
                   isPromise(accountOrPromise) ? postUri?.shortDID : accountOrPromise?.shortHandle,
                   postUri?.postID)}

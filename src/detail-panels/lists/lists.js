@@ -38,8 +38,9 @@ export function Lists({ account }) {
   const search = (searchParams.get('q') || '').trim();
 
   const [showSearch, setShowSearch] = useState(!!search);
-
+  // @ts-ignore: Property lists does not exist
   const filteredLists = !search || !list?.lists ? list?.lists :
+    // @ts-ignore: Property lists does not exist
     matchSearch(list?.lists, search, () => setTick(tick + 1));
   
   return (
@@ -55,12 +56,15 @@ export function Lists({ account }) {
       <h3 className='lists-header'>
         {
           list?.loading ? localise('Member of lists:', { uk: 'Входить до списків:' }) :
+          // @ts-ignore: Property lists does not exist
           list?.lists?.length ? 
               <>
                 {
                   localise(
+                    // @ts-ignore: Property lists does not exist
                     'Member of ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('list', list.lists.length) + ':',
                     {
+                      // @ts-ignore: Property lists does not exist
                       uk: 'Входить до ' + list.lists.length.toLocaleString() + ' ' + localiseNumberSuffix('списку', list.lists.length) + ':'
                     })
                 }

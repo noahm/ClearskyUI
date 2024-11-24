@@ -1,5 +1,6 @@
 // @ts-check
 
+// @ts-ignore error about this import's format, may be due to tsconfig settings
 import Fuse from 'fuse.js';
 import { breakFeedUri } from '../../../api';
 
