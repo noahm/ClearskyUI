@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { TableChart, TableRows } from '@mui/icons-material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -16,6 +16,7 @@ import {
 import { SearchHeaderDebounced } from '../history/search-header';
 import { ListView } from './list-view';
 import { TableView } from './table-view';
+import { VisibleWithDelay } from '../../common-components/visible';
 
 import './block-panel-generic.css';
 import { localise } from '../../localisation';
@@ -35,9 +36,8 @@ export function BlockPanelGeneric({
   account,
   header,
 }) {
-  const { data, fetchNextPage, hasNextPage, isLoading } = useBlocklistQuery(
-    unwrapShortHandle(account.shortHandle)
-  );
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
+    useBlocklistQuery(unwrapShortHandle(account.shortHandle));
 
   const blocklistPages = data?.pages;
 
@@ -84,12 +84,28 @@ export function BlockPanelGeneric({
         tableView={tableView}
       />
       {isLoading ? (
-        <p style={{ padding: '0.5em', opacity: '0.5' }}>Loading...</p>
+        <p style={{ padding: '0.5em', opacity: '0.5' }}>
+          <CircularProgress size="1em" /> Loading...
+        </p>
       ) : tableView ? (
         <TableView account={account} blocklist={blocklist} />
       ) : (
         <ListView account={account} blocklist={blocklist} />
       )}
+      {hasNextPage ? (
+        <VisibleWithDelay
+          // needs to be delayed because the list view initially
+          // renders only a few items and updates until it fills
+          // the view. without the delay this immediately fetches
+          // the second page after the first arrives
+          delayMs={300}
+          onVisible={() => !isFetching && fetchNextPage()}
+        >
+          <p style={{ padding: '0.5em', opacity: '0.5' }}>
+            <CircularProgress size="1em" /> Loading more...
+          </p>
+        </VisibleWithDelay>
+      ) : null}
     </div>
   );
 }
@@ -109,21 +125,36 @@ class PanelHeader extends React.Component {
     const { blocklist, header } = this.props;
 
     return (
-      <h3 className={'blocking-panel-header' + (typeof this.props.count === 'number' ? '' : ' blocking-panel-header-loading')}>
-        {typeof header === 'function' ?
-          header({ count, blocklist }) :
-          header
+      <h3
+        className={
+          'blocking-panel-header' +
+          (typeof this.props.count === 'number'
+            ? ''
+            : ' blocking-panel-header-loading')
         }
+      >
+        {typeof header === 'function' ? header({ count, blocklist }) : header}
 
-        <span className='panel-toggles'>
-          {
-            this.props.showSearch ? undefined :
-              <Button size='small' className='panel-show-search' onClick={this.props.setShowSearch}><SearchIcon /></Button>
-          }
+        <span className="panel-toggles">
+          {this.props.showSearch ? undefined : (
+            <Button
+              size="small"
+              className="panel-show-search"
+              onClick={this.props.setShowSearch}
+            >
+              <SearchIcon />
+            </Button>
+          )}
           <Button
-            title={localise('Toggle table view', {uk: 'Перемкнути вигляд таблиці/списку'})}
-            variant='contained' size='small' className='panel-toggle-table' onClick={this.props.onToggleView}>
-            {this.props.tableView ?  <TableRows /> : <TableChart />}
+            title={localise('Toggle table view', {
+              uk: 'Перемкнути вигляд таблиці/списку',
+            })}
+            variant="contained"
+            size="small"
+            className="panel-toggle-table"
+            onClick={this.props.onToggleView}
+          >
+            {this.props.tableView ? <TableRows /> : <TableChart />}
           </Button>
         </span>
       </h3>
@@ -133,7 +164,11 @@ class PanelHeader extends React.Component {
   forceUpdate = () => {
     let count = Math.max(0, (this.state?.count || 0) + this.direction);
     this.setState({ count });
-    if (count === 0 || (count < 30 && this.direction < 0 && Math.random() > 0.9)) this.direction = +1;
+    if (
+      count === 0 ||
+      (count < 30 && this.direction < 0 && Math.random() > 0.9)
+    )
+      this.direction = +1;
     else if (count > 600 && this.direction > 0 && Math.random() > 0.99)
       this.direction = -1;
   };
@@ -146,7 +181,7 @@ class PanelHeader extends React.Component {
  */
 function matchSearch(blocklist, search, redraw) {
   const searchLowercase = search.toLowerCase();
-  const filtered = blocklist.filter(entry => {
+  const filtered = blocklist.filter((entry) => {
     if (entry.handle.toLowerCase().includes(searchLowercase)) return true;
 
     const accountOrPromise = resolveHandleOrDID(entry.handle);
@@ -155,7 +190,12 @@ function matchSearch(blocklist, search, redraw) {
       return false;
     }
 
-    if ((accountOrPromise.displayName || '').toLowerCase().includes(searchLowercase)) return true;
+    if (
+      (accountOrPromise.displayName || '')
+        .toLowerCase()
+        .includes(searchLowercase)
+    )
+      return true;
   });
   return filtered;
 }
