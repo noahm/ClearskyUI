@@ -7,6 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
@@ -89,16 +90,18 @@ function showApp() {
     },
   });
 
+  const queryClient = new QueryClient();
+
   console.log('React createRoot/render');
   ReactDOM.createRoot(root).render(
       <React.StrictMode>
         <ThemeProvider theme={theme}>
-          <>
+          <QueryClientProvider client={queryClient}>
             <RouterProvider router={router}/>
             <div className='bluethernal-llc-watermark'>
               © 2024 Bluethernal LLC
             </div>
-          </>
+          </QueryClientProvider>
         </ThemeProvider>
       </React.StrictMode>
 

@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "lib": ["DOM", "ES2020"],
         "target": "es2018",
         "jsx": "react-jsx",
         "module": "NodeNext",
