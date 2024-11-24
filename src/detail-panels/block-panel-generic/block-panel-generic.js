@@ -48,11 +48,11 @@ export function BlockPanelGeneric({
   });
   const count = blocklistPages?.[0]?.count;
 
-  // const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   // const [tick, setTick] = useState(0);
-  // const search = (searchParams.get("q") || "").trim();
+  const search = (searchParams.get('q') || '').trim();
 
-  // const [showSearch, setShowSearch] = useState(!!search);
+  const [showSearch, setShowSearch] = useState(!!search);
 
   // const filteredBlocklist =
   //   !search || !blocklist
@@ -68,16 +68,16 @@ export function BlockPanelGeneric({
         minHeight: '100%',
       }}
     >
-      {/* <SearchHeaderDebounced
+      <SearchHeaderDebounced
         style={showSearch ? undefined : { display: 'none' }}
-        label={' ' + localise('Search', {uk: 'Пошук'})}
-        setQ /> */}
+        label={' ' + localise('Search', { uk: 'Пошук' })}
+        setQ
+      />
       <PanelHeader
         count={count}
         blocklist={blocklist}
         header={header}
-        // this actually hides the search icon?
-        showSearch={true}
+        showSearch={showSearch}
         // setShowSearch={setShowSearch}
         // onShowSearch={() => setShowSearch(true)}
         onToggleView={() => setTableView(!tableView)}
