@@ -25,7 +25,7 @@
 }
 
 .account-short-entry .account-short-entry-avatar-image {
-  animation: 20s ease-in 1s infinite reverse both running wait-and-flip;
+  animation: 20s ease-in 1s reverse both running wait-and-flip;
 }
 
 @keyframes wait-and-flip {
