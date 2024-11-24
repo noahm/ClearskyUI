@@ -5,7 +5,7 @@ export { dashboardStats } from './dashboard-stats';
 export { postHistory } from './post-history';
 export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';
-export { singleBlocklist, blocklist } from './blocklist';
+export { useSingleBlocklist, useBlocklist } from './blocklist';
 
 export const xAPIKey = '';
 

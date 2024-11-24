@@ -7,8 +7,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
-import { isPromise, resolveHandleOrDID, singleBlocklist, unwrapShortHandle } from '../../api';
-import { forAwait } from '../../common-components/for-await';
+import {
+  isPromise,
+  resolveHandleOrDID,
+  useSingleBlocklist,
+  unwrapShortHandle,
+} from '../../api';
 import { SearchHeaderDebounced } from '../history/search-header';
 import { ListView } from './list-view';
 import { TableView } from './table-view';
@@ -20,64 +24,72 @@ import { localise } from '../../localisation';
  * @this {never}
  * @param {{
  *  className?: string,
- *  fetch: typeof singleBlocklist,
+ *  useBlocklistQuery: typeof useSingleBlocklist,
  *  account: AccountInfo | { shortHandle: String, loading: true },
  *  header?: React.ReactNode | ((args: { count, blocklist: any[] }) => React.ReactNode)
  * }} _
  */
 export function BlockPanelGeneric({
   className,
-  fetch,
+  useBlocklistQuery,
   account,
-  header
+  header,
 }) {
-  const { count, blocklist, nextPage } =
-    forAwait(account?.shortHandle, (shortHandle) => fetchAccountBlocking(shortHandle, fetch)) ||
-    { loading: true };
+  const { data, fetchNextPage, hasNextPage, isLoading } = useBlocklistQuery(
+    unwrapShortHandle(account.shortHandle)
+  );
+
+  const blocklistPages = data?.pages;
 
   const [tableView, setTableView] = React.useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [tick, setTick] = useState(0);
-  const search = (searchParams.get('q') || '').trim();
+  const blocklist = blocklistPages?.flatMap((page) => {
+    return page.blocklist;
+  });
+  const count = blocklistPages?.[0]?.count;
 
-  const [showSearch, setShowSearch] = useState(!!search);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const [tick, setTick] = useState(0);
+  // const search = (searchParams.get("q") || "").trim();
 
-  const filteredBlocklist = !search || !blocklist ? blocklist || [] :
-    matchSearch(blocklist, search, () => setTick(tick + 1));
+  // const [showSearch, setShowSearch] = useState(!!search);
 
+  // const filteredBlocklist =
+  //   !search || !blocklist
+  //     ? blocklist || []
+  //     : matchSearch(blocklist, search, () => setTick(tick + 1));
 
   return (
-    <div className={'block-panel-generic ' + (className || '')} style={{
-      backgroundColor: '#fefafa',
-      backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
-      minHeight: '100%'
-    }}>
-      <SearchHeaderDebounced
+    <div
+      className={'block-panel-generic ' + (className || '')}
+      style={{
+        backgroundColor: '#fefafa',
+        backgroundImage: 'linear-gradient(to bottom, white, transparent 2em)',
+        minHeight: '100%',
+      }}
+    >
+      {/* <SearchHeaderDebounced
         style={showSearch ? undefined : { display: 'none' }}
         label={' ' + localise('Search', {uk: 'Пошук'})}
-        setQ />
+        setQ /> */}
       <PanelHeader
         count={count}
         blocklist={blocklist}
         header={header}
-        showSearch={showSearch}
-        setShowSearch={setShowSearch}
-        onShowSearch={() => setShowSearch(true)}
+        // this actually hides the search icon?
+        showSearch={true}
+        // setShowSearch={setShowSearch}
+        // onShowSearch={() => setShowSearch(true)}
         onToggleView={() => setTableView(!tableView)}
-        tableView={tableView} 
-        />
-      {
-        nextPage && !blocklist?.length ?
-          <p style={{ padding: '0.5em', opacity: '0.5' }}>Loading...</p> :
-          tableView ?
-            <TableView
-              account={account}
-              blocklist={filteredBlocklist} /> :
-            <ListView
-              account={account}
-              blocklist={filteredBlocklist} />
-      }
+        tableView={tableView}
+      />
+      {isLoading ? (
+        <p style={{ padding: '0.5em', opacity: '0.5' }}>Loading...</p>
+      ) : tableView ? (
+        <TableView account={account} blocklist={blocklist} />
+      ) : (
+        <ListView account={account} blocklist={blocklist} />
+      )}
     </div>
   );
 }
@@ -125,18 +137,6 @@ class PanelHeader extends React.Component {
     else if (count > 600 && this.direction > 0 && Math.random() > 0.99)
       this.direction = -1;
   };
-}
-
-/** @param {typeof singleBlocklist} fetch */
-async function* fetchAccountBlocking(shortHandle, fetch) {
-  try {
-    console.log('fetching account blocking');
-    for await (const block of fetch(unwrapShortHandle(shortHandle))) {
-      yield block;
-    }
-  } finally {
-    console.log('fetch account blocking finished');
-  }
 }
 
 /**
