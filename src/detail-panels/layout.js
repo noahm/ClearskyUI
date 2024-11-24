@@ -35,14 +35,14 @@ function WithAccount({ account }) {
 
   const navigate = useNavigate();
 
-  const handleHistory = forAwait(
-    [account?.shortDID, account?.shortHandle],
-    getHandleHistory);
+  // const handleHistory = forAwait(
+  //   [account?.shortDID, account?.shortHandle],
+  //   getHandleHistory);
 
   return (
     <AccountLayoutCore
       account={account}
-      handleHistory={handleHistory && !isPromise(handleHistory) ? handleHistory.handle_history : undefined}
+      // handleHistory={handleHistory && !isPromise(handleHistory) ? handleHistory.handle_history : undefined}
       selectedTab={tab}
       onSetSelectedTab={(selectedTab) => {
         navigate(
