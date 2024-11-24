@@ -138,6 +138,7 @@ export class SearchAutoComplete extends Component {
 
     const placeholder = newValue ? 'Find an account:' : 'Enter handle or DID';
     this.setState({
+      // @ts-ignore
       searchText: newValue,
       placeholder,
       options: !newValue ? [] : [{

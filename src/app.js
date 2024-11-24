@@ -91,16 +91,17 @@ function showApp() {
 
   console.log('React createRoot/render');
   ReactDOM.createRoot(root).render(
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <>
-          <RouterProvider router={router} />
-          <div className='bluethernal-llc-watermark'>
-            © 2024 Bluethernal LLC
-          </div>
-        </>
-      </ThemeProvider>
-    </React.StrictMode>
+      <React.StrictMode>
+        <ThemeProvider theme={theme}>
+          <>
+            <RouterProvider router={router}/>
+            <div className='bluethernal-llc-watermark'>
+              © 2024 Bluethernal LLC
+            </div>
+          </>
+        </ThemeProvider>
+      </React.StrictMode>
+
   );
 }
 
