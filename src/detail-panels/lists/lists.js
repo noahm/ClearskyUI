@@ -29,7 +29,7 @@ export function Lists({ account }) {
     async (shortHandle) => {
       const lists = await getListCached(shortHandle);
       return { lists, loading: false };
-    }) || { loading: true };
+    }) || { lists: [], loading: true };
   
   const [tableView, setTableView] = useState(false);
 
@@ -38,9 +38,7 @@ export function Lists({ account }) {
   const search = (searchParams.get('q') || '').trim();
 
   const [showSearch, setShowSearch] = useState(!!search);
-  // @ts-ignore: Property lists does not exist
-  const filteredLists = !search || !list?.lists ? list?.lists :
-    // @ts-ignore: Property lists does not exist
+  const filteredLists = !search ? list.lists :
     matchSearch(list?.lists, search, () => setTick(tick + 1));
   
   return (
@@ -107,11 +105,11 @@ export function Lists({ account }) {
 function matchSearch(blocklist, search, redraw) {
   const searchLowercase = search.toLowerCase();
   const filtered = blocklist.filter(entry => {
-    if ((entry.handle || '').toLowerCase().includes(searchLowercase)) return true;
+    // if ((entry.handle || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.name || '').toLowerCase().includes(searchLowercase)) return true;
     if ((entry.description || '').toLowerCase().includes(searchLowercase)) return true;
 
-    const accountOrPromise = resolveHandleOrDID(entry.handle);
+    const accountOrPromise = resolveHandleOrDID(entry.did);
     if (isPromise(accountOrPromise)) {
       accountOrPromise.then(redraw);
       return false;

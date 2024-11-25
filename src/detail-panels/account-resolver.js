@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { unwrapShortHandle } from '../api';
@@ -32,4 +32,6 @@ export function AccountResolver({ children }) {
   );
 }
 
-AccountResolver.Consumer = AccountContext.Consumer;
+export function useAccountResolver() {
+  return useContext(AccountContext);
+}

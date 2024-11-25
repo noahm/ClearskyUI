@@ -7,12 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, CircularProgress } from '@mui/material';
 // import { useSearchParams } from 'react-router-dom';
 
-import {
-  isPromise,
-  resolveHandleOrDID,
-  useSingleBlocklist,
-  unwrapShortHandle,
-} from '../../api';
+import { isPromise, resolveHandleOrDID } from '../../api';
 // import { SearchHeaderDebounced } from '../history/search-header';
 import { ListView } from './list-view';
 // import { TableView } from './table-view';
@@ -25,27 +20,24 @@ import { localise } from '../../localisation';
  * @this {never}
  * @param {{
  *  className?: string,
- *  useBlocklistQuery: typeof useSingleBlocklist,
+ *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string })[]; count?: number }>,
  *  account: AccountInfo | { shortHandle: String, loading: true },
  *  header?: React.ReactNode | ((args: { count, blocklist: any[] }) => React.ReactNode)
  * }} _
  */
 export function BlockPanelGeneric({
   className,
-  useBlocklistQuery,
+  blocklistQuery,
   account,
   header,
 }) {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching } =
-    useBlocklistQuery(unwrapShortHandle(account.shortHandle));
-
-  const blocklistPages = data?.pages;
+    blocklistQuery;
 
   // const [tableView, setTableView] = React.useState(false);
 
-  const blocklist = blocklistPages?.flatMap((page) => {
-    return page.blocklist;
-  }) || [];
+  const blocklistPages = data?.pages || [];
+  const blocklist = blocklistPages.flatMap((page) => page.blocklist);
   const count = blocklistPages?.[0]?.count;
 
   // const [searchParams, setSearchParams] = useSearchParams();
@@ -182,23 +174,23 @@ class PanelHeader extends React.Component {
  * @param {string} search
  * @param {() => void} [redraw]
  */
-function matchSearch(blocklist, search, redraw) {
-  const searchLowercase = search.toLowerCase();
-  const filtered = blocklist.filter((entry) => {
-    if (entry.handle.toLowerCase().includes(searchLowercase)) return true;
+// function matchSearch(blocklist, search, redraw) {
+//   const searchLowercase = search.toLowerCase();
+//   const filtered = blocklist.filter((entry) => {
+//     if (entry.handle.toLowerCase().includes(searchLowercase)) return true;
 
-    const accountOrPromise = resolveHandleOrDID(entry.handle);
-    if (isPromise(accountOrPromise)) {
-      accountOrPromise.then(redraw);
-      return false;
-    }
+//     const accountOrPromise = resolveHandleOrDID(entry.handle);
+//     if (isPromise(accountOrPromise)) {
+//       accountOrPromise.then(redraw);
+//       return false;
+//     }
 
-    if (
-      (accountOrPromise.displayName || '')
-        .toLowerCase()
-        .includes(searchLowercase)
-    )
-      return true;
-  });
-  return filtered;
-}
+//     if (
+//       (accountOrPromise.displayName || '')
+//         .toLowerCase()
+//         .includes(searchLowercase)
+//     )
+//       return true;
+//   });
+//   return filtered;
+// }

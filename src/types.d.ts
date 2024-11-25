@@ -17,7 +17,7 @@ type PostDetails = import('@atproto/api').AppBskyFeedPost.Record & {
 
 type BlockedByRecord = {
   blocked_date: string;
-  handle: string;
+  did: string;
   status: boolean;
 }
 
@@ -128,7 +128,7 @@ type AccountListEntry = {
   created_date: string,
   date_added: string,
   description: string,
-  handle: string,
+  did: string,
   name: string,
   status: boolean,
   url: string
