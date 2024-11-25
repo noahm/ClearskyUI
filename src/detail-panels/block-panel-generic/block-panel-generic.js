@@ -174,23 +174,23 @@ class PanelHeader extends React.Component {
  * @param {string} search
  * @param {() => void} [redraw]
  */
-function matchSearch(blocklist, search, redraw) {
-  const searchLowercase = search.toLowerCase();
-  const filtered = blocklist.filter((entry) => {
-    if (entry.handle.toLowerCase().includes(searchLowercase)) return true;
+// function matchSearch(blocklist, search, redraw) {
+//   const searchLowercase = search.toLowerCase();
+//   const filtered = blocklist.filter((entry) => {
+//     if (entry.handle.toLowerCase().includes(searchLowercase)) return true;
 
-    const accountOrPromise = resolveHandleOrDID(entry.handle);
-    if (isPromise(accountOrPromise)) {
-      accountOrPromise.then(redraw);
-      return false;
-    }
+//     const accountOrPromise = resolveHandleOrDID(entry.handle);
+//     if (isPromise(accountOrPromise)) {
+//       accountOrPromise.then(redraw);
+//       return false;
+//     }
 
-    if (
-      (accountOrPromise.displayName || '')
-        .toLowerCase()
-        .includes(searchLowercase)
-    )
-      return true;
-  });
-  return filtered;
-}
+//     if (
+//       (accountOrPromise.displayName || '')
+//         .toLowerCase()
+//         .includes(searchLowercase)
+//     )
+//       return true;
+//   });
+//   return filtered;
+// }

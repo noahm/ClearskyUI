@@ -1,5 +1,6 @@
 // @ts-check
 
+import { useQuery } from '@tanstack/react-query';
 import { unwrapShortDID, v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
 
@@ -12,40 +13,22 @@ import { unwrapClearSkyURL } from './core';
  * }} HandleHistoryResponse
  */
 
-/** @type {{ [shortDID: string]: HandleHistoryResponse | Promise<HandleHistoryResponse>}} */
-const handleHistoryCache = {};
-
 /**
- * @param {[shortHandle: string | null | undefined, shortDID: string | null | undefined]} args
+ * 
+ * @param {string} shortDid 
  */
-export function getHandleHistory([shortDID, shortHandle]) {
-  const handleOrDID = shortDID ?? shortHandle;
-  const isHandle = shortDID == null;
-  if (!handleOrDID) return;
-  let fromCache = handleHistoryCache[handleOrDID];
-  if (fromCache) return fromCache;
-
-  let resolved = false;
-  return (handleHistoryCache[handleOrDID] = getHandleHistoryRaw(handleOrDID, isHandle)
-    .then(
-      data => {
-        if (!data) return { identifier: 'failed', handle_history: [] };
-        const { identifier } = data;
-        resolved = true;
-        return handleHistoryCache[handleOrDID] =
-          handleHistoryCache[identifier] =
-          /** @type {HandleHistoryResponse} */(data);
-      }
-  ).finally(
-    () => {
-      if (!resolved)
-        delete handleHistoryCache[handleOrDID];
-    }));
+export function useHandleHistory(shortDid) {
+  return useQuery({
+    enabled: !!shortDid,
+    queryKey: ['get-handle-history', shortDid],
+    queryFn: () => getHandleHistoryRaw(shortDid, false),
+  })
 }
 
 /**
  * @param {string} handleOrDID
  * @param {boolean} isHandle
+ * @returns {Promise<HandleHistoryResponse>}
  */
 async function getHandleHistoryRaw(handleOrDID, isHandle) {
   const unwrappedHandleOrDID = isHandle ? handleOrDID : unwrapShortDID(handleOrDID);

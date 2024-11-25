@@ -42,7 +42,7 @@ function ListViewEntry({ className, account, entry }) {
         <AccountShortEntry
           className='list-owner'
           withDisplayName
-          account={entry.handle}
+          account={entry.did}
         />
         <FormatTimestamp
           timestamp={entry.date_added}

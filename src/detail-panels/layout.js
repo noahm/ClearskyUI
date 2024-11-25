@@ -3,46 +3,36 @@
 import React, { Component } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
-import { isPromise, resolveHandleOrDID, shortenHandle, unwrapShortHandle } from '../api';
+import { unwrapShortHandle } from '../api';
 
 import { AccountHeader } from './account-header';
 import { BlockedByPanel } from './blocked-by';
 import { BlockingPanel } from './blocking';
 import { HistoryPanel } from './history/history-panel';
 import { TabSelector } from './tab-selector';
-import { AccountResolver } from './account-resolver';
+import { useAccountResolver } from './account-resolver';
 
 import './layout.css';
 import { AccountExtraInfo } from './account-header';
 import { Lists } from './lists';
-import { getHandleHistory } from '../api/handle-history';
-import { forAwait } from '../common-components/for-await';
+import { useHandleHistory } from '../api/handle-history';
 
 export const accountTabs = /** @type {const} */(['blocking', 'blocked-by', 'lists', 'history']);
 
 export function AccountLayout() {
-
-  return (
-    <AccountResolver.Consumer>
-      {account => <WithAccount account={account} />}
-    </AccountResolver.Consumer>
-  );
-}
-
-function WithAccount({ account }) {
+  const account = useAccountResolver();
   let { tab } = useParams();
   if (!tab) tab = accountTabs[0];
 
   const navigate = useNavigate();
 
-  // const handleHistory = forAwait(
-  //   [account?.shortDID, account?.shortHandle],
-  //   getHandleHistory);
+  const did = 'shortDID' in account ? account.shortDID : '';
+  const handleHistoryQuery = useHandleHistory(did);
 
   return (
     <AccountLayoutCore
       account={account}
-      // handleHistory={handleHistory && !isPromise(handleHistory) ? handleHistory.handle_history : undefined}
+      handleHistory={handleHistoryQuery.data?.handle_history}
       selectedTab={tab}
       onSetSelectedTab={(selectedTab) => {
         navigate(
