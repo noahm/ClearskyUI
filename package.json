@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --watch --serve --servedir=./static",
-    "build": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --define:process.env.NODE_ENV=\\\"production\\\"",
+    "build": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --define:process.env.NODE_ENV=\\\"production\\\" --define:window.BUILD_COMMIT_HASH=\\\"$(git describe --always --dirty)\\\"",
     "typecheck": "tsc -noEmit"
   },
   "keywords": [],
