@@ -10,6 +10,9 @@ import { version } from '../../../package.json';
 
 import './about.css';
 
+// @ts-ignore
+const builtFromCommit = window.BUILD_COMMIT_HASH || null;
+
 export function About({ onToggleAbout }) {
   return (
     <div className="about">
@@ -28,7 +31,7 @@ export function About({ onToggleAbout }) {
             href="#" className="termly-display-preferences">Consent Preferences</a> | <a href="/cookie-policy.html">Cookie Policy</a>
         </span>
 
-          {localise('Version', {uk: 'Версія'})}: {version} <br/>
+          {localise('Version', {uk: 'Версія'})}: {version} {builtFromCommit && `(${builtFromCommit})`}<br/>
           &nbsp; {localise('Created by', { uk: 'Створив' })}: <AccountShortEntry
           account='thieflord.dev'
           link='https://bsky.app/profile/thieflord.dev'
