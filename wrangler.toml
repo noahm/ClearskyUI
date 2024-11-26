@@ -1,5 +1,5 @@
 #:schema node_modules/wrangler/config-schema.json
-name = "clearsky-static-ui"
+name = "clearsky-ui"
 compatibility_date = "2024-11-12"
 assets = { directory = "./static" }
 
