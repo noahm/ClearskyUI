@@ -1,9 +1,9 @@
 .layout {
   position: fixed;
   left: 0;
-  top: 50px;
+  top: 0;
   width: 100%;
-  height: calc(100% - 50px);
+  height: 100%;
 
   display: grid;
   grid-template-columns: 1fr 1fr auto;
