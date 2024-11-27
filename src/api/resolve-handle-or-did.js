@@ -12,6 +12,7 @@ import {
 } from '.';
 import { atClient } from './core';
 import { throttledAsyncCache } from './throttled-async-cache';
+import { create, windowedFiniteBatchScheduler } from '@yornaath/batshit';
 
 /**
  *
@@ -21,31 +22,9 @@ export function useResolveHandleOrDid(handleOrDID) {
   return useQuery({
     enabled: !!handleOrDID,
     queryKey: ['resolveHandleOrDid', handleOrDID],
-    queryFn: () => resolveDIDCache(handleOrDID),
+    queryFn: () => resolveHandleOrDID(handleOrDID),
   });
 }
-
-/**
- *
- * @typedef {{
- *  did: string,
- *  handle: string,
- *  displayName: string,
- *  avatar: string,
- *  banner: string,
- *  labels: any[],
- *  description: string,
- *  indexedAt: string,
- *  followersCount: number,
- *  followsCount: number,
- *  postsCount: number,
- *  associated: {
- *    lists: number,
- *    feedgens: number,
- *    labeler: boolean
- *  }
- * }} ProfileRecord
- */
 
 const resolveHandleCache = throttledAsyncCache(
   async (/** @type {string} */ handle) => {
@@ -59,34 +38,44 @@ const resolveHandleCache = throttledAsyncCache(
   }
 );
 
-const resolveDIDCache = throttledAsyncCache(
-  async (/** @type {string} */ did) => {
-    const fullDID = unwrapShortDID(did);
-    const shortDID = shortenDID(did);
+const batchedDIDLookup = create({
+  fetcher: resolveDIDs,
+  resolver: (items, query) => {
+    const shortDID = shortenDID(query);
+    return items.find((item) => item.shortDID === shortDID) ?? null;
+  },
+  scheduler: windowedFiniteBatchScheduler({
+    windowMs: 10,
+    maxBatchSize: 25,
+  }),
+});
 
-    const resolveHandlePublicApi = fetch(
-      'https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=' +
-        fullDID
-    ).then((x) => x.json());
+async function resolveDIDs(/** @type {string[]} */ dids) {
+  const fullDIDs = dids.map(unwrapShortDID);
 
-    // const describePromise = atClient.com.atproto.repo.describeRepo({
-    //   repo: fullDID
-    // });
+  /** @type {import("@atproto/api").AppBskyActorGetProfiles.OutputSchema} */
+  const resp = await fetch(
+    'https://public.api.bsky.app/xrpc/app.bsky.actor.getProfiles?actors=' +
+      fullDIDs.map(encodeURIComponent).join('&actors=')
+  ).then((x) => x.json());
 
-    // const profilePromise = atClient.com.atproto.repo.listRecords({
-    //   collection: 'app.bsky.actor.profile',
-    //   repo: fullDID
-    // });
+  // const describePromise = atClient.com.atproto.repo.describeRepo({
+  //   repo: fullDID
+  // });
 
-    /** @type {ProfileRecord} */
-    const profileRecord = await resolveHandlePublicApi;
+  // const profilePromise = atClient.com.atproto.repo.listRecords({
+  //   collection: 'app.bsky.actor.profile',
+  //   repo: fullDID
+  // });
 
-    //const [describe, profile] = await Promise.all([describePromise, profilePromise]);
+  //const [describe, profile] = await Promise.all([describePromise, profilePromise]);
 
-    // if (!describe.data.handle) throw new Error('DID does not have a handle: ' + did);
+  // if (!describe.data.handle) throw new Error('DID does not have a handle: ' + did);
 
+  const detailsArray = resp.profiles.map((profileRecord) => {
+    const shortDID = shortenDID(profileRecord.did);
     const shortHandle =
-      shortenHandle(profileRecord.handle) || '*' + fullDID + '*';
+      shortenHandle(profileRecord.handle) || '*' + profileRecord.did + '*';
 
     /* @type {*} */
     //const profileRec = profile.data.records?.filter(rec => rec.value)[0]?.value;
@@ -102,6 +91,7 @@ const resolveDIDCache = throttledAsyncCache(
     const description = profileRecord.description;
     const obscurePublicRecords = detectObscurePublicRecordsFlag(profileRecord);
 
+    /** @type {AccountInfo} */
     const profileDetails = {
       shortDID,
       shortHandle,
@@ -115,8 +105,10 @@ const resolveDIDCache = throttledAsyncCache(
 
     resolveHandleCache.prepopulate(shortDID, shortHandle);
     return profileDetails;
-  }
-);
+  });
+
+  return detailsArray;
+}
 
 function detectObscurePublicRecordsFlag(profileRecord) {
   if (profileRecord?.labels?.length) {
@@ -145,9 +137,9 @@ function detectObscurePublicRecordsFlagOld(profileRec) {
  */
 export function resolveHandleOrDID(handleOrDid) {
   if (likelyDID(handleOrDid))
-    return resolveDIDCache(unwrapShortDID(handleOrDid));
+    return batchedDIDLookup.fetch(unwrapShortDID(handleOrDid));
   const didOrPromise = resolveHandleCache(unwrapShortHandle(handleOrDid));
 
-  if (isPromise(didOrPromise)) return didOrPromise.then(resolveDIDCache);
-  else return resolveDIDCache(didOrPromise);
+  if (isPromise(didOrPromise)) return didOrPromise.then(batchedDIDLookup.fetch);
+  else return batchedDIDLookup.fetch(didOrPromise);
 }
