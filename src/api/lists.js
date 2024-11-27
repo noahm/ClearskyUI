@@ -14,11 +14,9 @@ export function useList(handleOrDID) {
   return useInfiniteQuery({
     enabled: !!handleOrDID,
     queryKey: ['lists', handleOrDID],
-    queryFn: ({ pageParam = 1 }) => getList(handleOrDID, pageParam),
+    queryFn: ({ pageParam }) => getList(handleOrDID, pageParam),
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
-    keepPreviousData: true,
-    cacheTime: 1000 * 60 * 5, // 5 minutes
-    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
 
