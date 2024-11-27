@@ -90,7 +90,13 @@ function showApp() {
     },
   });
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 10 * 60_000, // ten minutes before a request will refetch
+      }
+    }
+  });
 
   console.log('React createRoot/render');
   ReactDOM.createRoot(root).render(
