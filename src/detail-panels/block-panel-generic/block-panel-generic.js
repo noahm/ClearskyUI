@@ -16,11 +16,13 @@ import { VisibleWithDelay } from '../../common-components/visible';
 import './block-panel-generic.css';
 import { localise } from '../../localisation';
 
+/** @typedef {import('@tanstack/react-query').InfiniteData<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string })[]; count?: number }>} InfBlockData */
+
 /**
  * @this {never}
  * @param {{
  *  className?: string,
- *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<{ blocklist: (BlockedByRecord | { did: string; blocked_date: string })[]; count?: number }>,
+ *  blocklistQuery: import('@tanstack/react-query').UseInfiniteQueryResult<InfBlockData>,
  *  account: AccountInfo | { shortHandle: String, loading: true },
  *  header?: React.ReactNode | ((args: { count, blocklist: any[] }) => React.ReactNode)
  * }} _
