@@ -16,8 +16,8 @@ export function useBlocklist(did) {
   return useInfiniteQuery({
     enabled: !!(pdsUrl && fullDid),
     queryKey: ['blocks-from-pds', pdsUrl, fullDid],
-    queryFn: ({ pageParam = undefined }) =>
-      getBlocksFromPds(pdsUrl, fullDid, pageParam),
+    queryFn: ({ pageParam }) => getBlocksFromPds(pdsUrl, fullDid, pageParam),
+    initialPageParam: '',
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 }
@@ -56,8 +56,9 @@ export function useSingleBlocklist(did) {
   return useInfiniteQuery({
     enabled: !!fullDid,
     queryKey: ['single-blocklist', fullDid],
-    queryFn: ({ pageParam = 1 }) =>
+    queryFn: ({ pageParam }) =>
       blocklistCall(fullDid, 'single-blocklist', pageParam),
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 }

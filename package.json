@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "",
   "scripts": {
     "start": "esbuild src/app.js --target=es6 --bundle --sourcemap --outfile=static/index.js --loader:.js=jsx --loader:.png=dataurl --loader:.jpeg=dataurl --format=iife --watch --serve --servedir=./static",
@@ -20,7 +20,8 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.20",
     "@mui/styles": "^5.14.20",
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "^5.61.4",
+    "@yornaath/batshit": "^0.10.1",
     "ag-grid-community": "^31.0.2",
     "ag-grid-react": "^31.0.3",
     "esbuild": "^0.20.0",
