@@ -2,6 +2,7 @@
 /// <reference path="../types.d.ts" />
 
 import { BskyAgent } from '@atproto/api';
+import { v1APIPrefix, xAPIKey } from '.';
 
 export const oldXrpc = 'https://bsky.social/xrpc';
 export const newXrpc = 'https://bsky.network/xrpc';
@@ -13,9 +14,9 @@ patchBskyAgent(atClient);
 export const publicAtClient = new BskyAgent({ service: publicXrpc });
 patchBskyAgent(publicAtClient);
 
-/** @param {import('@atproto/api').BskyAgent} atClient */
+/** @param {typeof atClient} atClient */
 export function patchBskyAgent(atClient) {
-  atClient.com.atproto.sync._service.xrpc.baseClient.lex.assertValidXrpcOutput = function (lexUri, value, ...rest) {
+  atClient.com.atproto.sync._service.xrpc.baseClient.lex.assertValidXrpcOutput = function () {
     return true;
   };
 }
@@ -23,11 +24,25 @@ export function patchBskyAgent(atClient) {
 let baseURL = 'https://api.clearsky.services/';
 let baseStagingURL = 'https://api.staging.clearsky.services/';
 
+/**
+ * @param {string} apiURL
+ */
 export function unwrapClearSkyURL(apiURL) {
   const runStaging = typeof location !== 'undefined' && /staging/i.test(location?.hostname || '');
   const useBaseURL = runStaging ? baseStagingURL : baseURL;
     
   return useBaseURL + apiURL.replace(/^\//, '');
+}
+
+/**
+ * 
+ * @param {"v1"} apiVer
+ * @param {string} apiPath
+ * @returns
+ */
+export function fetchClearskyApi(apiVer, apiPath) {
+  const apiUrl = unwrapClearSkyURL(v1APIPrefix + apiPath);
+  return fetch(apiUrl, { headers: { 'X-API-Key': xAPIKey } }).then(x => x.json());
 }
 
 /** @param {number | string | null | undefined} value */
