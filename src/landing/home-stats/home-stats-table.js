@@ -65,45 +65,46 @@ export function HomeStatsTable({
 /** @param {DashboardStats} stats */
 function getGridRowsAndColumns(stats) {
 
-  /** @type {Partial<DashboardBlockListEntry & { title: boolean }>[]} */
+  /** @type {Partial<Omit<DashboardBlockListEntry, "block_count"> & { title: boolean, block_count?: string }>[]} */
   const rows = [];
 
   rows.push({ Handle: 'Stats', title: true });
+  rows.push({ Handle: "as of", block_count: new Date(stats['asof']).toLocaleString() });
   const specialStats = ['asof', 'blocked', 'blocked24', 'blockers', 'blockers24', 'blocked_aid', 'blockers_aid'];
   for (const key in stats) {
     if (specialStats.indexOf(key) >= 0 || stats[key] == null || Array.isArray(stats[key])) continue;
-    rows.push({ Handle: stats[key]?.displayname || key, block_count: stats[key]?.value });
+    rows.push({ Handle: stats[key]?.displayname || key, block_count: stats[key]?.value?.toLocaleString() });
   }
 
   if (stats.blocked?.length) {
-    rows.push({ Handle: 'Blocked', block_count: stats.blocked.length, title: true });
+    rows.push({ Handle: 'Blocked', title: true });
 
     for (const blocked of stats.blocked) {
-      rows.push(blocked);
+      rows.push({ ...blocked, block_count: blocked.block_count.toLocaleString() });
     }
   }
 
   if (stats.blocked24?.length) {
-    rows.push({ Handle: 'Blocked 24h', block_count: stats.blocked24.length, title: true });
+    rows.push({ Handle: 'Blocked 24h', title: true });
 
     for (const blocked of stats.blocked24) {
-      rows.push(blocked);
+      rows.push({ ...blocked, block_count: blocked.block_count.toLocaleString() });
     }
   }
 
   if (stats.blockers?.length) {
-    rows.push({ Handle: 'Blockers', block_count: stats.blockers.length, title: true });
+    rows.push({ Handle: 'Blockers',title: true });
 
     for (const blocked of stats.blockers) {
-      rows.push(blocked);
+      rows.push({ ...blocked, block_count: blocked.block_count.toLocaleString() });
     }
   }
 
   if (stats.blockers24?.length) {
-    rows.push({ Handle: 'Blockers 24h', block_count: stats.blockers24.length, title: true });
+    rows.push({ Handle: 'Blockers 24h', title: true });
 
     for (const blocked of stats.blockers24) {
-      rows.push(blocked);
+      rows.push({ ...blocked, block_count: blocked.block_count.toLocaleString() });
     }
   }
 

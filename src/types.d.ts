@@ -119,7 +119,7 @@ type DashboardBlockListEntry = {
   /** https://bsky.app/profile/did:plc:i3bauhmsixt5j33pnr5g7475 */
   ProfileURL: string,
   /** 1589 */
-  block_count: string | number,
+  block_count: number,
   /** did:plc:i3bauhmsixt5j33pnr5g7475 */
   did: string
 };
