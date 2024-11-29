@@ -16,7 +16,13 @@ export function BlockedByPanel({ account }) {
       blocklistQuery={blocklistQuery}
       totalQuery={totalQuery}
       account={account}
-      header={({ count }) => <>{localise('Blocked by', { uk: 'Блокують' })}</>}
+      header={({ count }) => (
+        <>
+          {localise(`Blocked by ${count.toLocaleString()}`, {
+            uk: `Блокують ${count.toLocaleString()}`,
+          })}
+        </>
+      )}
     />
   );
 }
