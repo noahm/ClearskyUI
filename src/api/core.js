@@ -22,13 +22,13 @@ export function patchBskyAgent(atClient) {
 }
 
 let baseURL = 'https://api.clearsky.services/';
-let baseStagingURL = 'https://api.staging.clearsky.services/';
+let baseStagingURL = 'https://staging.api.clearsky.services/';
 
 /**
  * @param {string} apiURL
  */
 export function unwrapClearSkyURL(apiURL) {
-  const runStaging = typeof location !== 'undefined' && /staging/i.test(location?.hostname || '');
+  const runStaging = location.hostname !== "clearsky.app";
   const useBaseURL = runStaging ? baseStagingURL : baseURL;
     
   return useBaseURL + apiURL.replace(/^\//, '');
