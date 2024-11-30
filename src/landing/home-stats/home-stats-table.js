@@ -92,7 +92,7 @@ function getGridRowsAndColumns(stats) {
   const totalStats = Object.values(stats.totalUsers);
   for (const stat of totalStats) {
     rows.push({
-      Handle: stat.displayname,
+      Handle: stat.displayName,
       block_count: stat.value.toLocaleString(),
     });
   }
