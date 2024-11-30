@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference path="../types.d.ts" />
 
-export { dashboardStats } from './dashboard-stats';
+export { useDashboardStats } from './dashboard-stats';
 export { postHistory } from './post-history';
 export { resolveHandleOrDID } from './resolve-handle-or-did';
 export { searchHandle } from './search';

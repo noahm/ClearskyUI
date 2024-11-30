@@ -45,73 +45,57 @@ type ValueWithDisplayName = {
   value: string | number | undefined;
 }
 
-type DashboardStats = { asof: string; } & Partial<{
+interface TotalUsers {
+  "as of": string;
   /** 2,186,543 */
   active_count: ValueWithDisplayName;
-  /** 19,205 */
   deleted_count: ValueWithDisplayName;
-  /** 2,205,748 */
   total_count: ValueWithDisplayName;
+}
 
-  /** 6 */
-  averageNumberOfBlocked: ValueWithDisplayName,
-  /** 11.66 */
-  averageNumberOfBlocks: ValueWithDisplayName,
-  
-  /** 373, 645 */
-  numberBlocked1: ValueWithDisplayName,
+interface BlockStats {
+  averageNumberOfBlocked: number;
+  averageNumberOfBlocks: number;
+  numberBlock1: number;
+  numberBlocked1: number;
+  numberBlocked101and1000: number;
+  numberBlocked2and100: number;
+  numberBlockedGreaterThan1000: number;
+  numberBlocking101and1000: number;
+  numberBlocking2and100: number;
+  numberBlockingGreaterThan1000: number;
+  numberOfTotalBlocks: number;
+  numberOfUniqueUsersBlocked: number;
+  numberOfUniqueUsersBlocking: number;
+  percentNumberBlocked1: number;
+  percentNumberBlocked101and1000: number;
+  percentNumberBlocked2and100: number;
+  percentNumberBlockedGreaterThan1000: number;
+  percentNumberBlocking1: number;
+  percentNumberBlocking101and1000: number;
+  percentNumberBlocking2and100: number;
+  percentNumberBlockingGreaterThan1000: number;
+  percentUsersBlocked: number;
+  percentUsersBlocking: number;
+  totalUsers: number;
+}
 
-  /** 3,412 */
-  numberBlocked101and1000: ValueWithDisplayName,
-  /** 211,780 */
-  numberBlocked2and100: ValueWithDisplayName,
-  /** 408 */
-  numberBlockedGreaterThan1000: ValueWithDisplayName,
-  
-  /** 121,336 */
-  numberBlock1: ValueWithDisplayName,
-  /** 5,645 */
-  numberBlocking101and1000: ValueWithDisplayName,
-  /** 175,939 */
-  numberBlocking2and100: ValueWithDisplayName,
-  /** 40 */
-  numberBlockingGreaterThan1000: ValueWithDisplayName,
+interface FunFacts {
+  blocked: DashboardBlockListEntry[];
+  blockers: DashboardBlockListEntry[];
+}
 
-  /** 3,542,562 */
-  numberOfTotalBlocks: ValueWithDisplayName,
-  /** 589,245 */
-  numberOfUniqueUsersBlocked: ValueWithDisplayName,
-  /** 302,960 */
-  numberOfUniqueUsersBlocking: ValueWithDisplayName,
+interface FunnerFacts {
+  blocked24: DashboardBlockListEntry[];
+  blockers24: DashboardBlockListEntry[];
+}
 
-  /** 63.41 */
-  percentNumberBlocked1: ValueWithDisplayName,
-  /** 0.58 */
-  percentNumberBlocked101and1000: ValueWithDisplayName,
-  /** 35.94 */
-  percentNumberBlocked2and100: ValueWithDisplayName,
-  /** 0.07 */
-  percentNumberBlockedGreaterThan1000: ValueWithDisplayName,
-  /** 40.05 */
-  percentNumberBlocking1: ValueWithDisplayName,
-  /** 1.86 */
-  percentNumberBlocking101and1000: ValueWithDisplayName,
-  /** 1.86 */
-  percentNumberBlocking2and100: ValueWithDisplayName,
-  /** 0.01 */
-  percentNumberBlockingGreaterThan1000: ValueWithDisplayName,
-  /** 26.71 */
-  percentUsersBlocked: ValueWithDisplayName,
-  /** 13.74 */
-  percentUsersBlocking: ValueWithDisplayName,
-  /** 2,205,748 */
-  totalUsers: ValueWithDisplayName,
-
-  blocked: DashboardBlockListEntry[],
-  blocked24: DashboardBlockListEntry[],
-  blockers: DashboardBlockListEntry[],
-  blockers24: DashboardBlockListEntry[]
-}>;
+type DashboardStats = {
+  asof: string;
+  totalUsers: Omit<TotalUsers, "as of">;
+  blockStats: BlockStats;
+  topLists: FunFacts & FunnerFacts;
+}
 
 type DashboardBlockListEntry = {
   /** mailia.bsky.social */
