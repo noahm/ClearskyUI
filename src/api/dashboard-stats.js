@@ -17,48 +17,43 @@ export function useDashboardStats() {
 }
 
 async function dashboardStatsApi() {
-  /** @type {Promise<{ data: TotalUsers }>} */
+  /** @type {Promise<StatsEndpointResp<TotalUsers>>} */
   const totalUsersPromise = fetchClearskyApi('v1', 'total-users').catch(
     (err) => ({ totalUsers: err.message + ' CORS?' })
   );
 
-  /** @type {Promise<{ asof: string; data: FunFacts; }>} */
+  /** @type {Promise<StatsEndpointResp<FunFacts>>} */
   const funFactsPromise = fetchClearskyApi('v1', 'lists/fun-facts').catch(
     (err) => ({ funFacts: err.message + ' CORS?' })
   );
 
-  /** @type {Promise<{ asof: string; data: FunnerFacts; }>} */
+  /** @type {Promise<StatsEndpointResp<FunnerFacts>>} */
   const funerFactsPromise = fetchClearskyApi('v1', 'lists/funer-facts').catch(
     (err) => ({ funerFacts: err.message + ' CORS?' })
   );
 
-  /** @type {Promise<{ asof: string; data: BlockStats; }>} */
+  /** @type {Promise<StatsEndpointResp<BlockStats>>} */
   const blockStatsPromise = fetchClearskyApi('v1', 'lists/block-stats').catch(
     (err) => ({ blockStats: err.message })
   );
 
-  const [
-    {
-      data: { 'as of': asof, ...totalUsers },
-    },
-    funFacts,
-    funnerFacts,
-    blockStats,
-  ] = await Promise.all([
+  const [totalUsers, funFacts, funnerFacts, blockStats] = await Promise.all([
     totalUsersPromise,
     funFactsPromise,
     funerFactsPromise,
     blockStatsPromise,
   ]);
 
+  const asof = 'asof' in blockStats ? blockStats.asof : null;
+
   /** @type {DashboardStats} */
   const result = {
     asof,
-    totalUsers,
-    blockStats: blockStats.data,
+    totalUsers: 'data' in totalUsers ? totalUsers.data : null,
+    blockStats: 'data' in blockStats ? blockStats.data : null,
     topLists: {
-      ...funFacts.data,
-      ...funnerFacts.data,
+      ...('data' in funFacts ? funFacts.data : {}),
+      ...('data' in funnerFacts ? funnerFacts.data : {}),
     },
   };
   return result;
