@@ -5,13 +5,15 @@ import { useQuery } from '@tanstack/react-query';
 import { v1APIPrefix, xAPIKey } from '.';
 import { unwrapClearSkyURL } from './core';
 
-import dashboardStatsBase from './dashboard-stats-base.json';
+import initialData from './dashboard-stats-base.json';
+const initialDataUpdatedAt = new Date(initialData.asof).valueOf();
 
 export function useDashboardStats() {
   return useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: dashboardStatsApi,
-    initialData: dashboardStatsBase,
+    initialData,
+    initialDataUpdatedAt,
   });
 }
 
@@ -20,7 +22,7 @@ async function dashboardStatsApi() {
   const apiURL2 = unwrapClearSkyURL(v1APIPrefix);
   const headers = { 'X-API-Key': xAPIKey };
 
-  /** @type {Promise<TotalUsers>} */
+  /** @type {Promise<{ data: TotalUsers }>} */
   const totalUsersPromise = fetch(apiURL2 + 'total-users', { headers })
     .then((x) => x.json())
     .catch((err) => ({ totalUsers: err.message + ' CORS?' }));
@@ -40,13 +42,19 @@ async function dashboardStatsApi() {
     .then((x) => x.json())
     .catch((err) => ({ blockStats: err.message }));
 
-  const [{ 'as of': asof, ...totalUsers }, funFacts, funnerFacts, blockStats] =
-    await Promise.all([
-      totalUsersPromise,
-      funFactsPromise,
-      funerFactsPromise,
-      blockStatsPromise,
-    ]);
+  const [
+    {
+      data: { 'as of': asof, ...totalUsers },
+    },
+    funFacts,
+    funnerFacts,
+    blockStats,
+  ] = await Promise.all([
+    totalUsersPromise,
+    funFactsPromise,
+    funerFactsPromise,
+    blockStatsPromise,
+  ]);
 
   /** @type {DashboardStats} */
   const result = {

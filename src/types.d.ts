@@ -41,7 +41,7 @@ type SearchMatch = {
 }
 
 type ValueWithDisplayName = {
-  displayname?: string;
+  displayName?: string;
   value: string | number | undefined;
 }
 

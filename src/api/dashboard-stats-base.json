@@ -2,15 +2,15 @@
   "asof": "2024-02-25T16:24:36.272449",
   "totalUsers": {
     "active_count": {
-      "displayname": "Active Users",
+      "displayName": "Active Users",
       "value": "5,041,681"
     },
     "deleted_count": {
-      "displayname": "Deleted Users",
+      "displayName": "Deleted Users",
       "value": "358,084"
     },
     "total_count": {
-      "displayname": "Total Users",
+      "displayName": "Total Users",
       "value": "5,399,765"
     }
   },
